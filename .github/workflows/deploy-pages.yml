@@ -40,10 +40,9 @@ jobs:
         run: npm ci
 
       - name: Build static site
-        run: npm run build:static
+        run: npm run build:static:github
         env:
           NODE_ENV: production
-          GITHUB_ACTIONS: true
 
       - name: Setup Pages
         uses: actions/configure-pages@v4

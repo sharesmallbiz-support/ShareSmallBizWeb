@@ -24,7 +24,7 @@ export default defineConfig({
       },
     },
   },
-  base: "/ShareSmallBizWeb/", // Always use GitHub Pages base path for static builds
+  base: "./", // Use relative paths for both local and GitHub Pages
   define: {
     "process.env.VITE_MODE": '"static"',
   },
