@@ -1,4 +1,16 @@
-import { type User, type InsertUser, type Post, type PostWithUser, type InsertPost, type Comment, type CommentWithUser, type InsertComment, type InsertAIInteraction, type AIInteraction, type BusinessMetric } from "@shared/schema";
+import {
+  type User,
+  type InsertUser,
+  type Post,
+  type PostWithUser,
+  type InsertPost,
+  type Comment,
+  type CommentWithUser,
+  type InsertComment,
+  type InsertAIInteraction,
+  type AIInteraction,
+  type BusinessMetric,
+} from "@shared/schema";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -28,7 +40,10 @@ export interface IStorage {
 
   // Business Metrics
   getBusinessMetrics(userId: string): Promise<BusinessMetric | undefined>;
-  updateBusinessMetrics(userId: string, updates: Partial<BusinessMetric>): Promise<BusinessMetric>;
+  updateBusinessMetrics(
+    userId: string,
+    updates: Partial<BusinessMetric>
+  ): Promise<BusinessMetric>;
 
   // Suggestions
   getSuggestedConnections(userId: string, limit?: number): Promise<User[]>;
@@ -65,7 +80,8 @@ export class MemStorage implements IStorage {
         businessName: "Smith's Local Hardware",
         businessType: "Retail",
         location: "Portland, OR",
-        avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128",
+        avatar:
+          "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128",
         bio: "Hardware store owner helping the local community for 15 years",
         website: "smithshardware.com",
         connections: 247,
@@ -97,16 +113,17 @@ export class MemStorage implements IStorage {
         businessName: "Green Earth Landscaping",
         businessType: "Services",
         location: "Austin, TX",
-        avatar: "https://images.unsplash.com/photo-1494790108755-2616b612b776?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128",
+        avatar:
+          "https://images.unsplash.com/photo-1494790108755-2616b612b776?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128",
         bio: "Sustainable landscaping solutions for modern homes",
         website: "greenearthlandscaping.com",
         connections: 189,
         businessScore: 78,
         createdAt: new Date(),
-      }
+      },
     ];
 
-    sampleUsers.forEach(user => this.users.set(user.id, user));
+    sampleUsers.forEach((user) => this.users.set(user.id, user));
 
     // Create sample posts
     const samplePosts: Post[] = [
@@ -114,8 +131,10 @@ export class MemStorage implements IStorage {
         id: "post1",
         userId: "user2",
         title: "Welcome to ShareSmallBiz Community!",
-        content: "The journey of a small business owner is filled with both triumphs and trials. While passion and determination drive entrepreneurs, external support and resources play a crucial role in sustaining and scaling a business. ShareSmallBiz.com was created to be that partner in growth, offering a platform that aligns with the unique needs of small businesses.",
-        imageUrl: "https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHw0fHxzbWFsbCUyMGJ1c2luZXNzfGVufDB8fHx8MTczOTAzMjUwMHww&ixlib=rb-4.0.3&q=80&w=1080",
+        content:
+          "The journey of a small business owner is filled with both triumphs and trials. While passion and determination drive entrepreneurs, external support and resources play a crucial role in sustaining and scaling a business. ShareSmallBiz.com was created to be that partner in growth, offering a platform that aligns with the unique needs of small businesses.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1571204829887-3b8d69e4094d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHw0fHxzbWFsbCUyMGJ1c2luZXNzfGVufDB8fHx8MTczOTAzMjUwMHww&ixlib=rb-4.0.3&q=80&w=1080",
         postType: "discussion",
         tags: ["community", "welcome", "smallbusiness"],
         likesCount: 127,
@@ -129,8 +148,10 @@ export class MemStorage implements IStorage {
         id: "post2",
         userId: "user2",
         title: "Best Marketing Strategies for Small Businesses",
-        content: "Developing a winning marketing strategy takes creativity, data analysis, and a deep understanding of your customers. By focusing on your niche, strengthening your online presence, and nurturing relationships through content and email marketing, you can set your small business up for long-term growth.",
-        imageUrl: "https://images.unsplash.com/photo-1501770118606-b1d640526693?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHwxfHxzdXBwb3J0fGVufDB8fHx8fDE3NDA0OTQ3NzN8MA&ixlib=rb-4.0.3&q=80&w=1080",
+        content:
+          "Developing a winning marketing strategy takes creativity, data analysis, and a deep understanding of your customers. By focusing on your niche, strengthening your online presence, and nurturing relationships through content and email marketing, you can set your small business up for long-term growth.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1501770118606-b1d640526693?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHwxfHxzdXBwb3J0fGVufDB8fHx8fDE3NDA0OTQ3NzN8MA&ixlib=rb-4.0.3&q=80&w=1080",
         postType: "marketing",
         tags: ["marketing", "strategy", "tips"],
         likesCount: 89,
@@ -144,8 +165,10 @@ export class MemStorage implements IStorage {
         id: "post3",
         userId: "user3",
         title: "🤝 Looking for Local Business Partnership",
-        content: "Hi everyone! We're a sustainable landscaping company looking to partner with local contractors, architects, and home improvement businesses. We specialize in eco-friendly garden designs and would love to create referral partnerships.",
-        imageUrl: "https://images.unsplash.com/photo-1633158834806-766387547d2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHw4fHxvcHBvcnR1bml0eXxlbnwwfHx8fDE3MzkwMzI3NDh8MA&ixlib=rb-4.0.3&q=80&w=1080",
+        content:
+          "Hi everyone! We're a sustainable landscaping company looking to partner with local contractors, architects, and home improvement businesses. We specialize in eco-friendly garden designs and would love to create referral partnerships.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1633158834806-766387547d2c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHw4fHxvcHBvcnR1bml0eXxlbnwwfHx8fDE3MzkwMzI3NDh8MA&ixlib=rb-4.0.3&q=80&w=1080",
         postType: "opportunity",
         tags: ["collaboration", "partnership", "landscaping"],
         likesCount: 34,
@@ -153,13 +176,17 @@ export class MemStorage implements IStorage {
         sharesCount: 3,
         isCollaboration: true,
         collaborationDetails: {
-          "offers": ["15% commission on successful referrals", "Free consultation for your clients", "Joint marketing opportunities"]
+          offers: [
+            "15% commission on successful referrals",
+            "Free consultation for your clients",
+            "Joint marketing opportunities",
+          ],
         },
         createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
-      }
+      },
     ];
 
-    samplePosts.forEach(post => this.posts.set(post.id, post));
+    samplePosts.forEach((post) => this.posts.set(post.id, post));
 
     // Create sample business metrics
     const sampleMetrics: BusinessMetric[] = [
@@ -171,10 +198,12 @@ export class MemStorage implements IStorage {
         opportunities: 5,
         engagementScore: 84,
         lastUpdated: new Date(),
-      }
+      },
     ];
 
-    sampleMetrics.forEach(metric => this.businessMetrics.set(metric.userId, metric));
+    sampleMetrics.forEach((metric) =>
+      this.businessMetrics.set(metric.userId, metric)
+    );
   }
 
   async getUser(id: string): Promise<User | undefined> {
@@ -182,18 +211,29 @@ export class MemStorage implements IStorage {
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.username === username);
+    return Array.from(this.users.values()).find(
+      (user) => user.username === username
+    );
   }
 
   async getUserByEmail(email: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(user => user.email === email);
+    return Array.from(this.users.values()).find((user) => user.email === email);
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
-    const user: User = { 
-      ...insertUser, 
+    const user: User = {
       id,
+      username: insertUser.username,
+      email: insertUser.email,
+      password: insertUser.password,
+      fullName: insertUser.fullName,
+      businessName: insertUser.businessName || null,
+      businessType: insertUser.businessType || null,
+      location: insertUser.location || null,
+      avatar: insertUser.avatar || null,
+      bio: insertUser.bio || null,
+      website: insertUser.website || null,
       connections: 0,
       businessScore: 50,
       createdAt: new Date(),
@@ -202,10 +242,13 @@ export class MemStorage implements IStorage {
     return user;
   }
 
-  async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
+  async updateUser(
+    id: string,
+    updates: Partial<User>
+  ): Promise<User | undefined> {
     const user = this.users.get(id);
     if (!user) return undefined;
-    
+
     const updatedUser = { ...user, ...updates };
     this.users.set(id, updatedUser);
     return updatedUser;
@@ -216,13 +259,15 @@ export class MemStorage implements IStorage {
       .sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime())
       .slice(offset, offset + limit);
 
-    return Promise.all(posts.map(async (post) => {
-      const user = await this.getUser(post.userId);
-      return {
-        ...post,
-        user: user!,
-      };
-    }));
+    return Promise.all(
+      posts.map(async (post) => {
+        const user = await this.getUser(post.userId);
+        return {
+          ...post,
+          user: user!,
+        };
+      })
+    );
   }
 
   async getPost(id: string): Promise<PostWithUser | undefined> {
@@ -239,8 +284,15 @@ export class MemStorage implements IStorage {
   async createPost(insertPost: InsertPost): Promise<Post> {
     const id = randomUUID();
     const post: Post = {
-      ...insertPost,
       id,
+      userId: insertPost.userId,
+      content: insertPost.content,
+      title: insertPost.title || null,
+      imageUrl: insertPost.imageUrl || null,
+      postType: insertPost.postType || "discussion",
+      tags: insertPost.tags || null,
+      isCollaboration: insertPost.isCollaboration || null,
+      collaborationDetails: insertPost.collaborationDetails || null,
       likesCount: 0,
       commentsCount: 0,
       sharesCount: 0,
@@ -250,10 +302,13 @@ export class MemStorage implements IStorage {
     return post;
   }
 
-  async updatePost(id: string, updates: Partial<Post>): Promise<Post | undefined> {
+  async updatePost(
+    id: string,
+    updates: Partial<Post>
+  ): Promise<Post | undefined> {
     const post = this.posts.get(id);
     if (!post) return undefined;
-    
+
     const updatedPost = { ...post, ...updates };
     this.posts.set(id, updatedPost);
     return updatedPost;
@@ -264,13 +319,13 @@ export class MemStorage implements IStorage {
     if (this.likes.has(likeId)) return false;
 
     this.likes.set(likeId, { postId, userId });
-    
+
     const post = this.posts.get(postId);
     if (post) {
       post.likesCount = (post.likesCount || 0) + 1;
       this.posts.set(postId, post);
     }
-    
+
     return true;
   }
 
@@ -279,13 +334,13 @@ export class MemStorage implements IStorage {
     if (!this.likes.has(likeId)) return false;
 
     this.likes.delete(likeId);
-    
+
     const post = this.posts.get(postId);
     if (post) {
       post.likesCount = Math.max(0, (post.likesCount || 0) - 1);
       this.posts.set(postId, post);
     }
-    
+
     return true;
   }
 
@@ -296,16 +351,18 @@ export class MemStorage implements IStorage {
 
   async getComments(postId: string): Promise<CommentWithUser[]> {
     const comments = Array.from(this.comments.values())
-      .filter(comment => comment.postId === postId)
+      .filter((comment) => comment.postId === postId)
       .sort((a, b) => a.createdAt!.getTime() - b.createdAt!.getTime());
 
-    return Promise.all(comments.map(async (comment) => {
-      const user = await this.getUser(comment.userId);
-      return {
-        ...comment,
-        user: user!,
-      };
-    }));
+    return Promise.all(
+      comments.map(async (comment) => {
+        const user = await this.getUser(comment.userId);
+        return {
+          ...comment,
+          user: user!,
+        };
+      })
+    );
   }
 
   async createComment(insertComment: InsertComment): Promise<Comment> {
@@ -327,29 +384,42 @@ export class MemStorage implements IStorage {
     return comment;
   }
 
-  async createAIInteraction(insertInteraction: InsertAIInteraction): Promise<AIInteraction> {
+  async createAIInteraction(
+    insertInteraction: InsertAIInteraction
+  ): Promise<AIInteraction> {
     const id = randomUUID();
     const interaction: AIInteraction = {
-      ...insertInteraction,
       id,
+      userId: insertInteraction.userId,
+      message: insertInteraction.message,
+      response: insertInteraction.response,
+      context: insertInteraction.context || null,
       createdAt: new Date(),
     };
     this.aiInteractions.set(id, interaction);
     return interaction;
   }
 
-  async getAIInteractions(userId: string, limit = 10): Promise<AIInteraction[]> {
+  async getAIInteractions(
+    userId: string,
+    limit = 10
+  ): Promise<AIInteraction[]> {
     return Array.from(this.aiInteractions.values())
-      .filter(interaction => interaction.userId === userId)
+      .filter((interaction) => interaction.userId === userId)
       .sort((a, b) => b.createdAt!.getTime() - a.createdAt!.getTime())
       .slice(0, limit);
   }
 
-  async getBusinessMetrics(userId: string): Promise<BusinessMetric | undefined> {
+  async getBusinessMetrics(
+    userId: string
+  ): Promise<BusinessMetric | undefined> {
     return this.businessMetrics.get(userId);
   }
 
-  async updateBusinessMetrics(userId: string, updates: Partial<BusinessMetric>): Promise<BusinessMetric> {
+  async updateBusinessMetrics(
+    userId: string,
+    updates: Partial<BusinessMetric>
+  ): Promise<BusinessMetric> {
     const existing = this.businessMetrics.get(userId);
     const metrics: BusinessMetric = {
       id: existing?.id || randomUUID(),
@@ -368,16 +438,16 @@ export class MemStorage implements IStorage {
 
   async getSuggestedConnections(userId: string, limit = 5): Promise<User[]> {
     return Array.from(this.users.values())
-      .filter(user => user.id !== userId)
+      .filter((user) => user.id !== userId)
       .slice(0, limit);
   }
 
   async getTrendingTopics(): Promise<{ tag: string; count: number }[]> {
     const tagCounts = new Map<string, number>();
-    
-    Array.from(this.posts.values()).forEach(post => {
+
+    Array.from(this.posts.values()).forEach((post) => {
       if (post.tags) {
-        post.tags.forEach(tag => {
+        post.tags.forEach((tag) => {
           tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
         });
       }

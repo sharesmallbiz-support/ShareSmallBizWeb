@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -127,7 +127,6 @@ export default function PostCard({ post }: PostCardProps) {
         </p>
       </CardContent>
 
-      {/* Post Image */}
       {post.imageUrl && (
         <img 
           src={post.imageUrl} 
