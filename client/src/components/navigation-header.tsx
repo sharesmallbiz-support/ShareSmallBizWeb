@@ -119,9 +119,11 @@ export default function NavigationHeader() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuItem data-testid="menu-profile">
-                    View Profile
-                  </DropdownMenuItem>
+                  <Link href="/profile">
+                    <DropdownMenuItem data-testid="menu-profile">
+                      View Profile
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem data-testid="menu-business">
                     Business Settings
                   </DropdownMenuItem>
