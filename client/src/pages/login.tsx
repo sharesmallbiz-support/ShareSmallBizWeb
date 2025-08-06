@@ -59,20 +59,26 @@ export default function Login() {
 
   const loginMutation = useMutation({
     mutationFn: async (data: LoginForm) => {
-      return apiRequest("POST", "/api/auth/login", data);
+      console.log("Making login request with:", data);
+      const response = await apiRequest("POST", "/api/auth/login", data);
+      const jsonData = await response.json();
+      console.log("Parsed JSON response:", jsonData);
+      return jsonData;
     },
     onSuccess: (response: any) => {
-      console.log("Login response:", response);
+      console.log("Login onSuccess called with:", response);
       const user = response.user;
+      
       if (!user || !user.fullName) {
         console.error("Invalid user data:", user);
         toast({
-          title: "Login Error",
+          title: "Login Error", 
           description: "Invalid user data received from server",
           variant: "destructive",
         });
         return;
       }
+      
       toast({
         title: "Welcome back!",
         description: `Successfully logged in as ${user.fullName}`,
@@ -81,9 +87,10 @@ export default function Login() {
       setLocation("/");
     },
     onError: (error: any) => {
+      console.error("Login mutation error:", error);
       toast({
         title: "Login failed",
-        description: error.message || "Invalid credentials",
+        description: error.message || "Invalid credentials", 
         variant: "destructive",
       });
     },
@@ -91,7 +98,9 @@ export default function Login() {
 
   const signupMutation = useMutation({
     mutationFn: async (data: Omit<SignupForm, "confirmPassword">) => {
-      return apiRequest("POST", "/api/auth/signup", data);
+      const response = await apiRequest("POST", "/api/auth/signup", data);
+      const jsonData = await response.json();
+      return jsonData;
     },
     onSuccess: (response: any) => {
       const user = response.user;
