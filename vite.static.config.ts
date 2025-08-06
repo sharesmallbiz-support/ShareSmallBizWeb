@@ -28,4 +28,5 @@ export default defineConfig({
   define: {
     "process.env.VITE_MODE": '"static"',
   },
+  publicDir: path.resolve(import.meta.dirname, "client/public"),
 });
