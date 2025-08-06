@@ -62,7 +62,17 @@ export default function Login() {
       return apiRequest("POST", "/api/auth/login", data);
     },
     onSuccess: (response: any) => {
+      console.log("Login response:", response);
       const user = response.user;
+      if (!user || !user.fullName) {
+        console.error("Invalid user data:", user);
+        toast({
+          title: "Login Error",
+          description: "Invalid user data received from server",
+          variant: "destructive",
+        });
+        return;
+      }
       toast({
         title: "Welcome back!",
         description: `Successfully logged in as ${user.fullName}`,
