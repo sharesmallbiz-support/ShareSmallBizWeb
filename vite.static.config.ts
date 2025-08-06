@@ -24,7 +24,7 @@ export default defineConfig({
       },
     },
   },
-  base: "./", // For relative paths in static deployment
+  base: process.env.GITHUB_ACTIONS ? "/ShareSmallBizWeb/" : "./", // GitHub Pages base path
   define: {
     "process.env.VITE_MODE": '"static"',
   },
