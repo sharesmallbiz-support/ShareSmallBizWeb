@@ -1,0 +1,225 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: hsl(225, 25%, 97%);
+  --foreground: hsl(220, 15%, 15%);
+  --muted: hsl(220, 13%, 91%);
+  --muted-foreground: hsl(220, 8%, 46%);
+  --popover: hsl(0, 0%, 100%);
+  --popover-foreground: hsl(220, 15%, 15%);
+  --card: hsl(0, 0%, 100%);
+  --card-foreground: hsl(220, 15%, 15%);
+  --border: hsl(220, 13%, 87%);
+  --input: hsl(220, 13%, 91%);
+  --primary: hsl(215, 95%, 50%);
+  --primary-foreground: hsl(0, 0%, 100%);
+  --secondary: hsl(45, 93%, 55%);
+  --secondary-foreground: hsl(220, 15%, 15%);
+  --accent: hsl(220, 13%, 91%);
+  --accent-foreground: hsl(220, 15%, 15%);
+  --destructive: hsl(0, 84%, 60%);
+  --destructive-foreground: hsl(0, 0%, 100%);
+  --ring: hsl(215, 95%, 50%);
+  --radius: 0.5rem;
+
+  /* Custom ShareSmallBiz colors - Professional Business Theme */
+  --ai-purple: hsl(270, 95%, 65%);
+  --ai-purple-foreground: hsl(0, 0%, 100%);
+  --success: hsl(142, 76%, 36%);
+  --success-foreground: hsl(0, 0%, 100%);
+  --warm-gray: hsl(220, 13%, 42%);
+  --dark-gray: hsl(220, 15%, 20%);
+  --business-blue: hsl(210, 100%, 45%);
+  --business-orange: hsl(35, 100%, 55%);
+  --collaboration-green: hsl(155, 64%, 40%);
+  --premium-gold: hsl(43, 96%, 50%);
+}
+
+.dark {
+  --background: hsl(240, 10%, 3.9%);
+  --foreground: hsl(0, 0%, 98%);
+  --muted: hsl(240, 3.7%, 15.9%);
+  --muted-foreground: hsl(240, 5%, 64.9%);
+  --popover: hsl(240, 10%, 3.9%);
+  --popover-foreground: hsl(0, 0%, 98%);
+  --card: hsl(240, 10%, 3.9%);
+  --card-foreground: hsl(0, 0%, 98%);
+  --border: hsl(240, 3.7%, 15.9%);
+  --input: hsl(240, 3.7%, 15.9%);
+  --primary: hsl(207, 90%, 54%);
+  --primary-foreground: hsl(211, 100%, 99%);
+  --secondary: hsl(240, 3.7%, 15.9%);
+  --secondary-foreground: hsl(0, 0%, 98%);
+  --accent: hsl(240, 3.7%, 15.9%);
+  --accent-foreground: hsl(0, 0%, 98%);
+  --destructive: hsl(0, 62.8%, 30.6%);
+  --destructive-foreground: hsl(0, 0%, 98%);
+  --ring: hsl(240, 4.9%, 83.9%);
+  --radius: 0.5rem;
+
+  /* Dark mode custom colors */
+  --ai-purple: hsl(259, 70%, 68%);
+  --ai-purple-foreground: hsl(0, 0%, 100%);
+  --success: hsl(142, 71%, 45%);
+  --success-foreground: hsl(0, 0%, 100%);
+  --warm-gray: hsl(220, 13%, 62%);
+  --dark-gray: hsl(218, 23%, 13%);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  .gradient-bg {
+    background: linear-gradient(135deg, hsl(215, 95%, 50%) 0%, hsl(270, 95%, 65%) 20%, hsl(210, 100%, 45%) 100%);
+  }
+
+  .ai-gradient {
+    background: linear-gradient(135deg, hsl(270, 95%, 65%) 0%, hsl(270, 80%, 50%) 100%);
+  }
+
+  .business-gradient {
+    background: linear-gradient(135deg, hsl(210, 100%, 45%) 0%, hsl(215, 95%, 50%) 100%);
+  }
+
+  .collaboration-gradient {
+    background: linear-gradient(135deg, hsl(155, 64%, 40%) 0%, hsl(142, 76%, 36%) 100%);
+  }
+
+  .premium-gradient {
+    background: linear-gradient(135deg, hsl(43, 96%, 50%) 0%, hsl(35, 100%, 55%) 100%);
+  }
+
+  .business-card {
+    @apply bg-card border border-border rounded-xl shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-0.5;
+  }
+
+  .post-card {
+    @apply bg-card border border-border rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden backdrop-blur-sm;
+  }
+
+  .professional-card {
+    @apply bg-gradient-to-br from-white to-blue-50/30 border border-blue-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  .ai-enhanced-card {
+    @apply bg-gradient-to-br from-purple-50/50 to-white border border-purple-200/50 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300;
+  }
+
+  .btn-primary {
+    @apply bg-primary text-primary-foreground px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105;
+  }
+  .btn-primary:hover {
+    background-color: hsl(var(--primary) / 0.9);
+  }
+
+  .btn-secondary {
+    @apply bg-secondary text-secondary-foreground px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105;
+  }
+  .btn-secondary:hover {
+    background-color: hsl(var(--secondary) / 0.9);
+  }
+
+  .btn-success {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105;
+    background-color: hsl(var(--success));
+    color: hsl(var(--success-foreground));
+  }
+  .btn-success:hover {
+    background-color: hsl(var(--success) / 0.9);
+  }
+
+  .btn-ai {
+    @apply px-6 py-3 rounded-xl font-semibold transition-all duration-300 hover:scale-105;
+    background-color: hsl(var(--ai-purple));
+    color: hsl(var(--ai-purple-foreground));
+  }
+  .btn-ai:hover {
+    background-color: hsl(var(--ai-purple) / 0.9);
+  }
+
+  .text-ai-purple {
+    color: hsl(var(--ai-purple));
+  }
+
+  .bg-ai-purple {
+    background-color: hsl(var(--ai-purple));
+  }
+
+  .text-success {
+    color: hsl(var(--success));
+  }
+
+  .bg-success {
+    background-color: hsl(var(--success));
+  }
+
+  .text-business-blue {
+    color: hsl(var(--business-blue));
+  }
+
+  .bg-business-blue {
+    background-color: hsl(var(--business-blue));
+  }
+
+  .text-collaboration-green {
+    color: hsl(var(--collaboration-green));
+  }
+
+  .bg-collaboration-green {
+    background-color: hsl(var(--collaboration-green));
+  }
+
+  .text-premium-gold {
+    color: hsl(var(--premium-gold));
+  }
+
+  .bg-premium-gold {
+    background-color: hsl(var(--premium-gold));
+  }
+
+  .text-warm-gray {
+    color: hsl(var(--warm-gray));
+  }
+
+  .text-dark-gray {
+    color: hsl(var(--dark-gray));
+  }
+
+  .bg-dark-gray {
+    background-color: hsl(var(--dark-gray));
+  }
+}
+
+@layer utilities {
+  .animate-float {
+    animation: float 3s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { 
+      transform: translateY(0px); 
+    }
+    50% { 
+      transform: translateY(-10px); 
+    }
+  }
+}
