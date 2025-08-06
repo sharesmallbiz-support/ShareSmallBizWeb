@@ -1,0 +1,7 @@
+Hello from ShareSmallBiz! This is a test file to verify GitHub Pages deployment.
+
+If you can see this file, then GitHub Pages is working and the issue is with the React app configuration.
+
+Site URL should be: https://sharesmallbiz-support.github.io/ShareSmallBizWeb/
+
+Test timestamp: August 6, 2025
