@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { getBusinessAdvice, generatePostSuggestions, analyzePostEngagement } from "./services/openai";
-import { insertPostSchema, insertCommentSchema, insertAIInteractionSchema } from "@shared/schema";
+import { insertPostSchema, insertCommentSchema, insertAIInteractionSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -20,6 +20,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json({ user: { ...user, password: undefined } });
     } catch (error) {
       res.status(500).json({ message: "Internal server error" });
+    }
+  });
+
+  app.post("/api/auth/signup", async (req, res) => {
+    try {
+      const userData = insertUserSchema.parse(req.body);
+      
+      // Check if username or email already exists
+      const existingUser = await storage.getUserByUsername(userData.username);
+      if (existingUser) {
+        return res.status(400).json({ message: "Username already exists" });
+      }
+
+      const existingEmail = await storage.getUserByEmail(userData.email);
+      if (existingEmail) {
+        return res.status(400).json({ message: "Email already exists" });
+      }
+
+      const newUser = await storage.createUser(userData);
+      
+      // Return user without password
+      res.status(201).json({ user: { ...newUser, password: undefined } });
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid user data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to create account" });
     }
   });
 

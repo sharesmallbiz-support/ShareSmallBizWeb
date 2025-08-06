@@ -1,3 +1,4 @@
+import { Link } from "wouter";
 import NavigationHeader from "../components/navigation-header";
 import LeftSidebar from "../components/left-sidebar";
 import MainFeed from "../components/main-feed";
@@ -30,12 +31,14 @@ export default function Home() {
                 The only platform that combines social networking, AI business insights, and real collaboration opportunities designed specifically for entrepreneurs and small business owners.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <button 
-                  className="btn-primary bg-white text-primary hover:bg-gray-100"
-                  data-testid="button-join-community"
-                >
-                  🚀 Join the Community
-                </button>
+                <Link href="/login">
+                  <button 
+                    className="btn-primary bg-white text-primary hover:bg-gray-100"
+                    data-testid="button-join-community"
+                  >
+                    🚀 Join the Community
+                  </button>
+                </Link>
                 <button 
                   className="btn-ai border-2 border-white/50 text-white hover:bg-white/10"
                   data-testid="button-try-ai"
