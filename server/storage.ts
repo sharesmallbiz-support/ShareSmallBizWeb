@@ -281,13 +281,15 @@ export class MemStorage implements IStorage {
   async createPost(insertPost: InsertPost): Promise<Post> {
     const id = randomUUID();
     const post: Post = {
-      ...insertPost,
+      id,
+      userId: insertPost.userId,
+      content: insertPost.content,
       title: insertPost.title || null,
       imageUrl: insertPost.imageUrl || null,
+      postType: insertPost.postType || "discussion",
       tags: insertPost.tags || null,
       isCollaboration: insertPost.isCollaboration || null,
       collaborationDetails: insertPost.collaborationDetails || null,
-      id,
       likesCount: 0,
       commentsCount: 0,
       sharesCount: 0,
