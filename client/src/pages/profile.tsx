@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/use-auth";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -14,7 +14,8 @@ import {
   Edit,
   Building2,
   Mail,
-  Phone
+  Phone,
+  ArrowLeft
 } from "lucide-react";
 
 export default function Profile() {
@@ -40,6 +41,38 @@ export default function Profile() {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      {/* Navigation Header */}
+      <div className="bg-white shadow-sm border-b border-gray-200">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div className="flex items-center space-x-4">
+              <Link href="/">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  className="flex items-center space-x-2"
+                  data-testid="button-back-home"
+                >
+                  <ArrowLeft className="h-4 w-4" />
+                  <span>Back to Home</span>
+                </Button>
+              </Link>
+              <div className="h-6 w-px bg-gray-300" />
+              <h2 className="text-lg font-semibold text-gray-900">Profile</h2>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <img 
+                src="https://sharesmallbiz.com/img/ShareSmallBiz.svg" 
+                alt="ShareSmallBiz Logo" 
+                className="h-6 w-auto"
+              />
+              <span className="text-sm font-medium text-gray-700">ShareSmallBiz</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Profile Header */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-white">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
