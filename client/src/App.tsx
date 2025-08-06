@@ -1,4 +1,4 @@
-import { Switch, Route } from "wouter";
+import { Switch, Route, Router as WouterRouter } from "wouter";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -12,12 +12,25 @@ import { queryClient as staticQueryClient } from "./lib/staticQueryClient";
 const isStaticMode = import.meta.env.VITE_MODE === 'static';
 const activeQueryClient = isStaticMode ? staticQueryClient : queryClient;
 
+// Determine base path for routing
+const getBasePath = () => {
+  // For GitHub Pages, check if we're running on github.io
+  if (typeof window !== 'undefined' && window.location.hostname.includes('github.io')) {
+    return '/ShareSmallBizWeb';
+  }
+  return '';
+};
+
 function Router() {
+  const basePath = getBasePath();
+  
   return (
-    <Switch>
-      <Route path="/" component={Home} />
-      <Route component={NotFound} />
-    </Switch>
+    <WouterRouter base={basePath}>
+      <Switch>
+        <Route path="/" component={Home} />
+        <Route component={NotFound} />
+      </Switch>
+    </WouterRouter>
   );
 }
 
