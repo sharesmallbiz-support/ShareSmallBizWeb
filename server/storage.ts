@@ -222,7 +222,18 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = randomUUID();
+<<<<<<< HEAD
     const user: User = {
+=======
+    const user: User = { 
+      ...insertUser,
+      businessName: insertUser.businessName || null,
+      businessType: insertUser.businessType || null,
+      location: insertUser.location || null,
+      avatar: insertUser.avatar || null,
+      bio: insertUser.bio || null,
+      website: insertUser.website || null,
+>>>>>>> 0e2e79b (Prepare platform to use in-memory database with mock data)
       id,
       username: insertUser.username,
       email: insertUser.email,
@@ -284,6 +295,15 @@ export class MemStorage implements IStorage {
   async createPost(insertPost: InsertPost): Promise<Post> {
     const id = randomUUID();
     const post: Post = {
+<<<<<<< HEAD
+=======
+      ...insertPost,
+      title: insertPost.title || null,
+      imageUrl: insertPost.imageUrl || null,
+      tags: insertPost.tags || null,
+      isCollaboration: insertPost.isCollaboration || null,
+      collaborationDetails: insertPost.collaborationDetails || null,
+>>>>>>> 0e2e79b (Prepare platform to use in-memory database with mock data)
       id,
       userId: insertPost.userId,
       content: insertPost.content,
@@ -389,6 +409,11 @@ export class MemStorage implements IStorage {
   ): Promise<AIInteraction> {
     const id = randomUUID();
     const interaction: AIInteraction = {
+<<<<<<< HEAD
+=======
+      ...insertInteraction,
+      context: insertInteraction.context || null,
+>>>>>>> 0e2e79b (Prepare platform to use in-memory database with mock data)
       id,
       userId: insertInteraction.userId,
       message: insertInteraction.message,
