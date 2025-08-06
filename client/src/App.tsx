@@ -1,10 +1,16 @@
 import { Switch, Route } from "wouter";
-import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "./pages/not-found";
 import Home from "./pages/home";
+
+// Import the appropriate query client based on mode
+import { queryClient } from "./lib/queryClient";
+import { queryClient as staticQueryClient } from "./lib/staticQueryClient";
+
+const isStaticMode = import.meta.env.VITE_MODE === 'static';
+const activeQueryClient = isStaticMode ? staticQueryClient : queryClient;
 
 function Router() {
   return (
@@ -17,7 +23,7 @@ function Router() {
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
+    <QueryClientProvider client={activeQueryClient}>
       <TooltipProvider>
         <Toaster />
         <Router />
