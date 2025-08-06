@@ -61,39 +61,43 @@ export default function NavigationHeader() {
 
           {/* Navigation Actions */}
           <div className="flex items-center space-x-4">
-            <div className="relative">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="p-2 text-gray-600 hover:text-primary"
-                data-testid="button-notifications"
-              >
-                <Bell className="h-5 w-5" />
-              </Button>
-              <Badge 
-                variant="destructive" 
-                className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs"
-              >
-                3
-              </Badge>
-            </div>
-            
-            <div className="relative">
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="p-2 text-gray-600 hover:text-primary"
-                data-testid="button-messages"
-              >
-                <Mail className="h-5 w-5" />
-              </Button>
-              <Badge 
-                variant="default" 
-                className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-primary"
-              >
-                5
-              </Badge>
-            </div>
+            {isAuthenticated && (
+              <>
+                <div className="relative">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="p-2 text-gray-600 hover:text-primary"
+                    data-testid="button-notifications"
+                  >
+                    <Bell className="h-5 w-5" />
+                  </Button>
+                  <Badge 
+                    variant="destructive" 
+                    className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs"
+                  >
+                    3
+                  </Badge>
+                </div>
+                
+                <div className="relative">
+                  <Button 
+                    variant="ghost" 
+                    size="sm" 
+                    className="p-2 text-gray-600 hover:text-primary"
+                    data-testid="button-messages"
+                  >
+                    <Mail className="h-5 w-5" />
+                  </Button>
+                  <Badge 
+                    variant="default" 
+                    className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-primary"
+                  >
+                    5
+                  </Badge>
+                </div>
+              </>
+            )}
 
             {/* User Profile or Login Link */}
             {isAuthenticated && user ? (
