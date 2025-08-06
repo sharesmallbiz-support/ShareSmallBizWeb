@@ -50,6 +50,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.post("/api/auth/logout", async (req, res) => {
+    try {
+      // In a real app, you'd clear session/cookies
+      res.json({ message: "Logged out successfully" });
+    } catch (error) {
+      res.status(500).json({ message: "Logout failed" });
+    }
+  });
+
   // Posts routes
   app.get("/api/posts", async (req, res) => {
     try {

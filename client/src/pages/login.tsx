@@ -11,6 +11,7 @@ import { z } from "zod";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "../lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/use-auth";
 import { insertUserSchema } from "@shared/schema";
 
 const loginSchema = z.object({
@@ -31,6 +32,7 @@ type SignupForm = z.infer<typeof signupSchema>;
 export default function Login() {
   const [, setLocation] = useLocation();
   const { toast } = useToast();
+  const { login } = useAuth();
   const [activeTab, setActiveTab] = useState("login");
 
   const loginForm = useForm<LoginForm>({
@@ -59,13 +61,13 @@ export default function Login() {
     mutationFn: async (data: LoginForm) => {
       return apiRequest("POST", "/api/auth/login", data);
     },
-    onSuccess: (user) => {
+    onSuccess: (response: any) => {
+      const user = response.user;
       toast({
         title: "Welcome back!",
         description: `Successfully logged in as ${user.fullName}`,
       });
-      // Store user data in localStorage for demo purposes
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      login(user);
       setLocation("/");
     },
     onError: (error: any) => {
@@ -81,13 +83,13 @@ export default function Login() {
     mutationFn: async (data: Omit<SignupForm, "confirmPassword">) => {
       return apiRequest("POST", "/api/auth/signup", data);
     },
-    onSuccess: (user) => {
+    onSuccess: (response: any) => {
+      const user = response.user;
       toast({
         title: "Account created!",
         description: `Welcome to ShareSmallBiz, ${user.fullName}`,
       });
-      // Store user data in localStorage for demo purposes
-      localStorage.setItem("currentUser", JSON.stringify(user));
+      login(user);
       setLocation("/");
     },
     onError: (error: any) => {

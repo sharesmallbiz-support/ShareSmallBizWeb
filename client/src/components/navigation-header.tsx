@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
@@ -9,16 +10,15 @@ import {
   DropdownMenuTrigger 
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
-import { Search, Bell, Mail, Bot } from "lucide-react";
+import { Search, Bell, Mail, Bot, LogOut } from "lucide-react";
+import { useAuth } from "@/hooks/use-auth";
 
 export default function NavigationHeader() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { user, isAuthenticated, logout } = useAuth();
 
-  // Mock user data
-  const currentUser = {
-    name: "John Smith",
-    avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=32&h=32",
-    businessName: "Smith's Local Hardware"
+  const handleLogout = () => {
+    logout();
   };
 
   return (
@@ -95,33 +95,52 @@ export default function NavigationHeader() {
               </Badge>
             </div>
 
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="flex items-center space-x-2 p-0" data-testid="button-user-menu">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage src={currentUser.avatar} alt={currentUser.name} />
-                    <AvatarFallback>JS</AvatarFallback>
-                  </Avatar>
-                  <span className="text-sm font-medium text-gray-700 hover:text-primary hidden sm:block">
-                    {currentUser.name}
-                  </span>
+            {/* User Profile or Login Link */}
+            {isAuthenticated && user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="flex items-center space-x-2 p-0" data-testid="button-user-menu">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage 
+                        src={user.avatar || ""} 
+                        alt={user.fullName}
+                      />
+                      <AvatarFallback className="bg-primary text-white">
+                        {user.fullName.split(' ').map(n => n[0]).join('')}
+                      </AvatarFallback>
+                    </Avatar>
+                    <span className="text-sm font-medium text-gray-700 hover:text-primary hidden sm:block">
+                      {user.fullName}
+                    </span>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56">
+                  <DropdownMenuItem data-testid="menu-profile">
+                    View Profile
+                  </DropdownMenuItem>
+                  <DropdownMenuItem data-testid="menu-business">
+                    Business Settings
+                  </DropdownMenuItem>
+                  <DropdownMenuItem data-testid="menu-analytics">
+                    Analytics
+                  </DropdownMenuItem>
+                  <DropdownMenuItem 
+                    data-testid="menu-logout"
+                    onClick={handleLogout}
+                    className="text-red-600"
+                  >
+                    <LogOut className="mr-2 h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/login">
+                <Button variant="outline" size="sm" data-testid="button-login-nav">
+                  Login
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem data-testid="menu-profile">
-                  View Profile
-                </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-business">
-                  Business Settings
-                </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-analytics">
-                  Analytics
-                </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-logout">
-                  Sign Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </Link>
+            )}
           </div>
         </div>
       </div>
