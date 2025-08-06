@@ -43,6 +43,7 @@ jobs:
         run: npm run build:static
         env:
           NODE_ENV: production
+          GITHUB_ACTIONS: true
 
       - name: Setup Pages
         uses: actions/configure-pages@v4
