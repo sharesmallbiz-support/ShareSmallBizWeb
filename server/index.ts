@@ -100,15 +100,26 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   console.log("Current NODE_ENV:", process.env.NODE_ENV);
+  console.log("REPLIT_DEPLOYMENT:", process.env.REPLIT_DEPLOYMENT);
   console.log("Environment check - is development?", process.env.NODE_ENV === "development");
   console.log("Environment check - no NODE_ENV?", !process.env.NODE_ENV);
+  console.log("Environment check - is Replit deployment?", process.env.REPLIT_DEPLOYMENT === "1");
   
-    if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
+  // Force production mode for Replit deployments
+  const isProduction = process.env.NODE_ENV === "production" || process.env.REPLIT_DEPLOYMENT === "1";
+  
+    if (!isProduction && process.env.NODE_ENV === "development") {
       console.log("Setting up Vite development mode");
       await setupVite(app, httpServer);
     } else {
       console.log("Setting up static file serving for production");
-      console.log("Production mode detected, serving static files");
+      console.log("Production mode detected (NODE_ENV:", process.env.NODE_ENV, "REPLIT_DEPLOYMENT:", process.env.REPLIT_DEPLOYMENT, ")");
+      
+      // Ensure we have built files for production
+      if (!process.env.NODE_ENV) {
+        process.env.NODE_ENV = 'production';
+        console.log("Set NODE_ENV to production for deployment");
+      }
       
       // Add production-specific error handling with better logging
       try {
