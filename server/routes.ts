@@ -1,8 +1,8 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
-import { getBusinessAdvice, generatePostSuggestions, analyzePostEngagement } from "./services/openai";
-import { insertPostSchema, insertCommentSchema, insertAIInteractionSchema, insertUserSchema } from "@shared/schema";
+import { generateAIResponse, createConversationSummary } from "./services/openai";
+import { insertPostSchema, insertCommentSchema, insertUserSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -346,65 +346,42 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // AI Assistant routes
   app.post("/api/ai/chat", async (req, res) => {
     try {
-      const { message, userId, userContext } = req.body;
+      const { userId, agentId, message, messages = [] } = req.body;
       
-      if (!message || !userId) {
-        return res.status(400).json({ message: "Message and user ID required" });
+      if (!userId || !agentId || !message) {
+        return res.status(400).json({ message: "User ID, Agent ID, and message are required" });
       }
 
-      const advice = await getBusinessAdvice({ message, userContext });
+      // Convert messages to conversation history format
+      const conversationHistory = messages.map((msg: any) => ({
+        role: msg.role,
+        content: msg.content
+      }));
+
+      const aiResponse = await generateAIResponse(agentId, message, conversationHistory);
       
-      // Store the interaction
-      await storage.createAIInteraction({
-        userId,
-        message,
-        response: advice.response,
-        context: { userContext, suggestions: advice.suggestions, actionItems: advice.actionItems },
+      res.json({ response: aiResponse });
+    } catch (error) {
+      console.error("AI chat error:", error);
+      res.status(500).json({ 
+        message: error instanceof Error ? error.message : "Failed to generate AI response" 
       });
-
-      res.json(advice);
-    } catch (error) {
-      res.status(500).json({ message: "Failed to get AI response" });
     }
   });
 
-  app.get("/api/ai/post-suggestions", async (req, res) => {
+  app.get("/api/ai/interactions", async (req, res) => {
     try {
-      const { businessType, userId } = req.query;
+      const { userId, agentId } = req.query;
       
-      // Get recent posts for context
-      const recentPosts = await storage.getPosts(5, 0);
-      const recentTitles = recentPosts.map(post => post.title || post.content.substring(0, 50));
-      
-      const suggestions = await generatePostSuggestions(
-        businessType as string,
-        recentTitles
-      );
-      
-      res.json({ suggestions });
-    } catch (error) {
-      res.status(500).json({ message: "Failed to generate post suggestions" });
-    }
-  });
-
-  app.post("/api/ai/analyze-engagement", async (req, res) => {
-    try {
-      const { postId } = req.body;
-      
-      const post = await storage.getPost(postId);
-      if (!post) {
-        return res.status(404).json({ message: "Post not found" });
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
       }
 
-      const insight = await analyzePostEngagement(
-        post.content,
-        post.likesCount || 0,
-        post.commentsCount || 0
-      );
-      
-      res.json({ insight });
+      // For now, return empty array as we're using in-memory chat
+      // In a real app, you'd store and retrieve conversation history
+      res.json([]);
     } catch (error) {
-      res.status(500).json({ message: "Failed to analyze engagement" });
+      res.status(500).json({ message: "Failed to get AI interactions" });
     }
   });
 

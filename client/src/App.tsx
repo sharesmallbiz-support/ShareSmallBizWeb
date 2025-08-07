@@ -9,15 +9,20 @@ import Login from "./pages/login";
 import Profile from "./pages/profile";
 import BusinessSettings from "./pages/business-settings";
 import Messages from "./pages/messages";
+import AIAssistant from "./pages/ai-assistant";
+import AIChat from "./pages/ai-chat";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/home" component={Home} />
       <Route path="/login" component={Login} />
       <Route path="/profile" component={Profile} />
       <Route path="/business-settings" component={BusinessSettings} />
       <Route path="/messages" component={Messages} />
+      <Route path="/ai-assistant" component={AIAssistant} />
+      <Route path="/ai-chat/:agentId" component={AIChat} />
       <Route component={NotFound} />
     </Switch>
   );

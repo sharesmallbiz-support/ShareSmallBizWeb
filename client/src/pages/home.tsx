@@ -39,12 +39,14 @@ export default function Home() {
                     🚀 Join the Community
                   </button>
                 </Link>
-                <button 
-                  className="btn-ai border-2 border-white/50 text-white hover:bg-white/10"
-                  data-testid="button-try-ai"
-                >
-                  🤖 Try AI Assistant
-                </button>
+                <Link href="/ai-assistant">
+                  <button 
+                    className="btn-ai border-2 border-white/50 text-white hover:bg-white/10"
+                    data-testid="button-try-ai"
+                  >
+                    🤖 Try AI Assistant
+                  </button>
+                </Link>
               </div>
               <div className="flex items-center space-x-6 text-sm text-white/80">
                 <div className="flex items-center">
