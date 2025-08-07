@@ -395,7 +395,10 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const { userId, agentId, message, messages = [] } = req.body;
       
+      console.log("AI chat request received:", { userId, agentId, message: message?.substring(0, 50) + "...", messagesCount: messages.length });
+      
       if (!userId || !agentId || !message) {
+        console.error("Missing required fields:", { userId: !!userId, agentId: !!agentId, message: !!message });
         return res.status(400).json({ message: "User ID, Agent ID, and message are required" });
       }
 

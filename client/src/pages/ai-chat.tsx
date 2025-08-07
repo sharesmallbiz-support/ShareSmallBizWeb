@@ -74,14 +74,20 @@ export default function AIChat() {
   // Send message mutation
   const sendMessageMutation = useMutation({
     mutationFn: async (message: string) => {
-      if (!user?.id || !agentId) throw new Error("Missing user or agent ID");
+      if (!user?.id || !agentId) {
+        console.error("Missing user or agent ID:", { userId: user?.id, agentId });
+        throw new Error("Missing user or agent ID");
+      }
       
-      return apiRequest("POST", "/api/ai/chat", {
+      const payload = {
         userId: user.id,
         agentId,
         message,
         messages: messages.slice(-10) // Send last 10 messages for context
-      });
+      };
+      
+      console.log("Sending AI chat payload:", payload);
+      return apiRequest("POST", "/api/ai/chat", payload);
     },
     onSuccess: (response: any) => {
       const assistantMessage: ChatMessage = {
