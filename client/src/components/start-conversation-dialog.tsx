@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "@/hooks/use-auth";
 import { useStartConversation } from "@/hooks/use-messages";
 import { useQuery } from "@tanstack/react-query";
@@ -91,19 +91,18 @@ export default function StartConversationDialog({
       u.username.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-  // Set pre-selected user when dialog opens
-  useState(() => {
+  // Set pre-selected user when dialog opens or when preSelectedUser changes
+  React.useEffect(() => {
     if (preSelectedUser && open) {
       setSelectedUser(preSelectedUser);
     }
-  });
+  }, [preSelectedUser, open]);
 
-  // Update selected user when preSelectedUser changes
-  useState(() => {
+  React.useEffect(() => {
     if (preSelectedUser) {
       setSelectedUser(preSelectedUser);
     }
-  });
+  }, [preSelectedUser]);
 
   const handleSendMessage = () => {
     if (!selectedUser || !message.trim()) return;

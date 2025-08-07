@@ -24,12 +24,18 @@ interface User {
 export default function UserDirectory() {
   const { user: currentUser } = useAuth();
 
-  const { data: users = [], isLoading } = useQuery({
+  const { data: users = [], isLoading, error } = useQuery({
     queryKey: ['/api/users'],
     queryFn: async () => {
       const response = await fetch('/api/users');
-      return response.json();
+      if (!response.ok) {
+        throw new Error('Failed to fetch users');
+      }
+      const data = await response.json();
+      return Array.isArray(data) ? data : [];
     },
+    retry: 2,
+    refetchOnWindowFocus: false,
   });
 
   const filteredUsers = users
@@ -59,6 +65,8 @@ export default function UserDirectory() {
         <ScrollArea className="h-[400px]">
           {isLoading ? (
             <div className="p-4 text-center text-gray-500">Loading users...</div>
+          ) : error ? (
+            <div className="p-4 text-center text-red-500">Failed to load users</div>
           ) : filteredUsers.length === 0 ? (
             <div className="p-4 text-center text-gray-500">No users found</div>
           ) : (

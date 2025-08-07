@@ -63,12 +63,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/users", async (req, res) => {
     try {
       const users = await storage.getAllUsers();
+      if (!users) {
+        return res.json([]);
+      }
       // Return users without passwords
-      const safeUsers = users.map(user => ({ ...user, password: undefined }));
+      const safeUsers = users.map(user => {
+        const { password, ...safeUser } = user;
+        return safeUser;
+      });
       res.json(safeUsers);
     } catch (error) {
       console.error("Get users error:", error);
-      res.status(500).json({ message: "Failed to get users" });
+      res.status(500).json({ message: "Failed to get users", error: (error as Error).message });
     }
   });
 

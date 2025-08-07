@@ -241,7 +241,12 @@ export class MemStorage implements IStorage {
   }
 
   async getAllUsers(): Promise<User[]> {
-    return Array.from(this.users.values());
+    try {
+      return Array.from(this.users.values());
+    } catch (error) {
+      console.error("Error getting all users:", error);
+      return [];
+    }
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
