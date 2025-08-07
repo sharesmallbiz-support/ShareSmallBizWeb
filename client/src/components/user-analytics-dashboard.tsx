@@ -125,10 +125,10 @@ export default function UserAnalyticsDashboard({ userId }: { userId: string }) {
               <h2 className="text-2xl font-bold">{analytics.username}'s Business Analytics</h2>
               <p className="text-blue-100">Member since {new Date(analytics.joinDate).toLocaleDateString()}</p>
               <div className="flex items-center space-x-4 mt-2">
-                <Badge variant="secondary" className="bg-white/20 text-white">
+                <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
                   Business Score: {analytics.businessGrowth.businessScore}
                 </Badge>
-                <Badge variant="secondary" className="bg-white/20 text-white">
+                <Badge variant="secondary" className="bg-white/20 text-white border-white/30">
                   Network: {analytics.messagingStats.networkConnections} connections
                 </Badge>
               </div>
@@ -138,7 +138,7 @@ export default function UserAnalyticsDashboard({ userId }: { userId: string }) {
             <select
               value={timeRange}
               onChange={(e) => setTimeRange(e.target.value)}
-              className="px-3 py-2 bg-white/20 border border-white/30 rounded-md text-white text-sm"
+              className="px-3 py-2 bg-white/20 border border-white/30 rounded-md text-white text-sm placeholder-white/70"
             >
               <option value="7d" className="text-gray-900">Last 7 days</option>
               <option value="30d" className="text-gray-900">Last 30 days</option>

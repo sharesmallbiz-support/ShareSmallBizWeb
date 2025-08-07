@@ -298,7 +298,7 @@ export default function AIAssistant() {
                     View Community Posts
                   </Link>
                 </Button>
-                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary">
+                <Button variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-primary bg-white/10">
                   Learn More About AI Agents
                 </Button>
               </div>

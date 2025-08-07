@@ -103,7 +103,7 @@ export default function Profile() {
                 <EditProfileModal>
                   <Button 
                     variant="outline" 
-                    className="bg-white/10 border-white/20 text-white hover:bg-white/20"
+                    className="bg-white/10 border-white/30 text-white hover:bg-white/20 hover:text-white"
                     data-testid="button-edit-profile"
                   >
                     <Edit className="mr-2 h-4 w-4" />
