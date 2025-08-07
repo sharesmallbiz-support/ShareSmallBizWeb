@@ -71,6 +71,28 @@ export interface BusinessMetric {
   lastUpdated: Date;
 }
 
+export interface Opportunity {
+  id: string;
+  userId: string;
+  title: string;
+  description: string;
+  opportunityType: string; // partnership, collaboration, service, product, etc.
+  category: string; // business category
+  location: string | null;
+  budget: string | null; // budget range as string
+  timeline: string | null; // timeline description
+  requirements: string[] | null; // array of requirements
+  contactMethod: string; // email, phone, platform message
+  contactInfo: string | null; // contact details if not platform message
+  isActive: boolean;
+  tags: string[] | null;
+  applicationsCount: number;
+  viewsCount: number;
+  featured: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 export interface Message {
   id: string;
   conversationId: string;
@@ -149,6 +171,38 @@ export const insertAIInteractionSchema = z.object({
   context: z.any().optional(),
 });
 
+export const insertOpportunitySchema = z.object({
+  userId: z.string().min(1),
+  title: z.string().min(1),
+  description: z.string().min(10),
+  opportunityType: z.string().min(1),
+  category: z.string().min(1),
+  location: z.string().optional(),
+  budget: z.string().optional(),
+  timeline: z.string().optional(),
+  requirements: z.array(z.string()).optional(),
+  contactMethod: z.string().min(1),
+  contactInfo: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  featured: z.boolean().optional().default(false),
+});
+
+export const updateOpportunitySchema = z.object({
+  title: z.string().min(1).optional(),
+  description: z.string().min(10).optional(),
+  opportunityType: z.string().min(1).optional(),
+  category: z.string().min(1).optional(),
+  location: z.string().optional(),
+  budget: z.string().optional(),
+  timeline: z.string().optional(),
+  requirements: z.array(z.string()).optional(),
+  contactMethod: z.string().min(1).optional(),
+  contactInfo: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  featured: z.boolean().optional(),
+  isActive: z.boolean().optional(),
+});
+
 // Types from schemas
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertPost = z.infer<typeof insertPostSchema>;
@@ -156,6 +210,8 @@ export type InsertComment = z.infer<typeof insertCommentSchema>;
 export type InsertAIInteraction = z.infer<typeof insertAIInteractionSchema>;
 export type InsertMessage = z.infer<typeof insertMessageSchema>;
 export type UpdateMessage = z.infer<typeof updateMessageSchema>;
+export type InsertOpportunity = z.infer<typeof insertOpportunitySchema>;
+export type UpdateOpportunity = z.infer<typeof updateOpportunitySchema>;
 
 // Extended types for API responses
 export type PostWithUser = Post & {
@@ -164,5 +220,9 @@ export type PostWithUser = Post & {
 };
 
 export type CommentWithUser = Comment & {
+  user: User;
+};
+
+export type OpportunityWithUser = Opportunity & {
   user: User;
 };

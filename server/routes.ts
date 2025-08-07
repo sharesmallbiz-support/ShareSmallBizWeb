@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { generateAIResponse, createConversationSummary } from "./services/openai";
-import { insertPostSchema, insertCommentSchema, insertUserSchema } from "@shared/schema";
+import { insertPostSchema, insertCommentSchema, insertUserSchema, insertOpportunitySchema, updateOpportunitySchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -738,6 +738,112 @@ export async function registerRoutes(app: Express): Promise<Server> {
       res.json(suggestions.map(user => ({ ...user, password: undefined })));
     } catch (error) {
       res.status(500).json({ message: "Failed to fetch connection suggestions" });
+    }
+  });
+
+  // Opportunities routes
+  app.get("/api/opportunities", async (req, res) => {
+    try {
+      const limit = parseInt(req.query.limit as string) || 20;
+      const offset = parseInt(req.query.offset as string) || 0;
+      
+      const opportunities = await storage.getOpportunities(limit, offset);
+      res.json(opportunities);
+    } catch (error) {
+      console.error("Get opportunities error:", error);
+      res.status(500).json({ message: "Failed to fetch opportunities" });
+    }
+  });
+
+  app.get("/api/opportunities/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      
+      // Increment view count
+      await storage.incrementOpportunityViews(id);
+      
+      const opportunity = await storage.getOpportunity(id);
+      if (!opportunity) {
+        return res.status(404).json({ message: "Opportunity not found" });
+      }
+      
+      res.json(opportunity);
+    } catch (error) {
+      console.error("Get opportunity error:", error);
+      res.status(500).json({ message: "Failed to fetch opportunity" });
+    }
+  });
+
+  app.get("/api/users/:userId/opportunities", async (req, res) => {
+    try {
+      const { userId } = req.params;
+      
+      const opportunities = await storage.getUserOpportunities(userId);
+      res.json(opportunities);
+    } catch (error) {
+      console.error("Get user opportunities error:", error);
+      res.status(500).json({ message: "Failed to fetch user opportunities" });
+    }
+  });
+
+  app.post("/api/opportunities", async (req, res) => {
+    try {
+      const opportunityData = insertOpportunitySchema.parse(req.body);
+      const opportunity = await storage.createOpportunity(opportunityData);
+      res.status(201).json(opportunity);
+    } catch (error) {
+      console.error("Create opportunity error:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid opportunity data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to create opportunity" });
+    }
+  });
+
+  app.patch("/api/opportunities/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { userId, ...updates } = req.body;
+      
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const parsedUpdates = updateOpportunitySchema.parse(updates);
+      const opportunity = await storage.updateOpportunity(id, parsedUpdates, userId);
+      
+      if (!opportunity) {
+        return res.status(404).json({ message: "Opportunity not found or access denied" });
+      }
+      
+      res.json(opportunity);
+    } catch (error) {
+      console.error("Update opportunity error:", error);
+      if (error instanceof z.ZodError) {
+        return res.status(400).json({ message: "Invalid opportunity data", errors: error.errors });
+      }
+      res.status(500).json({ message: "Failed to update opportunity" });
+    }
+  });
+
+  app.delete("/api/opportunities/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const userId = req.query.userId as string;
+      
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const success = await storage.deleteOpportunity(id, userId);
+      if (!success) {
+        return res.status(404).json({ message: "Opportunity not found or access denied" });
+      }
+      
+      res.json({ message: "Opportunity deleted successfully" });
+    } catch (error) {
+      console.error("Delete opportunity error:", error);
+      res.status(500).json({ message: "Failed to delete opportunity" });
     }
   });
 

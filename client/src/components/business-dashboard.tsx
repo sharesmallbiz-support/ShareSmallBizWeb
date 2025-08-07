@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 import { 
   TrendingUp, 
   Users, 
@@ -164,13 +165,15 @@ export default function BusinessDashboard() {
                 <CardTitle className="text-lg">Quick Actions</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
-                <Button 
-                  className="w-full justify-start business-gradient text-white" 
-                  data-testid="button-create-opportunity"
-                >
-                  <Target className="mr-3 h-4 w-4" />
-                  Post New Opportunity
-                </Button>
+                <Link href="/opportunities/new">
+                  <Button 
+                    className="w-full justify-start business-gradient text-white" 
+                    data-testid="button-create-opportunity"
+                  >
+                    <Target className="mr-3 h-4 w-4" />
+                    Post New Opportunity
+                  </Button>
+                </Link>
                 <Button 
                   className="w-full justify-start collaboration-gradient text-white"
                   data-testid="button-schedule-meeting"

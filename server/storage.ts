@@ -14,6 +14,10 @@ import {
   type Conversation,
   type InsertMessage,
   type UpdateMessage,
+  type Opportunity,
+  type OpportunityWithUser,
+  type InsertOpportunity,
+  type UpdateOpportunity,
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -64,6 +68,15 @@ export interface IStorage {
   deleteMessage(messageId: string, userId: string): Promise<boolean>;
   markMessagesAsRead(conversationId: string, userId: string): Promise<void>;
   getUnreadCount(userId: string): Promise<number>;
+
+  // Opportunities
+  getOpportunities(limit?: number, offset?: number): Promise<OpportunityWithUser[]>;
+  getOpportunity(id: string): Promise<OpportunityWithUser | undefined>;
+  getUserOpportunities(userId: string): Promise<OpportunityWithUser[]>;
+  createOpportunity(opportunity: InsertOpportunity): Promise<Opportunity>;
+  updateOpportunity(id: string, updates: UpdateOpportunity, userId: string): Promise<Opportunity | undefined>;
+  deleteOpportunity(id: string, userId: string): Promise<boolean>;
+  incrementOpportunityViews(id: string): Promise<void>;
 }
 
 export class MemStorage implements IStorage {
@@ -75,6 +88,7 @@ export class MemStorage implements IStorage {
   private businessMetrics: Map<string, BusinessMetric>;
   private messages: Map<string, Message>;
   private conversations: Map<string, Conversation>;
+  private opportunities: Map<string, Opportunity>;
 
   constructor() {
     this.users = new Map();
@@ -85,6 +99,7 @@ export class MemStorage implements IStorage {
     this.businessMetrics = new Map();
     this.messages = new Map();
     this.conversations = new Map();
+    this.opportunities = new Map();
     this.seedData();
   }
 
@@ -355,6 +370,9 @@ export class MemStorage implements IStorage {
 
     // Create sample conversations and messages
     this.seedConversations();
+    
+    // Create sample opportunities
+    this.seedOpportunities();
   }
 
   private seedConversations() {
@@ -990,6 +1008,277 @@ export class MemStorage implements IStorage {
     return Array.from(this.messages.values())
       .filter(msg => msg.receiverId === userId && !msg.isRead)
       .length;
+  }
+
+  private seedOpportunities() {
+    const sampleOpportunities: Opportunity[] = [
+      {
+        id: "opp1",
+        userId: "user3", // Sarah Martinez - landscaping
+        title: "Local Business Partnership - Eco-Friendly Services",
+        description: "Looking for partnerships with home improvement contractors, architects, and property managers who value sustainable landscaping solutions. We offer comprehensive eco-friendly garden design, maintenance, and consultation services. Perfect for businesses wanting to add sustainable landscaping to their service offerings.",
+        opportunityType: "partnership",
+        category: "Home & Garden",
+        location: "Austin, TX",
+        budget: "$500 - $5,000 per project",
+        timeline: "Ongoing partnership - projects typically 2-8 weeks",
+        requirements: [
+          "Licensed contractor or property professional",
+          "Commitment to eco-friendly practices",
+          "Austin or Central Texas service area",
+          "Insurance and proper certifications"
+        ],
+        contactMethod: "platform message",
+        contactInfo: null,
+        isActive: true,
+        tags: ["landscaping", "eco-friendly", "partnership", "austin"],
+        applicationsCount: 7,
+        viewsCount: 89,
+        featured: false,
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+        updatedAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+      },
+      {
+        id: "opp2",
+        userId: "user4", // Mark Hazleton
+        title: "Technology Consulting & Partnership Opportunities",
+        description: "ShareSmallBiz.com is looking to partner with local businesses in Wichita, KS for technology consulting, website development, and digital marketing services. We offer comprehensive business technology solutions and are seeking mutually beneficial partnerships with established businesses.",
+        opportunityType: "service",
+        category: "Technology",
+        location: "Wichita, KS",
+        budget: "$1,000 - $15,000 per project",
+        timeline: "2-12 weeks depending on scope",
+        requirements: [
+          "Established local business",
+          "Need for technology improvements",
+          "Open to long-term partnerships",
+          "Budget for professional services"
+        ],
+        contactMethod: "email",
+        contactInfo: "partnerships@sharesmallbiz.com",
+        isActive: true,
+        tags: ["technology", "consulting", "wichita", "marketing"],
+        applicationsCount: 12,
+        viewsCount: 145,
+        featured: true,
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+      },
+      {
+        id: "opp3",
+        userId: "user1", // John Smith - Hardware store
+        title: "Supplier Partnership for Local Hardware Store",
+        description: "Smith's Local Hardware is seeking reliable suppliers for tools, building materials, and home improvement products. We're looking for competitive pricing, quality products, and consistent delivery schedules. Great opportunity for suppliers wanting to establish a presence in Portland, Oregon market.",
+        opportunityType: "supplier",
+        category: "Retail",
+        location: "Portland, OR",
+        budget: "$2,000 - $20,000 monthly orders",
+        timeline: "Ongoing supply relationship",
+        requirements: [
+          "Quality product certifications",
+          "Competitive wholesale pricing",
+          "Reliable delivery schedules",
+          "Good customer service record"
+        ],
+        contactMethod: "phone",
+        contactInfo: "(503) 555-0123",
+        isActive: true,
+        tags: ["hardware", "supplier", "portland", "wholesale"],
+        applicationsCount: 4,
+        viewsCount: 67,
+        featured: false,
+        createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 7 days ago
+        updatedAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000),
+      },
+      {
+        id: "opp4",
+        userId: "user5", // Jonathan Roper
+        title: "Cross-Business Marketing Collaboration",
+        description: "WichitaSewer.com is looking for local service businesses for cross-referral partnerships. We get frequent requests for related services like plumbing, HVAC, electrical work, and home repairs. Let's help each other grow by referring quality customers back and forth.",
+        opportunityType: "collaboration",
+        category: "Services",
+        location: "Wichita, KS",
+        budget: "Commission-based referral fees",
+        timeline: "Ongoing partnership",
+        requirements: [
+          "Licensed service business in Wichita area",
+          "Excellent customer service record",
+          "Willingness to reciprocate referrals",
+          "Professional liability insurance"
+        ],
+        contactMethod: "platform message",
+        contactInfo: null,
+        isActive: true,
+        tags: ["referrals", "services", "wichita", "collaboration"],
+        applicationsCount: 9,
+        viewsCount: 112,
+        featured: false,
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+        updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      },
+      {
+        id: "opp5",
+        userId: "user2", // ShareSmallBiz Team
+        title: "Content Creation Partnership for Small Business Features",
+        description: "ShareSmallBiz.com is seeking partnerships with successful small businesses for feature stories, case studies, and educational content. We'll create professional content highlighting your business success story and share it across our platform to help other entrepreneurs learn from your journey.",
+        opportunityType: "marketing",
+        category: "Marketing",
+        location: "Remote",
+        budget: "Free marketing exposure + revenue sharing",
+        timeline: "2-4 weeks per story",
+        requirements: [
+          "Established small business with growth story",
+          "Willing to share business insights and lessons",
+          "Available for interviews and content creation",
+          "Professional business operations"
+        ],
+        contactMethod: "email",
+        contactInfo: "content@sharesmallbiz.com",
+        isActive: true,
+        tags: ["content", "marketing", "case-study", "exposure"],
+        applicationsCount: 23,
+        viewsCount: 287,
+        featured: true,
+        createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000), // 1 day ago
+        updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      },
+      {
+        id: "opp6",
+        userId: "user4", // Mark Hazleton
+        title: "Seeking Social Media Manager for Growing Tech Company",
+        description: "ShareSmallBiz.com is looking for a talented social media manager to help us grow our online presence and engage with our community of entrepreneurs. This is a great opportunity for a freelancer or agency to work with a fast-growing technology platform focused on small business empowerment.",
+        opportunityType: "hiring",
+        category: "Marketing",
+        location: "Remote",
+        budget: "$2,000 - $4,000 per month",
+        timeline: "3-month initial contract with potential for long-term",
+        requirements: [
+          "Proven experience with business social media",
+          "Understanding of small business challenges",
+          "Content creation and strategy skills",
+          "Analytics and reporting capabilities"
+        ],
+        contactMethod: "platform message",
+        contactInfo: null,
+        isActive: true,
+        tags: ["hiring", "social-media", "remote", "freelance"],
+        applicationsCount: 18,
+        viewsCount: 203,
+        featured: false,
+        createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000), // 4 days ago
+        updatedAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+      },
+    ];
+
+    sampleOpportunities.forEach((opportunity) => this.opportunities.set(opportunity.id, opportunity));
+  }
+
+  // Opportunity methods
+  async getOpportunities(limit: number = 20, offset: number = 0): Promise<OpportunityWithUser[]> {
+    const opportunities = Array.from(this.opportunities.values())
+      .filter(opp => opp.isActive)
+      .sort((a, b) => {
+        // Featured opportunities first, then by creation date (newest first)
+        if (a.featured && !b.featured) return -1;
+        if (!a.featured && b.featured) return 1;
+        return b.createdAt.getTime() - a.createdAt.getTime();
+      })
+      .slice(offset, offset + limit);
+
+    const opportunitiesWithUser: OpportunityWithUser[] = [];
+    for (const opportunity of opportunities) {
+      const user = this.users.get(opportunity.userId);
+      if (user) {
+        opportunitiesWithUser.push({
+          ...opportunity,
+          user: { ...user, password: undefined as any },
+        });
+      }
+    }
+
+    return opportunitiesWithUser;
+  }
+
+  async getOpportunity(id: string): Promise<OpportunityWithUser | undefined> {
+    const opportunity = this.opportunities.get(id);
+    if (!opportunity) return undefined;
+
+    const user = this.users.get(opportunity.userId);
+    if (!user) return undefined;
+
+    return {
+      ...opportunity,
+      user: { ...user, password: undefined as any },
+    };
+  }
+
+  async getUserOpportunities(userId: string): Promise<OpportunityWithUser[]> {
+    const opportunities = Array.from(this.opportunities.values())
+      .filter(opp => opp.userId === userId)
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+    const user = this.users.get(userId);
+    if (!user) return [];
+
+    return opportunities.map(opportunity => ({
+      ...opportunity,
+      user: { ...user, password: undefined as any },
+    }));
+  }
+
+  async createOpportunity(opportunityData: InsertOpportunity): Promise<Opportunity> {
+    const opportunity: Opportunity = {
+      id: randomUUID(),
+      ...opportunityData,
+      location: opportunityData.location || null,
+      budget: opportunityData.budget || null,
+      timeline: opportunityData.timeline || null,
+      requirements: opportunityData.requirements || null,
+      contactInfo: opportunityData.contactInfo || null,
+      tags: opportunityData.tags || null,
+      featured: opportunityData.featured || false,
+      isActive: true,
+      applicationsCount: 0,
+      viewsCount: 0,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    this.opportunities.set(opportunity.id, opportunity);
+    return opportunity;
+  }
+
+  async updateOpportunity(id: string, updates: UpdateOpportunity, userId: string): Promise<Opportunity | undefined> {
+    const opportunity = this.opportunities.get(id);
+    if (!opportunity || opportunity.userId !== userId) {
+      return undefined;
+    }
+
+    const updatedOpportunity = {
+      ...opportunity,
+      ...updates,
+      updatedAt: new Date(),
+    };
+
+    this.opportunities.set(id, updatedOpportunity);
+    return updatedOpportunity;
+  }
+
+  async deleteOpportunity(id: string, userId: string): Promise<boolean> {
+    const opportunity = this.opportunities.get(id);
+    if (!opportunity || opportunity.userId !== userId) {
+      return false;
+    }
+
+    return this.opportunities.delete(id);
+  }
+
+  async incrementOpportunityViews(id: string): Promise<void> {
+    const opportunity = this.opportunities.get(id);
+    if (opportunity) {
+      opportunity.viewsCount += 1;
+      this.opportunities.set(id, opportunity);
+    }
   }
 }
 
