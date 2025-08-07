@@ -10,6 +10,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { 
   Bot, 
   Send, 
@@ -313,7 +315,30 @@ export default function AIChat() {
                                 : "bg-gray-100"
                             }`}
                           >
-                            <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                            {message.role === "assistant" ? (
+                              <div className="text-sm prose prose-sm max-w-none">
+                                <ReactMarkdown 
+                                  remarkPlugins={[remarkGfm]}
+                                  components={{
+                                    h1: ({node, ...props}) => <h1 className="text-lg font-bold mb-2" {...props} />,
+                                    h2: ({node, ...props}) => <h2 className="text-base font-bold mb-2" {...props} />,
+                                    h3: ({node, ...props}) => <h3 className="text-sm font-bold mb-1" {...props} />,
+                                    p: ({node, ...props}) => <p className="mb-2 last:mb-0" {...props} />,
+                                    ul: ({node, ...props}) => <ul className="list-disc pl-4 mb-2" {...props} />,
+                                    ol: ({node, ...props}) => <ol className="list-decimal pl-4 mb-2" {...props} />,
+                                    li: ({node, ...props}) => <li className="mb-1" {...props} />,
+                                    strong: ({node, ...props}) => <strong className="font-semibold" {...props} />,
+                                    em: ({node, ...props}) => <em className="italic" {...props} />,
+                                    code: ({node, ...props}) => <code className="bg-gray-200 px-1 py-0.5 rounded text-xs" {...props} />,
+                                    pre: ({node, ...props}) => <pre className="bg-gray-200 p-2 rounded text-xs overflow-x-auto mb-2" {...props} />
+                                  }}
+                                >
+                                  {message.content}
+                                </ReactMarkdown>
+                              </div>
+                            ) : (
+                              <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                            )}
                           </div>
                           <p className="text-xs text-gray-500 mt-1">
                             {message.timestamp.toLocaleTimeString()}
