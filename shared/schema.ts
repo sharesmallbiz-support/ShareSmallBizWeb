@@ -16,6 +16,16 @@ export interface User {
   connections: number;
   businessScore: number;
   createdAt: Date;
+  // Additional business fields
+  industry?: string | null;
+  foundedYear?: string | null;
+  employeeCount?: string | null;
+  revenue?: string | null;
+  businessGoals?: string | null;
+  targetMarket?: string | null;
+  businessDescription?: string | null;
+  businessEmail?: string | null;
+  businessPhone?: string | null;
 }
 
 export interface Post {
@@ -73,6 +83,15 @@ export const insertUserSchema = z.object({
   avatar: z.string().optional(),
   bio: z.string().optional(),
   website: z.string().optional(),
+  industry: z.string().optional(),
+  foundedYear: z.string().optional(),
+  employeeCount: z.string().optional(),
+  revenue: z.string().optional(),
+  businessGoals: z.string().optional(),
+  targetMarket: z.string().optional(),
+  businessDescription: z.string().optional(),
+  businessEmail: z.string().optional(),
+  businessPhone: z.string().optional(),
 });
 
 export const insertPostSchema = z.object({

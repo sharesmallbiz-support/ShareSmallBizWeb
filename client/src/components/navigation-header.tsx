@@ -124,9 +124,11 @@ export default function NavigationHeader() {
                       View Profile
                     </DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem data-testid="menu-business">
-                    Business Settings
-                  </DropdownMenuItem>
+                  <Link href="/business-settings">
+                    <DropdownMenuItem data-testid="menu-business">
+                      Business Settings
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem data-testid="menu-analytics">
                     Analytics
                   </DropdownMenuItem>
