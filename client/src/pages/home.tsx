@@ -60,7 +60,8 @@ export default function Home() {
               </div>
             </div>
             <div className="relative">
-              <div className="relative z-10">
+              {/* Background Image */}
+              <div className="relative z-0">
                 <img 
                   src="https://images.unsplash.com/photo-1600880292203-757bb62b4baf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&h=600" 
                   alt="Modern small business collaboration" 
@@ -69,9 +70,9 @@ export default function Home() {
                 />
               </div>
               
-              {/* AI-Enhanced Floating Cards */}
+              {/* AI-Enhanced Floating Cards - Higher z-index to float on top */}
               <Link href="/ai-assistant">
-                <div className="absolute -top-6 -left-6 professional-card p-4 animate-float cursor-pointer hover:shadow-xl transition-shadow">
+                <div className="absolute -top-6 -left-6 professional-card p-4 animate-float cursor-pointer hover:shadow-xl transition-shadow z-20">
                   <div className="flex items-center space-x-3">
                     <div className="w-10 h-10 bg-ai-purple rounded-xl flex items-center justify-center">
                       🤖
@@ -84,7 +85,7 @@ export default function Home() {
                 </div>
               </Link>
               
-              <div className="absolute -bottom-6 -right-6 ai-enhanced-card p-4 animate-float" style={{animationDelay: '1s'}}>
+              <div className="absolute -bottom-6 -right-6 ai-enhanced-card p-4 animate-float z-20" style={{animationDelay: '1s'}}>
                 <div className="flex items-center space-x-3">
                   <div className="w-10 h-10 bg-success rounded-xl flex items-center justify-center">
                     🤝
@@ -96,7 +97,7 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute top-1/2 -right-4 professional-card p-3 animate-float" style={{animationDelay: '2s'}}>
+              <div className="absolute top-1/2 -right-4 professional-card p-3 animate-float z-20" style={{animationDelay: '2s'}}>
                 <div className="text-center">
                   <div className="text-2xl mb-1">📈</div>
                   <p className="text-xs font-semibold text-gray-900">Growth Tracking</p>
