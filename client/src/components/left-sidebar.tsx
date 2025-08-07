@@ -82,7 +82,7 @@ export default function LeftSidebar() {
           </p>
           <Link href="/ai-assistant">
             <Button 
-              className="bg-white text-ai-purple hover:bg-gray-100 w-full"
+              className="bg-white text-purple-600 hover:bg-gray-100 hover:text-purple-700 w-full font-medium"
               data-testid="button-start-ai-chat"
             >
               Start Conversation
