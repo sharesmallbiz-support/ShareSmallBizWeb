@@ -141,6 +141,40 @@ export class MemStorage implements IStorage {
         businessScore: 78,
         createdAt: new Date(),
       },
+      {
+        id: "user4",
+        username: "markhazleton",
+        email: "mark@markhazleton.com",
+        password: "password123",
+        fullName: "Mark Hazleton",
+        businessName: "ShareSmallBiz.com",
+        businessType: "Technology",
+        location: "Wichita, KS",
+        avatar:
+          "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128",
+        bio: "Founder of ShareSmallBiz.com - empowering small businesses through community and technology",
+        website: "markhazleton.com",
+        connections: 892,
+        businessScore: 92,
+        createdAt: new Date(),
+      },
+      {
+        id: "user5",
+        username: "jonathanroper",
+        email: "jonathan@wichitasewer.com",
+        password: "password123",
+        fullName: "Jonathan Roper",
+        businessName: "WichitaSewer.com",
+        businessType: "Services",
+        location: "Wichita, KS",
+        avatar:
+          "https://images.unsplash.com/photo-1560250097-0b93528c311a?ixlib=rb-4.0.3&auto=format&fit=crop&w=128&h=128",
+        bio: "Co-founder of ShareSmallBiz.com and WichitaSewer.com - helping businesses grow and connecting communities",
+        website: "wichitasewer.com",
+        connections: 567,
+        businessScore: 88,
+        createdAt: new Date(),
+      },
     ];
 
     sampleUsers.forEach((user) => this.users.set(user.id, user));
@@ -203,6 +237,64 @@ export class MemStorage implements IStorage {
           ],
         },
         createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+      },
+      {
+        id: "post4",
+        userId: "user4",
+        title: "Building ShareSmallBiz: Our Vision for Small Business Community",
+        content:
+          "As the founder of ShareSmallBiz.com, I wanted to share our journey and vision. We're building more than just a platform - we're creating a thriving ecosystem where small businesses can connect, collaborate, and grow together. Our AI-powered tools and community features are designed specifically for the unique challenges entrepreneurs face.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1552664730-d307ca884978?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHwxfHxidXNpbmVzcyUyMGdyb3d0aHxlbnwwfHx8fDE3MzkwMzI3NDh8MA&ixlib=rb-4.0.3&q=80&w=1080",
+        postType: "discussion",
+        tags: ["startup", "vision", "community", "technology"],
+        likesCount: 156,
+        commentsCount: 32,
+        sharesCount: 18,
+        isCollaboration: false,
+        collaborationDetails: null,
+        createdAt: new Date(Date.now() - 8 * 60 * 60 * 1000), // 8 hours ago
+      },
+      {
+        id: "post5",
+        userId: "user5",
+        title: "Multi-Business Success: Lessons from Running ShareSmallBiz & WichitaSewer",
+        content:
+          "Running two successful businesses has taught me valuable lessons about time management, team building, and market diversification. At WichitaSewer.com, we serve the local community with essential services, while ShareSmallBiz.com helps entrepreneurs nationwide. Here are 5 key strategies that work across industries...",
+        imageUrl:
+          "https://images.unsplash.com/photo-1664575602554-2087b04935a5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHwxfHxlbnRyZXByZW5ldXJ8ZW58MHx8fHwxNzM5MDMyNzQ4fDA&ixlib=rb-4.0.3&q=80&w=1080",
+        postType: "marketing",
+        tags: ["entrepreneurship", "multi-business", "strategy", "wichita"],
+        likesCount: 78,
+        commentsCount: 19,
+        sharesCount: 11,
+        isCollaboration: false,
+        collaborationDetails: null,
+        createdAt: new Date(Date.now() - 12 * 60 * 60 * 1000), // 12 hours ago
+      },
+      {
+        id: "post6",
+        userId: "user4",
+        title: "🚀 Seeking Local Wichita Business Partners",
+        content:
+          "Looking to connect with innovative business owners in the Wichita, KS area! We're exploring partnerships for cross-promotion, joint ventures, and community initiatives. Whether you're in tech, services, or retail, let's discuss how we can support each other's growth and strengthen our local business ecosystem.",
+        imageUrl:
+          "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3MDcwMzl8MHwxfHNlYXJjaHwxfHxwYXJ0bmVyc2hpcHxlbnwwfHx8fDE3MzkwMzI3NDh8MA&ixlib=rb-4.0.3&q=80&w=1080",
+        postType: "opportunity",
+        tags: ["partnership", "wichita", "collaboration", "local-business"],
+        likesCount: 67,
+        commentsCount: 14,
+        sharesCount: 9,
+        isCollaboration: true,
+        collaborationDetails: {
+          offers: [
+            "Cross-promotion opportunities",
+            "Shared marketing initiatives",
+            "Technology consulting and support",
+            "Business development mentorship",
+          ],
+        },
+        createdAt: new Date(Date.now() - 36 * 60 * 60 * 1000), // 1.5 days ago
       },
     ];
 
