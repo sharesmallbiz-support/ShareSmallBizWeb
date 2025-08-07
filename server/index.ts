@@ -1,4 +1,6 @@
 import express, { type Request, Response, NextFunction } from "express";
+import fs from "fs";
+import path from "path";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
@@ -74,8 +76,18 @@ app.use((req, res, next) => {
       console.log("Setting up static file serving for production");
       console.log("Production mode detected, serving static files");
       
-      // Add production-specific error handling
+      // Add production-specific error handling with better logging
       try {
+        console.log("Checking dist/public directory...");
+        const distPath = path.resolve(import.meta.dirname, "../dist/public");
+        console.log("Looking for static files at:", distPath);
+        
+        if (!fs.existsSync(distPath)) {
+          console.error("❌ Build files not found. Please run 'npm run build' first");
+          console.log("Expected path:", distPath);
+          throw new Error(`Build directory not found: ${distPath}`);
+        }
+        
         serveStatic(app);
         console.log("✅ Static file serving configured");
       } catch (error) {
