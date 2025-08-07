@@ -19,7 +19,9 @@ import {
   Eye, 
   Users,
   Briefcase,
-  Star
+  Star,
+  ArrowLeft,
+  Home
 } from "lucide-react";
 
 export default function Opportunities() {
@@ -73,6 +75,32 @@ export default function Opportunities() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Navigation Header */}
+        <div className="flex items-center gap-4 mb-6">
+          <Link href="/">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+              data-testid="button-back-home"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Back to Home
+            </Button>
+          </Link>
+          <div className="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
+          <Link href="/">
+            <Button
+              variant="ghost"
+              size="sm"
+              className="flex items-center gap-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+              data-testid="button-home"
+            >
+              <Home className="h-4 w-4" />
+              Home
+            </Button>
+          </Link>
+        </div>
+
         {/* Header */}
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
