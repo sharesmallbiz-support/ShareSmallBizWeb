@@ -10,6 +10,10 @@ import {
   type InsertAIInteraction,
   type AIInteraction,
   type BusinessMetric,
+  type Message,
+  type Conversation,
+  type InsertMessage,
+  type UpdateMessage,
 } from "@shared/schema";
 import { randomUUID } from "crypto";
 
@@ -48,6 +52,17 @@ export interface IStorage {
   // Suggestions
   getSuggestedConnections(userId: string, limit?: number): Promise<User[]>;
   getTrendingTopics(): Promise<{ tag: string; count: number }[]>;
+
+  // Messages and Conversations
+  getConversations(userId: string): Promise<(Conversation & { otherUser: User; lastMessage: Message | null; unreadCount: number })[]>;
+  getConversation(conversationId: string, userId: string): Promise<Conversation | undefined>;
+  createConversation(participants: string[]): Promise<Conversation>;
+  getMessages(conversationId: string, limit?: number, offset?: number): Promise<(Message & { sender: User })[]>;
+  sendMessage(message: InsertMessage, senderId: string): Promise<Message>;
+  editMessage(messageId: string, updates: UpdateMessage, userId: string): Promise<Message | undefined>;
+  deleteMessage(messageId: string, userId: string): Promise<boolean>;
+  markMessagesAsRead(conversationId: string, userId: string): Promise<void>;
+  getUnreadCount(userId: string): Promise<number>;
 }
 
 export class MemStorage implements IStorage {
@@ -57,6 +72,8 @@ export class MemStorage implements IStorage {
   private likes: Map<string, { postId: string; userId: string }>;
   private aiInteractions: Map<string, AIInteraction>;
   private businessMetrics: Map<string, BusinessMetric>;
+  private messages: Map<string, Message>;
+  private conversations: Map<string, Conversation>;
 
   constructor() {
     this.users = new Map();
@@ -65,6 +82,8 @@ export class MemStorage implements IStorage {
     this.likes = new Map();
     this.aiInteractions = new Map();
     this.businessMetrics = new Map();
+    this.messages = new Map();
+    this.conversations = new Map();
     this.seedData();
   }
 
@@ -452,6 +471,196 @@ export class MemStorage implements IStorage {
       .map(([tag, count]) => ({ tag: `#${tag}`, count }))
       .sort((a, b) => b.count - a.count)
       .slice(0, 5);
+  }
+
+  // Messages and Conversations Implementation
+  async getConversations(userId: string): Promise<(Conversation & { otherUser: User; lastMessage: Message | null; unreadCount: number })[]> {
+    const userConversations = Array.from(this.conversations.values())
+      .filter(conv => conv.participants.includes(userId) && conv.isActive);
+
+    const result = [];
+    for (const conversation of userConversations) {
+      const otherUserId = conversation.participants.find(id => id !== userId);
+      const otherUser = await this.getUser(otherUserId!);
+      
+      let lastMessage = null;
+      if (conversation.lastMessageId) {
+        lastMessage = this.messages.get(conversation.lastMessageId) || null;
+      }
+
+      const unreadCount = Array.from(this.messages.values())
+        .filter(msg => 
+          msg.conversationId === conversation.id && 
+          msg.receiverId === userId && 
+          !msg.isRead
+        ).length;
+
+      result.push({
+        ...conversation,
+        otherUser: otherUser!,
+        lastMessage,
+        unreadCount
+      });
+    }
+
+    return result.sort((a, b) => {
+      const aTime = a.lastMessageAt?.getTime() || 0;
+      const bTime = b.lastMessageAt?.getTime() || 0;
+      return bTime - aTime;
+    });
+  }
+
+  async getConversation(conversationId: string, userId: string): Promise<Conversation | undefined> {
+    const conversation = this.conversations.get(conversationId);
+    if (!conversation || !conversation.participants.includes(userId)) {
+      return undefined;
+    }
+    return conversation;
+  }
+
+  async createConversation(participants: string[]): Promise<Conversation> {
+    // Check if conversation already exists between these participants
+    const existing = Array.from(this.conversations.values())
+      .find(conv => 
+        conv.participants.length === participants.length &&
+        participants.every(p => conv.participants.includes(p))
+      );
+
+    if (existing) {
+      return existing;
+    }
+
+    const id = randomUUID();
+    const conversation: Conversation = {
+      id,
+      participants,
+      lastMessageId: null,
+      lastMessageAt: null,
+      createdAt: new Date(),
+      isActive: true,
+    };
+
+    this.conversations.set(id, conversation);
+    return conversation;
+  }
+
+  async getMessages(conversationId: string, limit = 50, offset = 0): Promise<(Message & { sender: User })[]> {
+    const messages = Array.from(this.messages.values())
+      .filter(msg => msg.conversationId === conversationId)
+      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
+      .slice(offset, offset + limit);
+
+    const result = [];
+    for (const message of messages) {
+      const sender = await this.getUser(message.senderId);
+      result.push({
+        ...message,
+        sender: sender!
+      });
+    }
+
+    return result;
+  }
+
+  async sendMessage(message: InsertMessage, senderId: string): Promise<Message> {
+    let conversationId = message.conversationId;
+    
+    // Create conversation if it doesn't exist
+    if (!conversationId) {
+      const conversation = await this.createConversation([senderId, message.receiverId]);
+      conversationId = conversation.id;
+    }
+
+    const id = randomUUID();
+    const newMessage: Message = {
+      id,
+      conversationId,
+      senderId,
+      receiverId: message.receiverId,
+      content: message.content,
+      isRead: false,
+      isEdited: false,
+      editedAt: null,
+      createdAt: new Date(),
+    };
+
+    this.messages.set(id, newMessage);
+
+    // Update conversation
+    const conversation = this.conversations.get(conversationId);
+    if (conversation) {
+      conversation.lastMessageId = id;
+      conversation.lastMessageAt = new Date();
+      this.conversations.set(conversationId, conversation);
+    }
+
+    return newMessage;
+  }
+
+  async editMessage(messageId: string, updates: UpdateMessage, userId: string): Promise<Message | undefined> {
+    const message = this.messages.get(messageId);
+    if (!message || message.senderId !== userId) {
+      return undefined;
+    }
+
+    const updatedMessage: Message = {
+      ...message,
+      content: updates.content,
+      isEdited: true,
+      editedAt: new Date(),
+    };
+
+    this.messages.set(messageId, updatedMessage);
+    return updatedMessage;
+  }
+
+  async deleteMessage(messageId: string, userId: string): Promise<boolean> {
+    const message = this.messages.get(messageId);
+    if (!message || message.senderId !== userId) {
+      return false;
+    }
+
+    this.messages.delete(messageId);
+
+    // Update conversation if this was the last message
+    const conversation = this.conversations.get(message.conversationId);
+    if (conversation && conversation.lastMessageId === messageId) {
+      const remainingMessages = Array.from(this.messages.values())
+        .filter(msg => msg.conversationId === message.conversationId)
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+
+      if (remainingMessages.length > 0) {
+        conversation.lastMessageId = remainingMessages[0].id;
+        conversation.lastMessageAt = remainingMessages[0].createdAt;
+      } else {
+        conversation.lastMessageId = null;
+        conversation.lastMessageAt = null;
+      }
+      
+      this.conversations.set(message.conversationId, conversation);
+    }
+
+    return true;
+  }
+
+  async markMessagesAsRead(conversationId: string, userId: string): Promise<void> {
+    const messages = Array.from(this.messages.values())
+      .filter(msg => 
+        msg.conversationId === conversationId && 
+        msg.receiverId === userId && 
+        !msg.isRead
+      );
+
+    messages.forEach(message => {
+      const updatedMessage = { ...message, isRead: true };
+      this.messages.set(message.id, updatedMessage);
+    });
+  }
+
+  async getUnreadCount(userId: string): Promise<number> {
+    return Array.from(this.messages.values())
+      .filter(msg => msg.receiverId === userId && !msg.isRead)
+      .length;
   }
 }
 

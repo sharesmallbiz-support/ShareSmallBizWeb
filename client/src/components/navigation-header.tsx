@@ -12,10 +12,12 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Search, Bell, Mail, Bot, LogOut } from "lucide-react";
 import { useAuth } from "@/hooks/use-auth";
+import { useUnreadCount } from "@/hooks/use-messages";
 
 export default function NavigationHeader() {
   const [searchQuery, setSearchQuery] = useState("");
   const { user, isAuthenticated, logout } = useAuth();
+  const { data: unreadData } = useUnreadCount();
 
   const handleLogout = () => {
     logout();
@@ -81,20 +83,24 @@ export default function NavigationHeader() {
                 </div>
                 
                 <div className="relative">
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    className="p-2 text-gray-600 hover:text-primary"
-                    data-testid="button-messages"
-                  >
-                    <Mail className="h-5 w-5" />
-                  </Button>
-                  <Badge 
-                    variant="default" 
-                    className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-primary"
-                  >
-                    5
-                  </Badge>
+                  <Link href="/messages">
+                    <Button 
+                      variant="ghost" 
+                      size="sm" 
+                      className="p-2 text-gray-600 hover:text-primary"
+                      data-testid="button-messages"
+                    >
+                      <Mail className="h-5 w-5" />
+                    </Button>
+                  </Link>
+                  {unreadData?.unreadCount > 0 && (
+                    <Badge 
+                      variant="default" 
+                      className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-xs bg-primary"
+                    >
+                      {unreadData.unreadCount}
+                    </Badge>
+                  )}
                 </div>
               </>
             )}

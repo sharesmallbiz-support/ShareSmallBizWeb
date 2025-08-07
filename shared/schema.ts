@@ -71,6 +71,27 @@ export interface BusinessMetric {
   lastUpdated: Date;
 }
 
+export interface Message {
+  id: string;
+  conversationId: string;
+  senderId: string;
+  receiverId: string;
+  content: string;
+  isRead: boolean;
+  isEdited: boolean;
+  editedAt: Date | null;
+  createdAt: Date;
+}
+
+export interface Conversation {
+  id: string;
+  participants: string[]; // Array of user IDs
+  lastMessageId: string | null;
+  lastMessageAt: Date | null;
+  createdAt: Date;
+  isActive: boolean;
+}
+
 // Zod validation schemas for API requests
 export const insertUserSchema = z.object({
   username: z.string().min(1),
@@ -111,6 +132,16 @@ export const insertCommentSchema = z.object({
   content: z.string().min(1),
 });
 
+export const insertMessageSchema = z.object({
+  conversationId: z.string().optional(),
+  receiverId: z.string().min(1),
+  content: z.string().min(1),
+});
+
+export const updateMessageSchema = z.object({
+  content: z.string().min(1),
+});
+
 export const insertAIInteractionSchema = z.object({
   userId: z.string().min(1),
   message: z.string().min(1),
@@ -123,6 +154,8 @@ export type InsertUser = z.infer<typeof insertUserSchema>;
 export type InsertPost = z.infer<typeof insertPostSchema>;
 export type InsertComment = z.infer<typeof insertCommentSchema>;
 export type InsertAIInteraction = z.infer<typeof insertAIInteractionSchema>;
+export type InsertMessage = z.infer<typeof insertMessageSchema>;
+export type UpdateMessage = z.infer<typeof updateMessageSchema>;
 
 // Extended types for API responses
 export type PostWithUser = Post & {

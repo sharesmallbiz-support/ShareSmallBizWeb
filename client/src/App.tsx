@@ -8,6 +8,7 @@ import Home from "./pages/home";
 import Login from "./pages/login";
 import Profile from "./pages/profile";
 import BusinessSettings from "./pages/business-settings";
+import Messages from "./pages/messages";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/login" component={Login} />
       <Route path="/profile" component={Profile} />
       <Route path="/business-settings" component={BusinessSettings} />
+      <Route path="/messages" component={Messages} />
       <Route component={NotFound} />
     </Switch>
   );

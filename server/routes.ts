@@ -78,6 +78,128 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Messages and Conversations routes
+  app.get("/api/conversations", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const conversations = await storage.getConversations(userId);
+      res.json(conversations);
+    } catch (error) {
+      console.error("Get conversations error:", error);
+      res.status(500).json({ message: "Failed to get conversations" });
+    }
+  });
+
+  app.get("/api/conversations/:id/messages", async (req, res) => {
+    try {
+      const { id: conversationId } = req.params;
+      const userId = req.query.userId as string;
+      const limit = parseInt(req.query.limit as string) || 50;
+      const offset = parseInt(req.query.offset as string) || 0;
+
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      // Verify user has access to this conversation
+      const conversation = await storage.getConversation(conversationId, userId);
+      if (!conversation) {
+        return res.status(404).json({ message: "Conversation not found or access denied" });
+      }
+
+      const messages = await storage.getMessages(conversationId, limit, offset);
+      
+      // Mark messages as read
+      await storage.markMessagesAsRead(conversationId, userId);
+      
+      res.json(messages);
+    } catch (error) {
+      console.error("Get messages error:", error);
+      res.status(500).json({ message: "Failed to get messages" });
+    }
+  });
+
+  app.post("/api/messages", async (req, res) => {
+    try {
+      const { senderId, ...messageData } = req.body;
+      
+      if (!senderId) {
+        return res.status(400).json({ message: "Sender ID is required" });
+      }
+
+      const message = await storage.sendMessage(messageData, senderId);
+      
+      // Get sender info for response
+      const sender = await storage.getUser(senderId);
+      res.json({ ...message, sender });
+    } catch (error) {
+      console.error("Send message error:", error);
+      res.status(500).json({ message: "Failed to send message" });
+    }
+  });
+
+  app.patch("/api/messages/:id", async (req, res) => {
+    try {
+      const { id: messageId } = req.params;
+      const { userId, ...updates } = req.body;
+
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const message = await storage.editMessage(messageId, updates, userId);
+      if (!message) {
+        return res.status(404).json({ message: "Message not found or access denied" });
+      }
+
+      const sender = await storage.getUser(message.senderId);
+      res.json({ ...message, sender });
+    } catch (error) {
+      console.error("Edit message error:", error);
+      res.status(500).json({ message: "Failed to edit message" });
+    }
+  });
+
+  app.delete("/api/messages/:id", async (req, res) => {
+    try {
+      const { id: messageId } = req.params;
+      const userId = req.query.userId as string;
+
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const success = await storage.deleteMessage(messageId, userId);
+      if (!success) {
+        return res.status(404).json({ message: "Message not found or access denied" });
+      }
+
+      res.json({ message: "Message deleted successfully" });
+    } catch (error) {
+      console.error("Delete message error:", error);
+      res.status(500).json({ message: "Failed to delete message" });
+    }
+  });
+
+  app.get("/api/messages/unread-count", async (req, res) => {
+    try {
+      const userId = req.query.userId as string;
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      const unreadCount = await storage.getUnreadCount(userId);
+      res.json({ unreadCount });
+    } catch (error) {
+      console.error("Get unread count error:", error);
+      res.status(500).json({ message: "Failed to get unread count" });
+    }
+  });
+
   // Posts routes
   app.get("/api/posts", async (req, res) => {
     try {
