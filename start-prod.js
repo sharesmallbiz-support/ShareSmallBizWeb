@@ -43,8 +43,40 @@ if (!fs.existsSync(publicPath)) {
 }
 
 // Import and start the server
-import('./dist/index.js').catch((error) => {
-  console.error('Failed to start production server:', error);
-  console.error('Make sure to run "npm run build" first');
+console.log("🚀 Starting production server...");
+
+// Handle process termination gracefully
+process.on('SIGTERM', () => {
+  console.log('Received SIGTERM, shutting down gracefully');
+  process.exit(0);
+});
+
+process.on('SIGINT', () => {
+  console.log('Received SIGINT, shutting down gracefully');
+  process.exit(0);
+});
+
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
   process.exit(1);
 });
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  process.exit(1);
+});
+
+try {
+  await import('./dist/index.js');
+  console.log('✅ Production server started successfully');
+  
+  // Keep the process alive
+  setInterval(() => {
+    // Health check ping every 30 seconds
+  }, 30000);
+  
+} catch (error) {
+  console.error('❌ Failed to start production server:', error);
+  console.error('Make sure to run "npm run build" first');
+  process.exit(1);
+}

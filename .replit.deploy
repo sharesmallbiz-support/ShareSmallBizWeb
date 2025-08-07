@@ -1,0 +1,22 @@
+# Replit Deployment Configuration
+# This file configures how the app should be deployed
+
+# Build command - builds both client and server
+build = "npm run build"
+
+# Start command - uses cross-platform production script
+start = "node start-prod.js"
+
+# Set production environment
+[env]
+NODE_ENV = "production"
+
+# Health check endpoint
+[health_check]
+path = "/api/posts"
+timeout = 30
+
+# Deployment settings
+[deployment]
+publicDir = "dist/public"
+serverFile = "dist/index.js"

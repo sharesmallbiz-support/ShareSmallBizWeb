@@ -37,7 +37,8 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const server = await registerRoutes(app);
+  try {
+    const httpServer = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
@@ -66,27 +67,43 @@ app.use((req, res, next) => {
   console.log("Environment check - is development?", process.env.NODE_ENV === "development");
   console.log("Environment check - no NODE_ENV?", !process.env.NODE_ENV);
   
-  if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
-    console.log("Setting up Vite development mode");
-    await setupVite(app, server);
-  } else {
-    console.log("Setting up static file serving for production");
-    console.log("Production mode detected, serving static files");
-    serveStatic(app);
-  }
-
-  // ALWAYS serve the app on the port specified in the environment variable PORT
-  // Other ports are firewalled. Default to 5000 if not specified.
-  // this serves both the API and the client.
-  // It is the only port that is not firewalled.
-  const port = parseInt(process.env.PORT || "5000", 10);
-  server.listen(
-    {
-      port,
-      host: "0.0.0.0",
-    },
-    () => {
-      log(`serving on port ${port}`);
+    if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
+      console.log("Setting up Vite development mode");
+      await setupVite(app, httpServer);
+    } else {
+      console.log("Setting up static file serving for production");
+      console.log("Production mode detected, serving static files");
+      serveStatic(app);
     }
-  );
+
+    // ALWAYS serve the app on the port specified in the environment variable PORT
+    // Other ports are firewalled. Default to 5000 if not specified.
+    // this serves both the API and the client.
+    // It is the only port that is not firewalled.
+    const port = parseInt(process.env.PORT || "5000", 10);
+    
+    await new Promise((resolve, reject) => {
+      httpServer.listen(
+        {
+          port,
+          host: "0.0.0.0",
+        },
+        () => {
+          log(`serving on port ${port}`);
+          resolve(httpServer);
+        }
+      );
+      
+      httpServer.on('error', (error) => {
+        console.error('Server error:', error);
+        reject(error);
+      });
+    });
+    
+    console.log("✅ Server setup complete and listening");
+    
+  } catch (error) {
+    console.error('❌ Failed to start server:', error);
+    process.exit(1);
+  }
 })();
