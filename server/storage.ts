@@ -352,6 +352,197 @@ export class MemStorage implements IStorage {
     sampleMetrics.forEach((metric) =>
       this.businessMetrics.set(metric.userId, metric)
     );
+
+    // Create sample conversations and messages
+    this.seedConversations();
+  }
+
+  private seedConversations() {
+    // Conversation 1: Jonathan Roper & Mark Hazleton - Business Strategy Discussion
+    const conv1Id = "conv-jm-1";
+    const conv1: Conversation = {
+      id: conv1Id,
+      participants: ["user5", "user4"], // jonathanroper, markhazleton
+      lastMessageId: null,
+      lastMessageAt: null,
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+      isActive: true,
+    };
+    this.conversations.set(conv1Id, conv1);
+
+    // Messages for conversation 1
+    const conv1Messages = [
+      {
+        id: randomUUID(),
+        conversationId: conv1Id,
+        senderId: "user4", // markhazleton
+        receiverId: "user5", // jonathanroper
+        content: "Hey Jonathan! I've been thinking about our discussion on expanding ShareSmallBiz's reach in Kansas. What are your thoughts on partnering with more local service businesses like WichitaSewer?",
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv1Id,
+        senderId: "user5", // jonathanroper
+        receiverId: "user4", // markhazleton
+        content: "Great point, Mark! I think we should focus on essential services first - plumbing, electrical, HVAC. These businesses often need better digital presence and community connections. WichitaSewer has grown 40% since joining ShareSmallBiz.",
+        createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000 + 30 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv1Id,
+        senderId: "user4",
+        receiverId: "user5",
+        content: "That's impressive growth! I'm particularly interested in how we can create cross-referral networks. What if we built a feature that automatically suggests complementary businesses to customers?",
+        createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv1Id,
+        senderId: "user5",
+        receiverId: "user4",
+        content: "Brilliant idea! Like when someone books plumbing work, we could suggest electrical inspections or HVAC maintenance. The AI system could learn customer patterns and suggest relevant services. This could be a game-changer for small businesses.",
+        createdAt: new Date(Date.now() - 2 * 60 * 60 * 1000),
+        isRead: false, // Latest message unread by Mark
+        isEdited: false,
+        editedAt: null,
+      },
+    ];
+
+    conv1Messages.forEach(msg => this.messages.set(msg.id, msg));
+
+    // Conversation 2: Mark Hazleton & John Smith - Technology Integration
+    const conv2Id = "conv-mj-1";
+    const conv2: Conversation = {
+      id: conv2Id,
+      participants: ["user4", "user1"], // markhazleton, johnsmith
+      lastMessageId: null,
+      lastMessageAt: null,
+      createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+      isActive: true,
+    };
+    this.conversations.set(conv2Id, conv2);
+
+    // Messages for conversation 2
+    const conv2Messages = [
+      {
+        id: randomUUID(),
+        conversationId: conv2Id,
+        senderId: "user4", // markhazleton
+        receiverId: "user1", // johnsmith
+        content: "Hi John! I noticed Smith's Hardware has a great local following. I'm curious about how traditional retail businesses like yours could benefit from ShareSmallBiz's digital tools. Any specific challenges you're facing?",
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv2Id,
+        senderId: "user1", // johnsmith
+        receiverId: "user4", // markhazleton
+        content: "Thanks for reaching out, Mark! The biggest challenge is inventory management and connecting with contractors who need bulk supplies. We have great products but struggle to reach the right customers efficiently.",
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000 + 45 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv2Id,
+        senderId: "user4",
+        receiverId: "user1",
+        content: "That's exactly what our platform can help with! We could create a B2B marketplace feature where contractors can browse inventory from local suppliers like you. Plus, the AI could predict seasonal demand patterns for better stock management.",
+        createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv2Id,
+        senderId: "user1",
+        receiverId: "user4",
+        content: "Now that sounds valuable! We've been manually tracking seasonal trends for 15 years. Having AI predict when contractors will need roofing materials or winter supplies could revolutionize our ordering. How would the integration work?",
+        createdAt: new Date(Date.now() - 4 * 60 * 60 * 1000),
+        isRead: false, // Latest message unread by Mark
+        isEdited: false,
+        editedAt: null,
+      },
+    ];
+
+    conv2Messages.forEach(msg => this.messages.set(msg.id, msg));
+
+    // Conversation 3: Jonathan Roper & John Smith - Local Business Collaboration
+    const conv3Id = "conv-js-1";
+    const conv3: Conversation = {
+      id: conv3Id,
+      participants: ["user5", "user1"], // jonathanroper, johnsmith
+      lastMessageId: null,
+      lastMessageAt: null,
+      createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000), // 6 days ago
+      isActive: true,
+    };
+    this.conversations.set(conv3Id, conv3);
+
+    // Messages for conversation 3
+    const conv3Messages = [
+      {
+        id: randomUUID(),
+        conversationId: conv3Id,
+        senderId: "user5", // jonathanroper
+        receiverId: "user1", // johnsmith
+        content: "Hi John! I run WichitaSewer here in Kansas, and I've seen Smith's Hardware mentioned by several contractors. We should explore a referral partnership - when I do sewer line work, customers often need PVC pipe and fittings.",
+        createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv3Id,
+        senderId: "user1", // johnsmith
+        receiverId: "user5", // jonathanroper
+        content: "That's a great idea, Jonathan! We stock a full line of plumbing supplies and often have customers asking for reliable sewer service recommendations. A formal referral partnership could benefit both our businesses and provide better service to customers.",
+        createdAt: new Date(Date.now() - 6 * 24 * 60 * 60 * 1000 + 2 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv3Id,
+        senderId: "user5",
+        receiverId: "user1",
+        content: "Exactly! I'm thinking we could offer a 10% discount to each other's customers, plus priority scheduling for emergency repairs. ShareSmallBiz's messaging system makes it easy to coordinate these referrals.",
+        createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000),
+        isRead: true,
+        isEdited: false,
+        editedAt: null,
+      },
+      {
+        id: randomUUID(),
+        conversationId: conv3Id,
+        senderId: "user1",
+        receiverId: "user5",
+        content: "Perfect! I love the discount idea. We could also create bundled service packages - like when someone needs a new water heater installation, they get both the equipment from us and professional installation coordination through you. Should we draft a formal partnership agreement?",
+        createdAt: new Date(Date.now() - 1 * 60 * 60 * 1000),
+        isRead: false, // Latest message unread by Jonathan
+        isEdited: false,
+        editedAt: null,
+      },
+    ];
+
+    conv3Messages.forEach(msg => this.messages.set(msg.id, msg));
   }
 
   async getUser(id: string): Promise<User | undefined> {
