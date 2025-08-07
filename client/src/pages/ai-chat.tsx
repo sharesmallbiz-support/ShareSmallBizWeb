@@ -87,9 +87,11 @@ export default function AIChat() {
       };
       
       console.log("Sending AI chat payload:", payload);
-      return apiRequest("POST", "/api/ai/chat", payload);
+      const response = await apiRequest("POST", "/api/ai/chat", payload);
+      return response.json();
     },
     onSuccess: (response: any) => {
+      console.log("AI chat response received:", response);
       const assistantMessage: ChatMessage = {
         id: `msg-${Date.now()}-assistant`,
         role: "assistant",
