@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { useQuery } from "@tanstack/react-query";
+import UserDirectory from "./user-directory";
 import { 
   TrendingUp, 
   Calendar, 
@@ -147,37 +148,8 @@ export default function RightSidebar() {
         </CardContent>
       </Card>
 
-      {/* Suggested Connections */}
-      <Card className="business-card">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg">Suggested Connections</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {suggestedConnections.map((connection) => (
-            <div key={connection.id} className="flex items-center space-x-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src={connection.avatar} alt={connection.name} />
-                <AvatarFallback>{connection.name.charAt(0)}</AvatarFallback>
-              </Avatar>
-              <div className="flex-1">
-                <p className="font-medium text-sm" data-testid={`connection-name-${connection.id}`}>
-                  {connection.name}
-                </p>
-                <p className="text-xs text-gray-600" data-testid={`connection-business-${connection.id}`}>
-                  {connection.businessName}
-                </p>
-              </div>
-              <Button 
-                size="sm" 
-                className="text-xs"
-                data-testid={`button-connect-${connection.id}`}
-              >
-                Connect
-              </Button>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+      {/* User Directory */}
+      <UserDirectory />
 
       {/* Upcoming Events */}
       <Card className="business-card">

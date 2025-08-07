@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "../lib/queryClient";
 import { formatDistanceToNow } from "date-fns";
+import StartConversationDialog from "./start-conversation-dialog";
+import { useAuth } from "@/hooks/use-auth";
 import { 
   Heart, 
   MessageCircle, 
@@ -14,7 +16,8 @@ import {
   MoreHorizontal,
   Bot,
   Handshake,
-  TrendingUp
+  TrendingUp,
+  Mail
 } from "lucide-react";
 import type { PostWithUser } from "@shared/schema";
 
@@ -26,9 +29,10 @@ export default function PostCard({ post }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.liked || false);
   const [showAIInsight, setShowAIInsight] = useState(false);
   const queryClient = useQueryClient();
+  const { user } = useAuth();
 
   // Mock current user ID - replace with real auth
-  const currentUserId = "user1";
+  const currentUserId = user?.id || "user1";
 
   const likeMutation = useMutation({
     mutationFn: async () => {
@@ -178,6 +182,23 @@ export default function PostCard({ post }: PostCardProps) {
               <MessageCircle className="mr-2 h-4 w-4" />
               <span>{post.commentsCount}</span>
             </Button>
+
+            {user && user.id !== post.user.id && (
+              <StartConversationDialog
+                selectedUserId={post.user.id}
+                trigger={
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex items-center text-gray-600 hover:text-green-600"
+                    data-testid={`button-message-${post.user.id}`}
+                  >
+                    <Mail className="mr-2 h-4 w-4" />
+                    <span>Message</span>
+                  </Button>
+                }
+              />
+            )}
             <Button
               variant="ghost"
               size="sm"

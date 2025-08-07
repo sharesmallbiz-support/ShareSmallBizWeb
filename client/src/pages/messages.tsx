@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import StartConversationDialog from "@/components/start-conversation-dialog";
 import { 
   ArrowLeft,
   Send,
@@ -25,7 +26,8 @@ import {
   Clock,
   Check,
   CheckCheck,
-  MoreVertical
+  MoreVertical,
+  Plus
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -284,10 +286,20 @@ export default function Messages() {
           {/* Conversations List */}
           <Card className="lg:col-span-1">
             <CardHeader className="pb-3">
-              <CardTitle className="flex items-center space-x-2">
-                <MessageCircle className="h-5 w-5" />
-                <span>Conversations</span>
-              </CardTitle>
+              <div className="flex items-center justify-between">
+                <CardTitle className="flex items-center space-x-2">
+                  <MessageCircle className="h-5 w-5" />
+                  <span>Conversations</span>
+                </CardTitle>
+                <StartConversationDialog 
+                  trigger={
+                    <Button variant="outline" size="sm" data-testid="button-new-conversation">
+                      <Plus className="h-4 w-4 mr-2" />
+                      New
+                    </Button>
+                  }
+                />
+              </div>
             </CardHeader>
             <CardContent className="p-0">
               <ScrollArea className="h-[500px]">

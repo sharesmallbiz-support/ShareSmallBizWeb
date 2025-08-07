@@ -60,6 +60,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   // User profile routes
+  app.get("/api/users", async (req, res) => {
+    try {
+      const users = await storage.getAllUsers();
+      // Return users without passwords
+      const safeUsers = users.map(user => ({ ...user, password: undefined }));
+      res.json(safeUsers);
+    } catch (error) {
+      console.error("Get users error:", error);
+      res.status(500).json({ message: "Failed to get users" });
+    }
+  });
+
+  app.get("/api/users/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+      const user = await storage.getUser(id);
+      
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Return user without password
+      res.json({ ...user, password: undefined });
+    } catch (error) {
+      console.error("Get user error:", error);
+      res.status(500).json({ message: "Failed to get user" });
+    }
+  });
+
   app.patch("/api/users/:id", async (req, res) => {
     try {
       const { id } = req.params;
