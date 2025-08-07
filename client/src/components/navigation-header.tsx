@@ -135,9 +135,11 @@ export default function NavigationHeader() {
                       Business Settings
                     </DropdownMenuItem>
                   </Link>
-                  <DropdownMenuItem data-testid="menu-analytics">
-                    Analytics
-                  </DropdownMenuItem>
+                  <Link href="/user-analytics">
+                    <DropdownMenuItem data-testid="menu-analytics">
+                      Analytics
+                    </DropdownMenuItem>
+                  </Link>
                   <DropdownMenuItem 
                     data-testid="menu-logout"
                     onClick={handleLogout}

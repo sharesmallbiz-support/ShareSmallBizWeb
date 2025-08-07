@@ -30,6 +30,8 @@ ShareSmallBiz is a modern, world-class social platform designed specifically for
 
 ✅ **AI Performance Dashboard**: Implemented interactive dashboard with comprehensive analytics including agent performance metrics, user satisfaction ratings, response time tracking, specialty performance visualization, feedback analysis, and trend monitoring with beautiful charts and data visualization.
 
+✅ **User Analytics Dashboard**: Built comprehensive user analytics system accessible from profile navigation and top navigation dropdown, featuring detailed tracking of AI usage patterns, content performance, messaging effectiveness, business growth metrics, and notification analytics with interactive charts and KPIs to help users track their small business growth on the platform.
+
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
