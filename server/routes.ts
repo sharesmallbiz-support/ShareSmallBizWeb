@@ -235,6 +235,53 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Start conversation about an opportunity
+  app.post("/api/opportunities/:id/start-conversation", async (req, res) => {
+    try {
+      const { id: opportunityId } = req.params;
+      const { userId } = req.body;
+
+      if (!userId) {
+        return res.status(400).json({ message: "User ID is required" });
+      }
+
+      // Get opportunity details
+      const opportunity = await storage.getOpportunity(opportunityId);
+      if (!opportunity) {
+        return res.status(404).json({ message: "Opportunity not found" });
+      }
+
+      // Don't allow users to message themselves
+      if (opportunity.userId === userId) {
+        return res.status(400).json({ message: "Cannot start conversation with yourself" });
+      }
+
+      // Create or get existing conversation
+      const conversation = await storage.createConversation([userId, opportunity.userId]);
+
+      // Send initial message about the opportunity
+      const initialMessage = `Hi! I'm interested in your opportunity: "${opportunity.title}". I'd like to learn more about the details and see if we might be a good fit for collaboration.`;
+      
+      const message = await storage.sendMessage({
+        conversationId: conversation.id,
+        receiverId: opportunity.userId,
+        content: initialMessage,
+      }, userId);
+
+      // Get sender info
+      const sender = await storage.getUser(userId);
+      
+      res.json({ 
+        conversation,
+        message: { ...message, sender },
+        opportunityTitle: opportunity.title
+      });
+    } catch (error) {
+      console.error("Start opportunity conversation error:", error);
+      res.status(500).json({ message: "Failed to start conversation" });
+    }
+  });
+
   // Posts routes
   app.get("/api/posts", async (req, res) => {
     try {

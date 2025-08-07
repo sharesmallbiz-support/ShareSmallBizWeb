@@ -1,9 +1,11 @@
 import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 import type { OpportunityWithUser } from "@shared/schema";
 import { 
   ArrowLeft, 
@@ -24,6 +26,7 @@ import {
 export default function OpportunityDetail() {
   const { id } = useParams();
   const [, setLocation] = useLocation();
+  const { toast } = useToast();
 
   // Fetch opportunity details
   const { data: opportunity, isLoading, error } = useQuery({
@@ -34,6 +37,32 @@ export default function OpportunityDetail() {
       return response.json() as Promise<OpportunityWithUser>;
     },
     enabled: !!id,
+  });
+
+  // Start conversation mutation
+  const startConversationMutation = useMutation({
+    mutationFn: async () => {
+      // For demo purposes, using a fixed current user ID
+      const currentUserId = "user5"; // This would normally come from auth context
+      return apiRequest('POST', `/api/opportunities/${id}/start-conversation`, {
+        userId: currentUserId,
+      });
+    },
+    onSuccess: (response) => {
+      toast({
+        title: "Message sent!",
+        description: `Started conversation about "${response.opportunityTitle}"`,
+      });
+      // Navigate to messages page
+      setLocation('/messages');
+    },
+    onError: (error) => {
+      toast({
+        title: "Failed to send message",
+        description: error.message || "Please try again later",
+        variant: "destructive",
+      });
+    },
   });
 
   if (isLoading) {
@@ -265,9 +294,14 @@ export default function OpportunityDetail() {
                   </Button>
                 )}
                 {opportunity.contactMethod === 'platform message' && (
-                  <Button className="w-full" data-testid="button-contact-message">
+                  <Button 
+                    className="w-full" 
+                    data-testid="button-contact-message"
+                    onClick={() => startConversationMutation.mutate()}
+                    disabled={startConversationMutation.isPending}
+                  >
                     <MessageSquare className="mr-2 h-4 w-4" />
-                    Send Message
+                    {startConversationMutation.isPending ? 'Sending...' : 'Send Message'}
                   </Button>
                 )}
                 <div className="text-xs text-gray-500 dark:text-gray-400 text-center">
