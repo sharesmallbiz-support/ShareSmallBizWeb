@@ -195,9 +195,14 @@ export default function Login() {
                 </form>
 
                 <div className="text-center text-sm text-gray-600 mt-4">
-                  <p>Demo accounts:</p>
-                  <p><strong>johnsmith</strong> / password123</p>
-                  <p><strong>sharesmallbiz</strong> / password123</p>
+                  <p className="font-medium mb-2">Demo accounts available:</p>
+                  <div className="space-y-1 text-xs">
+                    <p><strong>johnsmith</strong> / password123 (Hardware Store)</p>
+                    <p><strong>sharesmallbiz</strong> / password123 (Platform Team)</p>
+                    <p><strong>sarahmartinez</strong> / password123 (Landscaping)</p>
+                    <p><strong>markhazleton</strong> / password123 (ShareSmallBiz Founder)</p>
+                    <p><strong>jonathanroper</strong> / password123 (WichitaSewer.com)</p>
+                  </div>
                 </div>
               </TabsContent>
 

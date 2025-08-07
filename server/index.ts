@@ -63,11 +63,15 @@ app.use((req, res, next) => {
   // setting up all the other routes so the catch-all route
   // doesn't interfere with the other routes
   console.log("Current NODE_ENV:", process.env.NODE_ENV);
+  console.log("Environment check - is development?", process.env.NODE_ENV === "development");
+  console.log("Environment check - no NODE_ENV?", !process.env.NODE_ENV);
+  
   if (process.env.NODE_ENV === "development" || !process.env.NODE_ENV) {
     console.log("Setting up Vite development mode");
     await setupVite(app, server);
   } else {
     console.log("Setting up static file serving for production");
+    console.log("Production mode detected, serving static files");
     serveStatic(app);
   }
 

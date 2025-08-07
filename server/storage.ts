@@ -311,6 +311,42 @@ export class MemStorage implements IStorage {
         engagementScore: 84,
         lastUpdated: new Date(),
       },
+      {
+        id: "metric2",
+        userId: "user2",
+        profileViews: 892,
+        networkGrowth: 156,
+        opportunities: 23,
+        engagementScore: 95,
+        lastUpdated: new Date(),
+      },
+      {
+        id: "metric3",
+        userId: "user3",
+        profileViews: 234,
+        networkGrowth: 45,
+        opportunities: 8,
+        engagementScore: 78,
+        lastUpdated: new Date(),
+      },
+      {
+        id: "metric4",
+        userId: "user4",
+        profileViews: 567,
+        networkGrowth: 89,
+        opportunities: 15,
+        engagementScore: 92,
+        lastUpdated: new Date(),
+      },
+      {
+        id: "metric5",
+        userId: "user5",
+        profileViews: 445,
+        networkGrowth: 67,
+        opportunities: 12,
+        engagementScore: 88,
+        lastUpdated: new Date(),
+      },
     ];
 
     sampleMetrics.forEach((metric) =>

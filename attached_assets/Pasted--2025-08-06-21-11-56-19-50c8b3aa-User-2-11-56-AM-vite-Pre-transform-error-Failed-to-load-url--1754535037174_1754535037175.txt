@@ -1,0 +1,109 @@
+
+2025-08-06 21:11:56.19
+50c8b3aa
+User
+2:11:56 AM [vite] Pre-transform error: Failed to load url /src/main.tsx?v=7z_bYq-kTgEG_Z93fKrTu (resolved id: /src/main.tsx?v=7z_bYq-kTgEG_Z93fKrTu). Does the file exist?
+2025-08-06 21:11:56.20
+50c8b3aa
+User
+npm notice
+2025-08-06 21:11:56.20
+50c8b3aa
+User
+npm notice New major version of npm available! 10.8.2 -> 11.5.2
+2025-08-06 21:11:56.20
+50c8b3aa
+User
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+2025-08-06 21:11:56.20
+50c8b3aa
+User
+npm notice To update run: npm install -g npm@11.5.2
+2025-08-06 21:11:56.20
+50c8b3aa
+User
+npm notice
+2025-08-06 21:11:56.21
+50c8b3aa
+System
+command finished with error [npm run start]: exit status 1
+2025-08-06 21:12:20.20
+50c8b3aa
+User
+2:12:20 AM [vite] Pre-transform error: Failed to load url /src/main.tsx?v=4Qup5Sr0pDoRfyQOCVZ5y (resolved id: /src/main.tsx?v=4Qup5Sr0pDoRfyQOCVZ5y). Does the file exist?
+2025-08-06 21:12:20.29
+50c8b3aa
+System
+command finished with error [npm run start]: exit status 1
+2025-08-06 21:14:19.57
+50c8b3aa
+User
+2:14:19 AM [vite] Pre-transform error: Failed to load url /src/main.tsx?v=R3_5fKFla39RaQBjps2A1 (resolved id: /src/main.tsx?v=R3_5fKFla39RaQBjps2A1). Does the file exist?
+2025-08-06 21:14:19.69
+50c8b3aa
+System
+command finished with error [npm run start]: exit status 1
+2025-08-06 21:19:06.64
+76869ba2
+User
+2:19:06 AM [vite] Pre-transform error: Failed to load url /src/main.tsx?v=3NIFhxrWsDHFNYvUJnRHj (resolved id: /src/main.tsx?v=3NIFhxrWsDHFNYvUJnRHj). Does the file exist?
+2025-08-06 21:19:06.67
+76869ba2
+User
+npm notice
+2025-08-06 21:19:06.67
+76869ba2
+User
+npm notice New major version of npm available! 10.8.2 -> 11.5.2
+2025-08-06 21:19:06.67
+76869ba2
+User
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+2025-08-06 21:19:06.67
+76869ba2
+User
+npm notice To update run: npm install -g npm@11.5.2
+2025-08-06 21:19:06.67
+76869ba2
+User
+npm notice
+2025-08-06 21:19:06.69
+76869ba2
+System
+command finished with error [npm run start]: exit status 1
+2025-08-06 21:20:25.11
+76869ba2
+User
+2:20:25 AM [vite] Pre-transform error: Failed to load url /src/main.tsx?v=aE2vS64iEJuwMsO6RQ0af (resolved id: /src/main.tsx?v=aE2vS64iEJuwMsO6RQ0af). Does the file exist?
+2025-08-06 21:20:25.16
+76869ba2
+System
+command finished with error [npm run start]: exit status 1
+2025-08-06 21:49:25.05
+68d9cefe
+User
+2:49:25 AM [vite] Pre-transform error: Failed to load url /src/main.tsx?v=daHYexsGBUSp2-GtQ3Z2G (resolved id: /src/main.tsx?v=daHYexsGBUSp2-GtQ3Z2G). Does the file exist?
+2025-08-06 21:49:25.07
+68d9cefe
+User
+npm notice
+2025-08-06 21:49:25.07
+68d9cefe
+User
+npm notice New major version of npm available! 10.8.2 -> 11.5.2
+2025-08-06 21:49:25.07
+68d9cefe
+User
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+2025-08-06 21:49:25.07
+68d9cefe
+User
+npm notice To update run: npm install -g npm@11.5.2
+2025-08-06 21:49:25.07
+68d9cefe
+User
+npm notice
+2025-08-06 21:49:25.71
+68d9cefe
+System
+command finished with error [npm run start]: exit status 1
