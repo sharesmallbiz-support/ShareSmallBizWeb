@@ -67,16 +67,23 @@ process.on('unhandledRejection', (reason, promise) => {
 });
 
 try {
-  await import('./dist/index.js');
-  console.log('✅ Production server started successfully');
+  // Import the server module
+  const serverModule = await import('./dist/index.js');
+  console.log('✅ Production server module loaded successfully');
   
-  // Keep the process alive
-  setInterval(() => {
-    // Health check ping every 30 seconds
-  }, 30000);
+  // The server should already be listening from the imported module
+  console.log('✅ Production server is running and ready to serve requests');
   
 } catch (error) {
-  console.error('❌ Failed to start production server:', error);
-  console.error('Make sure to run "npm run build" first');
+  console.error('❌ Failed to start production server:', error.message);
+  console.error('Error details:', error);
+  
+  // More specific error messages
+  if (error.code === 'MODULE_NOT_FOUND') {
+    console.error('Module not found. Make sure to run "npm run build" first');
+  } else if (error.code === 'EADDRINUSE') {
+    console.error('Port already in use. Try a different PORT environment variable');
+  }
+  
   process.exit(1);
 }

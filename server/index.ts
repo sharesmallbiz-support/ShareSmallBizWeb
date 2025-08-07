@@ -73,7 +73,15 @@ app.use((req, res, next) => {
     } else {
       console.log("Setting up static file serving for production");
       console.log("Production mode detected, serving static files");
-      serveStatic(app);
+      
+      // Add production-specific error handling
+      try {
+        serveStatic(app);
+        console.log("✅ Static file serving configured");
+      } catch (error) {
+        console.error("❌ Failed to setup static file serving:", error);
+        throw error as Error;
+      }
     }
 
     // ALWAYS serve the app on the port specified in the environment variable PORT
@@ -102,8 +110,22 @@ app.use((req, res, next) => {
     
     console.log("✅ Server setup complete and listening");
     
+    // In production, keep the process alive
+    if (process.env.NODE_ENV === "production") {
+      process.on('uncaughtException', (error) => {
+        console.error('Uncaught Exception:', error);
+        process.exit(1);
+      });
+      
+      process.on('unhandledRejection', (reason, promise) => {
+        console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+        process.exit(1);
+      });
+    }
+    
   } catch (error) {
     console.error('❌ Failed to start server:', error);
+    console.error('Stack trace:', (error as Error).stack);
     process.exit(1);
   }
 })();
