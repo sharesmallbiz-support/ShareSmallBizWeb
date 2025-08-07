@@ -45,6 +45,9 @@ ShareSmallBiz is a modern, world-class social platform designed specifically for
 - **Frontend Pages**: Three main pages - opportunity listing with search/filters, detailed opportunity view, and comprehensive create/edit form
 - **Navigation Integration**: "Post New Opportunity" button in home page Quick Actions section properly linked to opportunities functionality
 - **Professional Design**: Modern card-based layout with badges, icons, and business-focused styling consistent with platform theme
+- **Messaging Integration**: "Send Message" button on opportunity details creates conversations automatically with initial message about the opportunity
+
+✅ **Database Cleanup (January 2025)**: Removed all unused database configuration files (server/db.ts, drizzle.config.ts) to maintain pure in-memory storage system. The platform exclusively uses TypeScript Maps for data persistence during session only.
 
 # User Preferences
 
@@ -82,9 +85,10 @@ Pure in-memory storage system providing:
 - **Type Safety**: Pure TypeScript interfaces with Zod validation schemas
 - **In-Memory Maps**: Fast, reliable data storage using JavaScript Maps for all entities
 - **Mock Data**: Comprehensive seed data with realistic business profiles and content
-- **Data Models**: Users, posts, comments, likes, AI interactions, and business metrics
+- **Data Models**: Users, posts, comments, likes, AI interactions, business metrics, conversations, messages, and business opportunities
+- **No Database Dependencies**: Removed all database configuration files and connections for clean in-memory operation
 
-The storage system supports all social features including user profiles, business information, posts with different types (discussions, opportunities, marketing), engagement metrics, and AI interaction history. All data persists only during the application session and resets on restart, making it ideal for development and demonstrations.
+The storage system supports all social features including user profiles, business information, posts with different types (discussions, opportunities, marketing), engagement metrics, messaging system with threaded conversations, AI interaction history, and business opportunity management. All data persists only during the application session and resets on restart, making it ideal for development and demonstrations.
 
 ## Authentication and Authorization
 Currently implements a simplified authentication system for demonstration purposes:
