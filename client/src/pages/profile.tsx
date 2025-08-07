@@ -16,7 +16,8 @@ import {
   Building2,
   Mail,
   Phone,
-  ArrowLeft
+  ArrowLeft,
+  BarChart3
 } from "lucide-react";
 
 export default function Profile() {
@@ -241,7 +242,11 @@ export default function Profile() {
               </CardHeader>
               <CardContent className="space-y-3">
                 <Link href="/user-analytics">
-                  <Button className="w-full justify-start" variant="default">
+                  <Button 
+                    className="w-full justify-start" 
+                    variant="default"
+                    data-testid="button-view-analytics"
+                  >
                     <BarChart3 className="mr-2 h-4 w-4" />
                     View Analytics Dashboard
                   </Button>
