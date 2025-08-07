@@ -8,6 +8,37 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
+// Enhanced error handling middleware specifically for Vite resources
+app.use('/@vite/*', (req, res, next) => {
+  // Add cache-busting headers for Vite resources
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
+  next();
+});
+
+app.use('/@react-refresh', (req, res, next) => {
+  // Add cache-busting headers for React refresh
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
+  next();
+});
+
+app.use('/src/*', (req, res, next) => {
+  // Add cache-busting headers for source files
+  res.set({
+    'Cache-Control': 'no-cache, no-store, must-revalidate',
+    'Pragma': 'no-cache',
+    'Expires': '0'
+  });
+  next();
+});
+
 app.use((req, res, next) => {
   const start = Date.now();
   const path = req.path;
@@ -42,14 +73,17 @@ app.use((req, res, next) => {
   try {
     const httpServer = await registerRoutes(app);
 
-  app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
+  app.use((err: any, req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
     const message = err.message || "Internal Server Error";
     
-    console.error("Express error handler:", {
+    console.error("Express error handler triggered:", {
+      url: req.originalUrl,
+      method: req.method,
       message: err.message,
       stack: err.stack,
-      status: status
+      status: status,
+      userAgent: req.get('User-Agent')?.substring(0, 50)
     });
     
     if (res.headersSent) {
