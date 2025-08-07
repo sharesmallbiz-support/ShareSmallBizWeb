@@ -97,12 +97,14 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="absolute top-1/2 -right-4 professional-card p-3 animate-float z-20" style={{animationDelay: '2s'}}>
-                <div className="text-center">
-                  <div className="text-2xl mb-1">📈</div>
-                  <p className="text-xs font-semibold text-gray-900">Growth Tracking</p>
+              <Link href="/user-analytics">
+                <div className="absolute top-1/2 -right-4 professional-card p-3 animate-float z-20 cursor-pointer hover:shadow-xl transition-shadow" style={{animationDelay: '2s'}}>
+                  <div className="text-center">
+                    <div className="text-2xl mb-1">📈</div>
+                    <p className="text-xs font-semibold text-gray-900">Growth Tracking</p>
+                  </div>
                 </div>
-              </div>
+              </Link>
             </div>
           </div>
         </div>

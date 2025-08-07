@@ -203,14 +203,16 @@ export default function BusinessDashboard() {
                     Ask AI Assistant
                   </Button>
                 </Link>
-                <Button 
-                  variant="outline" 
-                  className="w-full justify-start"
-                  data-testid="button-view-analytics"
-                >
-                  <BarChart3 className="mr-3 h-4 w-4" />
-                  View Full Analytics
-                </Button>
+                <Link href="/user-analytics">
+                  <Button 
+                    variant="outline" 
+                    className="w-full justify-start"
+                    data-testid="button-view-analytics"
+                  >
+                    <BarChart3 className="mr-3 h-4 w-4" />
+                    View Full Analytics
+                  </Button>
+                </Link>
               </CardContent>
             </Card>
           </div>
@@ -218,69 +220,73 @@ export default function BusinessDashboard() {
 
         {/* Performance Charts Preview */}
         <div className="grid md:grid-cols-2 gap-8">
-          <Card className="professional-card">
-            <CardHeader>
-              <CardTitle className="flex items-center text-lg">
-                <PieChart className="mr-2 h-5 w-5 text-primary" />
-                Engagement Breakdown
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Posts</span>
-                  <div className="flex items-center">
-                    <div className="w-24 h-2 bg-gray-200 rounded-full mr-3">
-                      <div className="w-3/4 h-2 bg-primary rounded-full"></div>
+          <Link href="/user-analytics">
+            <Card className="professional-card cursor-pointer hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center text-lg">
+                  <PieChart className="mr-2 h-5 w-5 text-primary" />
+                  Engagement Breakdown
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="space-y-4">
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Posts</span>
+                    <div className="flex items-center">
+                      <div className="w-24 h-2 bg-gray-200 rounded-full mr-3">
+                        <div className="w-3/4 h-2 bg-primary rounded-full"></div>
+                      </div>
+                      <span className="text-sm font-medium">75%</span>
                     </div>
-                    <span className="text-sm font-medium">75%</span>
                   </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Comments</span>
-                  <div className="flex items-center">
-                    <div className="w-24 h-2 bg-gray-200 rounded-full mr-3">
-                      <div className="w-3/5 h-2 bg-success rounded-full"></div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Comments</span>
+                    <div className="flex items-center">
+                      <div className="w-24 h-2 bg-gray-200 rounded-full mr-3">
+                        <div className="w-3/5 h-2 bg-success rounded-full"></div>
+                      </div>
+                      <span className="text-sm font-medium">60%</span>
                     </div>
-                    <span className="text-sm font-medium">60%</span>
                   </div>
-                </div>
-                <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Collaborations</span>
-                  <div className="flex items-center">
-                    <div className="w-24 h-2 bg-gray-200 rounded-full mr-3">
-                      <div className="w-2/5 h-2 bg-secondary rounded-full"></div>
+                  <div className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600">Collaborations</span>
+                    <div className="flex items-center">
+                      <div className="w-24 h-2 bg-gray-200 rounded-full mr-3">
+                        <div className="w-2/5 h-2 bg-secondary rounded-full"></div>
+                      </div>
+                      <span className="text-sm font-medium">40%</span>
                     </div>
-                    <span className="text-sm font-medium">40%</span>
                   </div>
-                </div>
               </div>
             </CardContent>
           </Card>
+        </Link>
 
-          <Card className="professional-card">
-            <CardHeader>
-              <CardTitle className="flex items-center text-lg">
-                <BarChart3 className="mr-2 h-5 w-5 text-success" />
-                Weekly Growth Trend
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="flex items-end justify-between h-32 space-x-2">
-                {[40, 65, 45, 80, 55, 90, 75].map((height, index) => (
-                  <div key={index} className="flex-1 flex flex-col items-center">
-                    <div 
-                      className="bg-success rounded-t w-full transition-all hover:bg-success/80"
-                      style={{ height: `${height}%` }}
-                    ></div>
-                    <span className="text-xs text-gray-500 mt-2">
-                      {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
-                    </span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <Link href="/user-analytics">
+            <Card className="professional-card cursor-pointer hover:shadow-lg transition-shadow">
+              <CardHeader>
+                <CardTitle className="flex items-center text-lg">
+                  <BarChart3 className="mr-2 h-5 w-5 text-success" />
+                  Weekly Growth Trend
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-end justify-between h-32 space-x-2">
+                  {[40, 65, 45, 80, 55, 90, 75].map((height, index) => (
+                    <div key={index} className="flex-1 flex flex-col items-center">
+                      <div 
+                        className="bg-success rounded-t w-full transition-all hover:bg-success/80"
+                        style={{ height: `${height}%` }}
+                      ></div>
+                      <span className="text-xs text-gray-500 mt-2">
+                        {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][index]}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </Link>
         </div>
       </div>
     </section>
