@@ -234,6 +234,26 @@ export default function Profile() {
 
           {/* Sidebar */}
           <div className="space-y-6">
+            {/* Analytics & Settings */}
+            <Card>
+              <CardHeader>
+                <CardTitle>Analytics & Settings</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <Link href="/user-analytics">
+                  <Button className="w-full justify-start" variant="default">
+                    <BarChart3 className="mr-2 h-4 w-4" />
+                    View Analytics Dashboard
+                  </Button>
+                </Link>
+                <Link href="/business-settings">
+                  <Button className="w-full justify-start" variant="outline">
+                    <Edit className="mr-2 h-4 w-4" />
+                    Business Settings
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
             {/* Quick Stats */}
             <Card>
               <CardHeader>

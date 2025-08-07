@@ -12,6 +12,7 @@ import Messages from "./pages/messages";
 import AIAssistant from "./pages/ai-assistant";
 import AIChat from "./pages/ai-chat";
 import AIDashboard from "./pages/ai-dashboard";
+import UserAnalytics from "./pages/user-analytics";
 
 function Router() {
   return (
@@ -25,6 +26,7 @@ function Router() {
       <Route path="/ai-assistant" component={AIAssistant} />
       <Route path="/ai-chat/:agentId" component={AIChat} />
       <Route path="/ai-dashboard" component={AIDashboard} />
+      <Route path="/user-analytics" component={UserAnalytics} />
       <Route component={NotFound} />
     </Switch>
   );

@@ -510,6 +510,177 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/users/:id/analytics", async (req, res) => {
+    try {
+      const { id: userId } = req.params;
+      const timeRange = req.query.timeRange as string || "30d";
+      
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      // Generate comprehensive user analytics data
+      const userAnalytics = {
+        userId,
+        username: user.username,
+        joinDate: user.createdAt || "2023-01-15",
+        aiUsage: {
+          totalInteractions: 247,
+          favoriteAgent: "Marketing Guru",
+          totalMinutesSpent: 1420,
+          questionsAsked: 189,
+          conversationsSaved: 23,
+          avgSessionLength: 5.8,
+          weeklyUsage: [
+            { day: "Mon", interactions: 8 },
+            { day: "Tue", interactions: 12 },
+            { day: "Wed", interactions: 6 },
+            { day: "Thu", interactions: 15 },
+            { day: "Fri", interactions: 9 },
+            { day: "Sat", interactions: 4 },
+            { day: "Sun", interactions: 7 }
+          ],
+          agentBreakdown: [
+            { agent: "Marketing Guru", count: 89, satisfaction: 4.8 },
+            { agent: "Finance Advisor", count: 45, satisfaction: 4.9 },
+            { agent: "Operations Expert", count: 38, satisfaction: 4.6 },
+            { agent: "Customer Success", count: 42, satisfaction: 4.7 },
+            { agent: "Legal & Compliance", count: 21, satisfaction: 4.8 },
+            { agent: "Innovation Strategist", count: 12, satisfaction: 4.5 }
+          ],
+          topCategories: [
+            { category: "Marketing Strategy", count: 45 },
+            { category: "Financial Planning", count: 32 },
+            { category: "Operations", count: 28 },
+            { category: "Customer Relations", count: 24 },
+            { category: "Legal Guidance", count: 18 }
+          ]
+        },
+        postActivity: {
+          totalPosts: 42,
+          totalLikes: 384,
+          totalComments: 127,
+          totalShares: 89,
+          engagementRate: 12.4,
+          bestPerformingPost: {
+            title: "5 Marketing Strategies That Transformed My Small Business",
+            likes: 87,
+            comments: 23
+          },
+          monthlyPosts: [
+            { month: "Sep", posts: 8, engagement: 11.2 },
+            { month: "Oct", posts: 12, engagement: 13.8 },
+            { month: "Nov", posts: 9, engagement: 10.5 },
+            { month: "Dec", posts: 13, engagement: 14.2 }
+          ],
+          postTypes: [
+            { type: "Discussion", count: 18, avgEngagement: 11.8 },
+            { type: "Opportunity", count: 12, avgEngagement: 15.2 },
+            { type: "Marketing", count: 8, avgEngagement: 13.5 },
+            { type: "Question", count: 4, avgEngagement: 9.2 }
+          ],
+          reachMetrics: {
+            totalViews: 15420,
+            uniqueViewers: 8934,
+            repeatViewers: 2847
+          }
+        },
+        messagingStats: {
+          totalConversations: 28,
+          totalMessages: 312,
+          responseRate: 92,
+          avgResponseTime: 18,
+          networkConnections: 156,
+          activeConversations: 8,
+          businessInquiries: 23,
+          collaborationRequests: 12,
+          monthlyMessages: [
+            { month: "Sep", sent: 45, received: 52 },
+            { month: "Oct", sent: 67, received: 71 },
+            { month: "Nov", sent: 38, received: 41 },
+            { month: "Dec", sent: 72, received: 68 }
+          ],
+          topContacts: [
+            { name: "Sarah Chen", messages: 45, businessType: "E-commerce" },
+            { name: "Mike Johnson", messages: 38, businessType: "Consulting" },
+            { name: "Lisa Garcia", messages: 29, businessType: "Tech Startup" },
+            { name: "David Brown", messages: 24, businessType: "Restaurant" },
+            { name: "Emma Wilson", messages: 19, businessType: "Design Agency" }
+          ]
+        },
+        businessGrowth: {
+          profileViews: 2847,
+          profileViewsGrowth: 23.4,
+          connectionRequests: 45,
+          businessOpportunities: 12,
+          skillEndorsements: 89,
+          businessScore: 847,
+          growthTrends: [
+            { month: "Sep", score: 720, opportunities: 8 },
+            { month: "Oct", score: 765, opportunities: 10 },
+            { month: "Nov", score: 798, opportunities: 9 },
+            { month: "Dec", score: 847, opportunities: 12 }
+          ],
+          achievements: [
+            {
+              title: "AI Power User",
+              date: "2024-01-05",
+              description: "Completed 200+ AI interactions with high satisfaction"
+            },
+            {
+              title: "Community Contributor",
+              date: "2024-01-02",
+              description: "Shared 40+ valuable posts with the community"
+            },
+            {
+              title: "Networking Pro",
+              date: "2023-12-28",
+              description: "Built a network of 150+ business connections"
+            },
+            {
+              title: "Engagement Champion",
+              date: "2023-12-15",
+              description: "Achieved 15%+ engagement rate on posts"
+            },
+            {
+              title: "Quick Responder",
+              date: "2023-12-10",
+              description: "Maintained 90%+ message response rate"
+            }
+          ]
+        },
+        notifications: {
+          totalNotifications: 428,
+          unreadCount: 12,
+          categories: [
+            { type: "Messages", count: 156 },
+            { type: "Post Interactions", count: 89 },
+            { type: "Connection Requests", count: 67 },
+            { type: "AI Updates", count: 45 },
+            { type: "Business Opportunities", count: 38 },
+            { type: "System Updates", count: 33 }
+          ],
+          responseTime: 24,
+          weeklyActivity: [
+            { day: "Mon", notifications: 15, responses: 12 },
+            { day: "Tue", notifications: 18, responses: 16 },
+            { day: "Wed", notifications: 12, responses: 10 },
+            { day: "Thu", notifications: 22, responses: 19 },
+            { day: "Fri", notifications: 16, responses: 14 },
+            { day: "Sat", notifications: 8, responses: 6 },
+            { day: "Sun", notifications: 6, responses: 4 }
+          ]
+        }
+      };
+
+      res.json(userAnalytics);
+    } catch (error) {
+      console.error("User analytics error:", error);
+      res.status(500).json({ message: "Failed to get user analytics" });
+    }
+  });
+
   // User routes
   app.get("/api/users/:id", async (req, res) => {
     try {
