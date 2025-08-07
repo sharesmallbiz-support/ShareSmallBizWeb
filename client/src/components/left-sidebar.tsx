@@ -2,6 +2,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "wouter";
 import { 
   Plus, 
   Handshake, 
@@ -79,12 +80,14 @@ export default function LeftSidebar() {
           <p className="text-sm mb-4 text-purple-100">
             Get instant advice on marketing, networking, and growth strategies.
           </p>
-          <Button 
-            className="bg-white text-ai-purple hover:bg-gray-100 w-full"
-            data-testid="button-start-ai-chat"
-          >
-            Start Conversation
-          </Button>
+          <Link href="/ai-assistant">
+            <Button 
+              className="bg-white text-ai-purple hover:bg-gray-100 w-full"
+              data-testid="button-start-ai-chat"
+            >
+              Start Conversation
+            </Button>
+          </Link>
         </CardContent>
       </Card>
 
