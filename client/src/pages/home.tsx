@@ -70,17 +70,19 @@ export default function Home() {
               </div>
               
               {/* AI-Enhanced Floating Cards */}
-              <div className="absolute -top-6 -left-6 professional-card p-4 animate-float">
-                <div className="flex items-center space-x-3">
-                  <div className="w-10 h-10 bg-ai-purple rounded-xl flex items-center justify-center">
-                    🤖
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-gray-900">AI Insights</p>
-                    <p className="text-xs text-gray-600">+32% engagement boost</p>
+              <Link href="/ai-assistant">
+                <div className="absolute -top-6 -left-6 professional-card p-4 animate-float cursor-pointer hover:shadow-xl transition-shadow">
+                  <div className="flex items-center space-x-3">
+                    <div className="w-10 h-10 bg-ai-purple rounded-xl flex items-center justify-center">
+                      🤖
+                    </div>
+                    <div>
+                      <p className="text-sm font-semibold text-gray-900">AI Insights</p>
+                      <p className="text-xs text-gray-600">+32% engagement boost</p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
               
               <div className="absolute -bottom-6 -right-6 ai-enhanced-card p-4 animate-float" style={{animationDelay: '1s'}}>
                 <div className="flex items-center space-x-3">
@@ -157,7 +159,7 @@ export default function Home() {
               <h3 className="font-semibold mb-4 text-white">Platform</h3>
               <ul className="space-y-3 text-sm text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">Business Feed</a></li>
-                <li><a href="#" className="hover:text-white transition-colors">AI Insights</a></li>
+                <li><Link href="/ai-assistant"><a href="#" className="hover:text-white transition-colors">AI Insights</a></Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">Local Groups</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Events</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Marketplace</a></li>
@@ -166,7 +168,7 @@ export default function Home() {
             <div>
               <h3 className="font-semibold mb-4 text-white">AI Tools</h3>
               <ul className="space-y-3 text-sm text-gray-400">
-                <li><a href="#" className="hover:text-white transition-colors">Business Assistant</a></li>
+                <li><Link href="/ai-assistant"><a href="#" className="hover:text-white transition-colors">Business Assistant</a></Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">Growth Analytics</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Smart Matching</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Content Optimizer</a></li>

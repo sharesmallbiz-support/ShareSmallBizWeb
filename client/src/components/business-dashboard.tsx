@@ -143,14 +143,27 @@ export default function BusinessDashboard() {
                     <div className="flex-1">
                       <h4 className="font-semibold text-dark-gray mb-1">{insight.title}</h4>
                       <p className="text-sm text-gray-600 mb-3">{insight.description}</p>
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="text-xs"
-                        data-testid={`button-insight-${index}`}
-                      >
-                        {insight.action} <ArrowUpRight className="ml-1 h-3 w-3" />
-                      </Button>
+                      {insight.title === "AI Recommendation" ? (
+                        <Link href="/ai-assistant">
+                          <Button 
+                            size="sm" 
+                            variant="outline" 
+                            className="text-xs"
+                            data-testid={`button-insight-${index}`}
+                          >
+                            {insight.action} <ArrowUpRight className="ml-1 h-3 w-3" />
+                          </Button>
+                        </Link>
+                      ) : (
+                        <Button 
+                          size="sm" 
+                          variant="outline" 
+                          className="text-xs"
+                          data-testid={`button-insight-${index}`}
+                        >
+                          {insight.action} <ArrowUpRight className="ml-1 h-3 w-3" />
+                        </Button>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -181,13 +194,15 @@ export default function BusinessDashboard() {
                   <Calendar className="mr-3 h-4 w-4" />
                   Schedule Collaboration
                 </Button>
-                <Button 
-                  className="w-full justify-start ai-gradient text-white"
-                  data-testid="button-ask-ai"
-                >
-                  <MessageSquare className="mr-3 h-4 w-4" />
-                  Ask AI Assistant
-                </Button>
+                <Link href="/ai-assistant">
+                  <Button 
+                    className="w-full justify-start ai-gradient text-white"
+                    data-testid="button-ask-ai"
+                  >
+                    <MessageSquare className="mr-3 h-4 w-4" />
+                    Ask AI Assistant
+                  </Button>
+                </Link>
                 <Button 
                   variant="outline" 
                   className="w-full justify-start"
