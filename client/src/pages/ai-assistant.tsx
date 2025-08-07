@@ -140,11 +140,18 @@ export default function AIAssistant() {
                 Choose from specialized AI agents designed for small business success
               </p>
             </div>
-            <Link href="/home">
-              <Button variant="outline">
-                Back to Home
-              </Button>
-            </Link>
+            <div className="flex items-center space-x-3">
+              <Link href="/ai-dashboard">
+                <Button variant="default">
+                  View Dashboard
+                </Button>
+              </Link>
+              <Link href="/home">
+                <Button variant="outline">
+                  Back to Home
+                </Button>
+              </Link>
+            </div>
           </div>
         </div>
       </div>

@@ -11,6 +11,7 @@ import BusinessSettings from "./pages/business-settings";
 import Messages from "./pages/messages";
 import AIAssistant from "./pages/ai-assistant";
 import AIChat from "./pages/ai-chat";
+import AIDashboard from "./pages/ai-dashboard";
 
 function Router() {
   return (
@@ -23,6 +24,7 @@ function Router() {
       <Route path="/messages" component={Messages} />
       <Route path="/ai-assistant" component={AIAssistant} />
       <Route path="/ai-chat/:agentId" component={AIChat} />
+      <Route path="/ai-dashboard" component={AIDashboard} />
       <Route component={NotFound} />
     </Switch>
   );

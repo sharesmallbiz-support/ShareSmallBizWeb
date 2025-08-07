@@ -385,6 +385,131 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  app.get("/api/ai/dashboard", async (req, res) => {
+    try {
+      const timeRange = req.query.timeRange as string || "7d";
+      
+      // Generate mock dashboard data (in a real app, this would come from analytics storage)
+      const dashboardData = {
+        agentMetrics: {
+          "marketing-guru": {
+            agentId: "marketing-guru",
+            totalInteractions: 1247,
+            averageRating: 4.8,
+            responseTime: 1850,
+            satisfactionRate: 92,
+            specialtyScores: {
+              "Social Media": 4.9,
+              "Content Strategy": 4.7,
+              "Brand Development": 4.8,
+              "SEO Optimization": 4.6,
+              "Email Campaigns": 4.5
+            },
+            weeklyInteractions: [
+              { day: "Mon", count: 45 },
+              { day: "Tue", count: 52 },
+              { day: "Wed", count: 38 },
+              { day: "Thu", count: 61 },
+              { day: "Fri", count: 47 },
+              { day: "Sat", count: 23 },
+              { day: "Sun", count: 31 }
+            ]
+          },
+          "finance-advisor": {
+            agentId: "finance-advisor",
+            totalInteractions: 892,
+            averageRating: 4.9,
+            responseTime: 1650,
+            satisfactionRate: 95,
+            specialtyScores: {
+              "Financial Planning": 4.9,
+              "Cash Flow Analysis": 4.8,
+              "Investment Strategy": 4.7,
+              "Tax Optimization": 4.6,
+              "Business Loans": 4.5
+            }
+          },
+          "operations-expert": {
+            agentId: "operations-expert",
+            totalInteractions: 734,
+            averageRating: 4.7,
+            responseTime: 1920,
+            satisfactionRate: 88,
+            specialtyScores: {
+              "Process Optimization": 4.8,
+              "Workflow Management": 4.6,
+              "Automation": 4.9,
+              "Supply Chain": 4.5,
+              "Quality Control": 4.4
+            }
+          },
+          "customer-success": {
+            agentId: "customer-success",
+            totalInteractions: 956,
+            averageRating: 4.6,
+            responseTime: 1750,
+            satisfactionRate: 89,
+            specialtyScores: {
+              "Customer Service": 4.7,
+              "Retention Strategies": 4.6,
+              "Feedback Analysis": 4.5,
+              "Loyalty Programs": 4.4,
+              "Support Systems": 4.6
+            }
+          },
+          "legal-compliance": {
+            agentId: "legal-compliance",
+            totalInteractions: 423,
+            averageRating: 4.8,
+            responseTime: 2100,
+            satisfactionRate: 91,
+            specialtyScores: {
+              "Business Law": 4.9,
+              "Contract Review": 4.8,
+              "Compliance": 4.7,
+              "Intellectual Property": 4.6,
+              "Employment Law": 4.5
+            }
+          },
+          "innovation-strategist": {
+            agentId: "innovation-strategist",
+            totalInteractions: 567,
+            averageRating: 4.5,
+            responseTime: 1980,
+            satisfactionRate: 86,
+            specialtyScores: {
+              "Product Development": 4.6,
+              "Market Research": 4.5,
+              "Innovation Strategy": 4.4,
+              "Competitive Analysis": 4.3,
+              "R&D Planning": 4.2
+            }
+          }
+        },
+        overallStats: {
+          totalInteractions: 4819,
+          averageRating: 4.7,
+          activeAgents: 6,
+          userSatisfaction: 90
+        },
+        trendsData: [
+          { date: "Jan 1", "marketing-guru": 45, "finance-advisor": 32, "operations-expert": 28, "customer-success": 35, "legal-compliance": 18, "innovation-strategist": 22 },
+          { date: "Jan 2", "marketing-guru": 52, "finance-advisor": 38, "operations-expert": 31, "customer-success": 42, "legal-compliance": 21, "innovation-strategist": 25 },
+          { date: "Jan 3", "marketing-guru": 48, "finance-advisor": 35, "operations-expert": 29, "customer-success": 38, "legal-compliance": 19, "innovation-strategist": 23 },
+          { date: "Jan 4", "marketing-guru": 61, "finance-advisor": 43, "operations-expert": 36, "customer-success": 47, "legal-compliance": 25, "innovation-strategist": 29 },
+          { date: "Jan 5", "marketing-guru": 47, "finance-advisor": 34, "operations-expert": 27, "customer-success": 41, "legal-compliance": 20, "innovation-strategist": 26 },
+          { date: "Jan 6", "marketing-guru": 38, "finance-advisor": 28, "operations-expert": 23, "customer-success": 33, "legal-compliance": 16, "innovation-strategist": 21 },
+          { date: "Jan 7", "marketing-guru": 41, "finance-advisor": 31, "operations-expert": 25, "customer-success": 36, "legal-compliance": 18, "innovation-strategist": 24 }
+        ]
+      };
+      
+      res.json(dashboardData);
+    } catch (error) {
+      console.error("Dashboard data error:", error);
+      res.status(500).json({ message: "Failed to get dashboard data" });
+    }
+  });
+
   // User routes
   app.get("/api/users/:id", async (req, res) => {
     try {
