@@ -125,21 +125,21 @@ export default function NavigationHeader() {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-56">
-                  <Link href="/profile">
-                    <DropdownMenuItem data-testid="menu-profile">
+                  <DropdownMenuItem data-testid="menu-profile" asChild>
+                    <Link href="/profile">
                       View Profile
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href="/business-settings">
-                    <DropdownMenuItem data-testid="menu-business">
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem data-testid="menu-business" asChild>
+                    <Link href="/business-settings">
                       Business Settings
-                    </DropdownMenuItem>
-                  </Link>
-                  <Link href="/user-analytics">
-                    <DropdownMenuItem data-testid="menu-analytics">
+                    </Link>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem data-testid="menu-analytics" asChild>
+                    <Link href="/user-analytics">
                       Analytics
-                    </DropdownMenuItem>
-                  </Link>
+                    </Link>
+                  </DropdownMenuItem>
                   <DropdownMenuItem 
                     data-testid="menu-logout"
                     onClick={handleLogout}
