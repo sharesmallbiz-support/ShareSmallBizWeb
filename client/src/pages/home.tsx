@@ -162,7 +162,7 @@ export default function Home() {
               <h3 className="font-semibold mb-4 text-white">Platform</h3>
               <ul className="space-y-3 text-sm text-gray-400">
                 <li><a href="#" className="hover:text-white transition-colors">Business Feed</a></li>
-                <li><Link href="/ai-assistant"><a href="#" className="hover:text-white transition-colors">AI Insights</a></Link></li>
+                <li><Link href="/ai-assistant" className="hover:text-white transition-colors">AI Insights</Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">Local Groups</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Events</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Marketplace</a></li>
@@ -171,7 +171,7 @@ export default function Home() {
             <div>
               <h3 className="font-semibold mb-4 text-white">AI Tools</h3>
               <ul className="space-y-3 text-sm text-gray-400">
-                <li><Link href="/ai-assistant"><a href="#" className="hover:text-white transition-colors">Business Assistant</a></Link></li>
+                <li><Link href="/ai-assistant" className="hover:text-white transition-colors">Business Assistant</Link></li>
                 <li><a href="#" className="hover:text-white transition-colors">Growth Analytics</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Smart Matching</a></li>
                 <li><a href="#" className="hover:text-white transition-colors">Content Optimizer</a></li>
