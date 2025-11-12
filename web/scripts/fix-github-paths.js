@@ -2,8 +2,8 @@ import { readFileSync, writeFileSync } from 'fs';
 import { resolve } from 'path';
 
 // Script to fix asset paths for GitHub Pages deployment
-const indexPath = resolve('dist/static/index.html');
-const debugPath = resolve('dist/static/debug.html');
+const indexPath = resolve('../publish/web-static/index.html');
+const debugPath = resolve('../publish/web-static/debug.html');
 
 console.log('🔧 Fixing asset paths for GitHub Pages...');
 
