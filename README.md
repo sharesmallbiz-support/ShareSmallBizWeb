@@ -2,134 +2,306 @@
 
 A modern social media platform designed specifically for small businesses to connect, share insights, and grow together.
 
-## Features
+## 🏗️ Project Structure
 
-- **Business Dashboard**: Comprehensive analytics and insights for your business
-- **Social Feed**: Share updates, connect with other small businesses
-- **AI Assistant**: Get intelligent business recommendations and advice
-- **Post Creation**: Create and share content with rich media support
-- **Social Media Integration**: Connect and cross-post to various platforms
+This is a monorepo containing:
 
-## Tech Stack
+```
+ShareSmallBizWeb/
+├── api/                  # .NET 8 Web API
+│   ├── Controllers/      # API controllers
+│   ├── Models/          # Entity models
+│   ├── Services/        # Business logic
+│   └── DTOs/            # Data transfer objects
+├── web/                 # React + TypeScript frontend
+│   ├── client/          # React application
+│   ├── server/          # Legacy Express server (deprecated)
+│   └── shared/          # Shared types
+├── publish/             # Build output (auto-generated)
+│   ├── api/            # Published .NET API
+│   ├── web/            # Built web app
+│   └── web-static/     # Static site build
+└── build scripts        # Unified build process
+```
 
-- **Frontend**: React 18 + TypeScript + Vite
-- **UI Framework**: Tailwind CSS + Shadcn/UI components
-- **Backend**: Express.js + TypeScript
-- **Database**: PostgreSQL with Drizzle ORM
-- **AI Integration**: OpenAI GPT-4
+## ✨ Features
+
+- **Business Dashboard**: Comprehensive analytics and insights
+- **Social Feed**: Share updates and connect with other businesses
+- **AI Assistant**: Get intelligent business recommendations
+- **Post Creation**: Create and share content with rich media
+- **Social Media Integration**: Cross-post to various platforms
+- **.NET 8 API**: Modern, performant backend with EF Core
+- **React 18**: Modern frontend with TypeScript
+
+## 🚀 Tech Stack
+
+### Backend (.NET API)
+- **Framework**: ASP.NET Core 8
+- **ORM**: Entity Framework Core
+- **Database**: PostgreSQL (with in-memory fallback)
+- **Authentication**: JWT with BCrypt password hashing
+- **API Docs**: Swagger/OpenAPI
+
+### Frontend (Web)
+- **Framework**: React 18 + TypeScript + Vite
+- **UI**: Tailwind CSS + Shadcn/UI components
 - **State Management**: TanStack Query
+- **Routing**: Wouter
 
-## Development Setup
+## 📋 Prerequisites
 
-### Prerequisites
+- **.NET 8 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/8.0)
+- **Node.js 18+** - [Download](https://nodejs.org/)
+- **PostgreSQL** (optional - uses in-memory by default)
 
-- Node.js 18+
-- npm or yarn
-- PostgreSQL database (for full-stack mode)
+## 🛠️ Quick Start
 
-### Installation
+### Option 1: Build Everything
 
 ```bash
-# Clone the repository
-git clone https://github.com/sharesmallbiz-support/ShareSmallBizWeb.git
-cd ShareSmallBizWeb
+# Using bash (Linux/Mac)
+./build.sh
+
+# Using PowerShell (Windows)
+./build.ps1
+
+# Or using npm
+npm install
+npm run build:all
+```
+
+### Option 2: Development Mode
+
+**Terminal 1 - Run API:**
+```bash
+cd api
+dotnet restore
+dotnet run
+# API runs at http://localhost:5000
+```
+
+**Terminal 2 - Run Web:**
+```bash
+cd web
+npm install
+npm run dev
+# Web runs at http://localhost:5173
+```
+
+## 📦 Build Commands
+
+### Unified Build (Root Level)
+
+```bash
+# Build everything
+npm run build:all
+
+# Build only API
+npm run build:api
+
+# Build only web
+npm run build:web
+
+# Build static web (for GitHub Pages)
+npm run build:web-static
+
+# Development
+npm run dev:api      # Start .NET API
+npm run dev:web      # Start React dev server
+
+# Clean
+npm run clean        # Remove publish folder
+```
+
+### API-Specific Commands
+
+```bash
+cd api
+
+# Restore packages
+dotnet restore
+
+# Run in development
+dotnet run
+
+# Build
+dotnet build
+
+# Publish for production
+dotnet publish -c Release -o ./publish
+
+# Database migrations (if using PostgreSQL)
+dotnet ef migrations add InitialCreate
+dotnet ef database update
+```
+
+### Web-Specific Commands
+
+```bash
+cd web
 
 # Install dependencies
 npm install
 
-# Set up environment variables
-cp .env.example .env
-# Edit .env with your configuration
-
-# Start development server
+# Development server
 npm run dev
-```
 
-### Build Commands
-
-```bash
-# Build full-stack application
+# Build for production
 npm run build
 
-# Build static site only (for GitHub Pages)
+# Build static site
 npm run build:static
 
-# Preview static build
-npm run preview:static
+# Type checking
+npm run check
 ```
 
-## Deployment
+## 🔧 Configuration
 
-### GitHub Pages (Static Site)
+### API Configuration
 
-This project is configured to automatically deploy to GitHub Pages when you push to the main branch.
+Edit `api/appsettings.json`:
 
-#### Setup Steps
-
-1. **Enable GitHub Pages**:
-   - Go to your repository Settings → Pages
-   - Set Source to "GitHub Actions"
-
-2. **Configure Repository**:
-   - The workflow is already configured in `.github/workflows/deploy-pages.yml`
-   - Pushes to `main` branch will trigger automatic deployment
-
-3. **Access Your Site**:
-   - Your site will be available at: `https://[username].github.io/[repository-name]`
-   - For this repo: `https://sharesmallbiz-support.github.io/ShareSmallBizWeb`
-
-#### Manual Deployment
-
-You can also trigger deployment manually:
-
-- Go to Actions tab in your GitHub repository
-- Select "Deploy to GitHub Pages" workflow
-- Click "Run workflow"
-
-### Other Hosting Options
-
-- **Static Hosting**: Use `npm run build:static` and deploy the `dist/static` folder to any static hosting service
-- **Full-Stack Hosting**: Use `npm run build` for platforms that support Node.js backends
-
-## Project Structure
-
-```text
-├── client/               # React frontend
-│   ├── src/
-│   │   ├── components/   # UI components
-│   │   ├── hooks/        # Custom React hooks
-│   │   ├── lib/          # Utilities and configurations
-│   │   └── pages/        # Page components
-├── server/               # Express.js backend
-│   └── services/         # Backend services
-├── shared/               # Shared types and schemas
-└── .github/
-    └── workflows/        # GitHub Actions workflows
+```json
+{
+  "ConnectionStrings": {
+    "DefaultConnection": "Host=localhost;Database=sharesmallbiz;Username=postgres;Password=yourpassword"
+  },
+  "JwtSettings": {
+    "SecretKey": "your-secret-key-min-32-characters-long",
+    "Issuer": "ShareSmallBiz.Api",
+    "Audience": "ShareSmallBiz.Web",
+    "ExpirationMinutes": 1440
+  }
+}
 ```
 
-## Environment Variables
+### Web Configuration
 
-Copy `.env.example` to `.env` and configure:
+Create `web/.env`:
 
 ```env
-# Database (for full-stack mode)
-DATABASE_URL=your_postgresql_connection_string
-
-# OpenAI (for AI features)
+VITE_API_URL=http://localhost:5000
 OPENAI_API_KEY=your_openai_api_key
-
-# Session (for authentication)
-SESSION_SECRET=your_session_secret
 ```
 
-## Contributing
+## 🌐 Deployment
+
+### Production Deployment (Full Stack)
+
+1. **Build everything:**
+   ```bash
+   npm run build:all
+   ```
+
+2. **Deploy API:**
+   - The .NET API is in `publish/api/`
+   - Deploy to Azure App Service, AWS, Railway, etc.
+   - Set environment variables via hosting platform
+
+3. **Deploy Web:**
+   - Built files are in `publish/web/`
+   - Deploy to any Node.js hosting or static host
+   - Configure API URL environment variable
+
+### Static Site Deployment (GitHub Pages)
+
+1. **Build static version:**
+   ```bash
+   npm run build:web-static
+   ```
+
+2. **Deploy:**
+   - Files are in `publish/web-static/`
+   - Automatic deployment via GitHub Actions
+   - Or manually upload to any static host
+
+## 📖 API Documentation
+
+When running the API in development mode, Swagger UI is available at:
+- **Swagger UI**: http://localhost:5000
+
+### Main Endpoints
+
+**Authentication:**
+- `POST /api/auth/login` - Login
+- `POST /api/auth/register` - Register
+
+**Posts:**
+- `GET /api/posts` - Get posts
+- `POST /api/posts` - Create post
+- `POST /api/posts/{id}/like` - Like/unlike
+
+**Users:**
+- `GET /api/users/{id}` - Get user
+- `GET /api/users/{id}/metrics` - Business metrics
+
+See `api/README.md` for complete API documentation.
+
+## 🧪 Testing
+
+### Test User Accounts
+
+- **Username**: `johnsmith` | **Password**: `password123`
+- **Username**: `sharesmallbiz` | **Password**: `password123`
+- **Username**: `sarahmartinez` | **Password**: `password123`
+
+## 📁 Output Structure
+
+After building, the `publish/` folder contains:
+
+```
+publish/
+├── api/              # .NET API ready to deploy
+│   ├── ShareSmallBiz.Api.dll
+│   ├── appsettings.json
+│   └── ...
+├── web/              # Built web app
+│   └── assets/
+└── web-static/       # Static site (no backend needed)
+    └── assets/
+```
+
+## 🔄 Migration from Old Structure
+
+The repository has been reorganized:
+- **Old**: Everything in root
+- **New**: `api/` for .NET API, `web/` for frontend
+- **Legacy**: Express.js server in `web/server/` (deprecated, kept for reference)
+
+## 🤝 Contributing
 
 1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+2. Create a feature branch
+3. Make your changes
+4. Test using `npm run build:all`
+5. Submit a pull request
 
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
+
+## 🆘 Troubleshooting
+
+### .NET SDK not found
+```bash
+dotnet --version
+# If not found, install from https://dotnet.microsoft.com/download
+```
+
+### Build fails
+```bash
+# Clean and rebuild
+npm run clean
+npm run build:all
+```
+
+### Port already in use
+- API default: 5000 (change in `api/appsettings.json`)
+- Web dev: 5173 (Vite assigns automatically)
+
+---
+
+**Version**: 2.0.0
+**Last Updated**: November 2025

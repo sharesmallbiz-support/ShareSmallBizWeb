@@ -12,7 +12,7 @@ export default defineConfig({
   },
   root: path.resolve(import.meta.dirname, "client"),
   build: {
-    outDir: path.resolve(import.meta.dirname, "dist/static"),
+    outDir: path.resolve(import.meta.dirname, "../publish/web-static"),
     emptyOutDir: true,
     rollupOptions: {
       output: {
