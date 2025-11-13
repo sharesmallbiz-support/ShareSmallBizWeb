@@ -4,6 +4,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "./pages/not-found";
 import Home from "./pages/home";
+import Profile from "./pages/profile";
+import Settings from "./pages/settings";
+import Analytics from "./pages/analytics";
 
 // Import the appropriate query client based on mode
 import { queryClient } from "./lib/queryClient";
@@ -28,6 +31,9 @@ function Router() {
     <WouterRouter base={basePath}>
       <Switch>
         <Route path="/" component={Home} />
+        <Route path="/profile" component={Profile} />
+        <Route path="/settings" component={Settings} />
+        <Route path="/analytics" component={Analytics} />
         <Route component={NotFound} />
       </Switch>
     </WouterRouter>

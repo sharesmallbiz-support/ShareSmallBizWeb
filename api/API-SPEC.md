@@ -1,9 +1,10 @@
 # ShareSmallBiz API Specification
 
-**Version:** 2.0.0
+**Version:** 2.1.0
 **Base URL:** `http://localhost:5000` (Development) | `https://api.sharesmallbiz.com` (Production)
 **Protocol:** REST
 **Authentication:** JWT Bearer Token
+**Last Updated:** 2025-01-13
 
 ---
 
@@ -217,6 +218,212 @@ Get posts by specific user.
   }
 ]
 ```
+
+---
+
+### GET /api/users/:id/activities
+Get activity feed for a user (recent interactions and updates).
+
+**Query Params:**
+- `limit` (default: 20, max: 100)
+
+**Response:** `200 OK`
+```json
+[
+  {
+    "id": "string",
+    "type": "like | comment | connection | post | share",
+    "message": "string",
+    "actor": {
+      "id": "string",
+      "username": "string",
+      "fullName": "string",
+      "avatar": "string?",
+      "businessName": "string?"
+    },
+    "target": {
+      "id": "string",
+      "type": "post | comment | user",
+      "preview": "string?"
+    },
+    "createdAt": "datetime"
+  }
+]
+```
+
+**Errors:**
+- `404` - User not found
+
+---
+
+### GET /api/users/:id/settings
+Get user's business settings and preferences.
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Response:** `200 OK`
+```json
+{
+  "notifications": {
+    "emailNotifications": "boolean",
+    "pushNotifications": "boolean",
+    "commentNotifications": "boolean",
+    "likeNotifications": "boolean",
+    "connectionRequests": "boolean",
+    "weeklySummary": "boolean"
+  },
+  "privacy": {
+    "profileVisibility": "public | connections | private",
+    "showEmail": "boolean",
+    "showLocation": "boolean",
+    "searchable": "boolean",
+    "showMetrics": "boolean"
+  },
+  "business": {
+    "businessHours": "string?",
+    "timezone": "string?",
+    "responseTime": "string?"
+  },
+  "integrations": {
+    "facebook": {
+      "connected": "boolean",
+      "accountId": "string?",
+      "lastSync": "datetime?"
+    },
+    "instagram": {
+      "connected": "boolean",
+      "accountId": "string?",
+      "lastSync": "datetime?"
+    },
+    "linkedin": {
+      "connected": "boolean",
+      "accountId": "string?",
+      "lastSync": "datetime?"
+    }
+  }
+}
+```
+
+**Errors:**
+- `401` - Unauthorized
+- `403` - Cannot access another user's settings
+- `404` - User not found
+
+---
+
+### PUT /api/users/:id/settings
+Update user's business settings and preferences.
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Request:**
+```json
+{
+  "notifications": {
+    "emailNotifications": "boolean?",
+    "pushNotifications": "boolean?",
+    "commentNotifications": "boolean?",
+    "likeNotifications": "boolean?",
+    "connectionRequests": "boolean?",
+    "weeklySummary": "boolean?"
+  },
+  "privacy": {
+    "profileVisibility": "public | connections | private",
+    "showEmail": "boolean?",
+    "showLocation": "boolean?",
+    "searchable": "boolean?",
+    "showMetrics": "boolean?"
+  },
+  "business": {
+    "businessHours": "string?",
+    "timezone": "string?",
+    "responseTime": "string?"
+  }
+}
+```
+
+**Response:** `200 OK` - Updated settings (same format as GET)
+
+**Errors:**
+- `401` - Unauthorized
+- `403` - Cannot update another user's settings
+- `404` - User not found
+- `400` - Validation error
+
+---
+
+### GET /api/users/:id/analytics
+Get detailed analytics data for user's business performance.
+
+**Headers:**
+```
+Authorization: Bearer {token}
+```
+
+**Query Params:**
+- `period` (week | month | year, default: month)
+
+**Response:** `200 OK`
+```json
+{
+  "period": "week | month | year",
+  "summary": {
+    "totalProfileViews": "number",
+    "profileViewsChange": "number (percentage)",
+    "totalEngagement": "number",
+    "engagementChange": "number (percentage)",
+    "newConnections": "number",
+    "connectionsChange": "number (percentage)",
+    "opportunities": "number",
+    "opportunitiesChange": "number (percentage)",
+    "totalLikes": "number",
+    "totalComments": "number",
+    "totalShares": "number",
+    "totalSaves": "number"
+  },
+  "chartData": [
+    {
+      "date": "string (YYYY-MM-DD)",
+      "profileViews": "number",
+      "postEngagement": "number",
+      "connections": "number",
+      "opportunities": "number"
+    }
+  ],
+  "topPosts": [
+    {
+      "id": "string",
+      "title": "string?",
+      "content": "string",
+      "likesCount": "number",
+      "commentsCount": "number",
+      "sharesCount": "number",
+      "views": "number",
+      "engagementRate": "number (percentage)",
+      "createdAt": "datetime"
+    }
+  ],
+  "demographics": {
+    "locations": {
+      "location_name": "number (count)"
+    },
+    "industries": {
+      "industry_name": "number (count)"
+    }
+  }
+}
+```
+
+**Errors:**
+- `401` - Unauthorized
+- `403` - Cannot access another user's analytics
+- `404` - User not found
 
 ---
 
@@ -856,42 +1063,127 @@ For real-time features:
 
 ---
 
-## Implementation Checklist
+## Implementation Status
 
-### Phase 1 - Core (Completed)
-- [x] Authentication (register, login)
-- [x] User profiles
-- [x] Posts CRUD
-- [x] Comments
-- [x] Likes
-- [x] Business metrics
-- [x] AI chat
+### Web Static Mock API (✅ Completed)
+The following endpoints are **fully implemented** in the static/mock API for offline development and demos:
 
-### Phase 2 - Social (In Progress)
-- [ ] User profile updates
-- [ ] Post updates/deletes
-- [ ] Comment deletes
-- [ ] Connection requests
-- [ ] Connection management
-- [ ] Suggested connections
+**Authentication & Users:**
+- [x] POST /api/auth/register - User registration
+- [x] POST /api/auth/login - User authentication
+- [x] POST /api/auth/logout - Logout
+- [x] GET /api/users/:id - Get user profile
+- [x] GET /api/users/me - Get current user
+- [x] PUT /api/users/:id - Update user profile
+- [x] GET /api/users/:id/posts - Get user's posts
+- [x] GET /api/users/:id/activities - Activity feed
+- [x] GET /api/users/:id/settings - Business settings
+- [x] PUT /api/users/:id/settings - Update settings
+- [x] GET /api/users/:id/analytics - Analytics data
+- [x] GET /api/users/:id/metrics - Business metrics
+- [x] PUT /api/users/:id/metrics - Update metrics
 
-### Phase 3 - Discovery
-- [ ] Global search
-- [ ] Trending topics
-- [ ] Recommended feed
-- [ ] User mentions
-- [ ] Hashtag following
+**Posts & Content:**
+- [x] GET /api/posts - Get posts feed
+- [x] GET /api/posts/:id - Get single post
+- [x] POST /api/posts - Create post
+- [x] PUT /api/posts/:id - Update post
+- [x] DELETE /api/posts/:id - Delete post
 
-### Phase 4 - Engagement
-- [ ] Notifications system
-- [ ] Direct messaging
-- [ ] Post sharing
-- [ ] Bookmarks/saves
-- [ ] User blocking/reporting
+**Comments:**
+- [x] GET /api/posts/:id/comments - Get comments
+- [x] POST /api/posts/:id/comments - Create comment
+- [x] DELETE /api/comments/:id - Delete comment
 
-### Phase 5 - Advanced
-- [ ] WebSocket support
-- [ ] File uploads (images, videos)
-- [ ] Analytics dashboard
+**Likes:**
+- [x] POST /api/posts/:id/like - Like post
+- [x] DELETE /api/posts/:id/like - Unlike post
+- [x] GET /api/posts/:id/likes - Get users who liked
+
+**Connections:**
+- [x] GET /api/users/:id/connections - Get connections
+- [x] POST /api/connections - Send connection request
+- [x] PUT /api/connections/:id - Accept/reject request
+- [x] DELETE /api/connections/:id - Remove connection
+- [x] GET /api/users/:id/suggestions - Suggested connections
+
+**AI Features:**
+- [x] POST /api/ai/chat - AI business assistant
+- [x] GET /api/ai/post-suggestions - Post ideas
+- [x] POST /api/ai/analyze-engagement - Engagement analysis
+
+**Discovery:**
+- [x] GET /api/search - Global search
+- [x] GET /api/trending - Trending topics
+- [x] GET /api/feed/recommended - Recommended feed
+
+**Notifications:**
+- [x] GET /api/notifications - Get notifications
+- [x] PUT /api/notifications/:id/read - Mark as read
+- [x] PUT /api/notifications/read-all - Mark all as read
+
+### Backend .NET API (🚧 To Be Implemented)
+
+**Priority 1 - Core Functionality:**
+- [ ] Authentication with JWT (register, login, refresh, logout)
+- [ ] User CRUD operations (create, read, update)
+- [ ] Posts CRUD with user relationships
+- [ ] Comments system with nested replies
+- [ ] Likes/reactions system
+- [ ] Database schema with PostgreSQL
+- [ ] Entity Framework Core migrations
+- [ ] Input validation and error handling
+- [ ] CORS configuration for web client
+
+**Priority 2 - Business Features:**
+- [ ] Business metrics tracking and updates
+- [ ] User settings and preferences
+- [ ] Activity feed generation
+- [ ] Analytics data aggregation
+- [ ] Profile analytics with time periods
+
+**Priority 3 - Social Features:**
+- [ ] Connection requests workflow
+- [ ] Connection acceptance/rejection
+- [ ] Suggested connections algorithm
+- [ ] Network growth tracking
+
+**Priority 4 - Advanced Features:**
+- [ ] AI integration (OpenAI/Azure OpenAI)
+- [ ] Search functionality (full-text search)
+- [ ] Trending topics calculation
+- [ ] Personalized feed algorithm
+- [ ] Notifications system with real-time updates
+- [ ] WebSocket support for live updates
+- [ ] File upload handling (images, videos)
 - [ ] Email notifications
-- [ ] Mobile push notifications
+- [ ] Rate limiting
+- [ ] Caching strategy
+
+### Feature Implementation Phases
+
+**Phase 1 - MVP (4-6 weeks)**
+- Authentication & user management
+- Posts & comments CRUD
+- Likes system
+- Basic business metrics
+- Database setup with EF Core
+
+**Phase 2 - Social Features (3-4 weeks)**
+- Connection requests
+- User settings
+- Activity feeds
+- Basic search
+
+**Phase 3 - Intelligence (3-4 weeks)**
+- AI chat integration
+- Analytics dashboard
+- Trending topics
+- Recommended feed
+
+**Phase 4 - Real-time & Advanced (4-6 weeks)**
+- Notifications system
+- WebSocket support
+- File uploads
+- Email integration
+- Performance optimization
