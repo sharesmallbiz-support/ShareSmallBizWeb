@@ -1,6 +1,13 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
+import { setupStaticFetchInterceptor } from "./lib/staticFetchInterceptor";
+
+// Setup static fetch interceptor in static mode
+const isStaticMode = import.meta.env.VITE_MODE === 'static';
+if (isStaticMode) {
+  setupStaticFetchInterceptor();
+}
 
 // Add error handling for debugging
 window.addEventListener('error', (e) => {
@@ -16,18 +23,18 @@ try {
   if (!rootElement) {
     throw new Error("Root element not found");
   }
-  
+
   console.log("Starting React app...");
   console.log("VITE_MODE:", import.meta.env.VITE_MODE);
   console.log("Current URL:", window.location.href);
-  
+
   const root = createRoot(rootElement);
   root.render(<App />);
-  
+
   console.log("React app rendered successfully");
 } catch (error) {
   console.error("Failed to render React app:", error);
-  
+
   // Fallback error display
   const rootElement = document.getElementById("root");
   if (rootElement) {

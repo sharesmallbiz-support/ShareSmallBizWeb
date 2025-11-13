@@ -1,18 +1,20 @@
 import { useState } from "react";
+import { useLocation } from "wouter";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuItem, 
-  DropdownMenuTrigger 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Badge } from "@/components/ui/badge";
 import { Search, Bell, Mail, Bot } from "lucide-react";
 
 export default function NavigationHeader() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [, navigate] = useLocation();
 
   // Mock user data
   const currentUser = {
@@ -108,13 +110,13 @@ export default function NavigationHeader() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
-                <DropdownMenuItem data-testid="menu-profile">
+                <DropdownMenuItem data-testid="menu-profile" onClick={() => navigate("/profile")}>
                   View Profile
                 </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-business">
+                <DropdownMenuItem data-testid="menu-business" onClick={() => navigate("/settings")}>
                   Business Settings
                 </DropdownMenuItem>
-                <DropdownMenuItem data-testid="menu-analytics">
+                <DropdownMenuItem data-testid="menu-analytics" onClick={() => navigate("/analytics")}>
                   Analytics
                 </DropdownMenuItem>
                 <DropdownMenuItem data-testid="menu-logout">

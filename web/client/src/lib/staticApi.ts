@@ -1052,6 +1052,196 @@ export class StaticApiService {
   }
 
   // ==========================================================================
+  // ANALYTICS
+  // ==========================================================================
+
+  static async getAnalytics(userId: string, period: "week" | "month" | "year" = "month"): Promise<any> {
+    await this.delay();
+
+    const now = new Date();
+    const days = period === "week" ? 7 : period === "month" ? 30 : 365;
+
+    // Generate mock analytics data
+    const chartData = Array.from({ length: days }, (_, i) => {
+      const date = new Date(now);
+      date.setDate(date.getDate() - (days - i));
+
+      return {
+        date: date.toISOString().split('T')[0],
+        profileViews: Math.floor(Math.random() * 50) + 10,
+        postEngagement: Math.floor(Math.random() * 30) + 5,
+        connections: Math.floor(Math.random() * 10),
+        opportunities: Math.floor(Math.random() * 5),
+      };
+    });
+
+    // Calculate totals
+    const totals = chartData.reduce((acc, day) => ({
+      profileViews: acc.profileViews + day.profileViews,
+      postEngagement: acc.postEngagement + day.postEngagement,
+      connections: acc.connections + day.connections,
+      opportunities: acc.opportunities + day.opportunities,
+    }), { profileViews: 0, postEngagement: 0, connections: 0, opportunities: 0 });
+
+    const userPosts = this.data.posts.filter((p: any) => p.userId === userId);
+    const totalLikes = userPosts.reduce((sum: number, p: any) => sum + (p.likesCount || 0), 0);
+    const totalComments = userPosts.reduce((sum: number, p: any) => sum + (p.commentsCount || 0), 0);
+
+    return {
+      period,
+      chartData,
+      summary: {
+        totalProfileViews: totals.profileViews,
+        totalPostEngagement: totals.postEngagement,
+        totalConnections: totals.connections,
+        totalOpportunities: totals.opportunities,
+        postsCount: userPosts.length,
+        totalLikes,
+        totalComments,
+        avgEngagementRate: userPosts.length > 0 ? ((totalLikes + totalComments) / userPosts.length).toFixed(1) : "0",
+      },
+      topPosts: userPosts
+        .sort((a: any, b: any) => (b.likesCount + b.commentsCount) - (a.likesCount + a.commentsCount))
+        .slice(0, 5)
+        .map((p: any) => ({
+          id: p.id,
+          title: p.title || p.content.substring(0, 50) + "...",
+          engagement: p.likesCount + p.commentsCount,
+          likes: p.likesCount,
+          comments: p.commentsCount,
+        })),
+      demographics: {
+        topLocations: [
+          { location: "Portland, OR", count: 45 },
+          { location: "Austin, TX", count: 32 },
+          { location: "San Francisco, CA", count: 28 },
+          { location: "New York, NY", count: 24 },
+          { location: "Remote", count: 19 },
+        ],
+        topIndustries: [
+          { industry: "Technology", count: 38 },
+          { industry: "Retail", count: 31 },
+          { industry: "Services", count: 27 },
+          { industry: "Creative", count: 22 },
+          { industry: "Consulting", count: 18 },
+        ],
+      },
+    };
+  }
+
+  // ==========================================================================
+  // BUSINESS SETTINGS
+  // ==========================================================================
+
+  static async getBusinessSettings(userId: string): Promise<any> {
+    await this.delay();
+
+    // Return settings from localStorage or defaults
+    const settingsKey = `settings_${userId}`;
+    const saved = localStorage.getItem(settingsKey);
+
+    if (saved) {
+      return JSON.parse(saved);
+    }
+
+    const defaultSettings = {
+      notifications: {
+        emailNotifications: true,
+        pushNotifications: true,
+        weeklyDigest: true,
+        newConnections: true,
+        postLikes: true,
+        postComments: true,
+        mentions: true,
+        opportunities: true,
+      },
+      privacy: {
+        profileVisibility: "public",
+        showEmail: false,
+        showPhone: false,
+        allowMessages: true,
+        showConnectionCount: true,
+        indexProfile: true,
+      },
+      business: {
+        businessHours: "9:00 AM - 5:00 PM",
+        timezone: "America/Los_Angeles",
+        responseTime: "within 24 hours",
+        preferredContactMethod: "email",
+      },
+      integrations: {
+        facebook: { connected: false, pageId: null },
+        linkedin: { connected: false, profileUrl: null },
+        twitter: { connected: false, handle: null },
+        instagram: { connected: false, username: null },
+      },
+    };
+
+    localStorage.setItem(settingsKey, JSON.stringify(defaultSettings));
+    return defaultSettings;
+  }
+
+  static async updateBusinessSettings(userId: string, settings: any): Promise<any> {
+    await this.delay();
+
+    const settingsKey = `settings_${userId}`;
+    const current = await this.getBusinessSettings(userId);
+    const updated = {
+      ...current,
+      ...settings,
+      notifications: { ...current.notifications, ...settings.notifications },
+      privacy: { ...current.privacy, ...settings.privacy },
+      business: { ...current.business, ...settings.business },
+      integrations: { ...current.integrations, ...settings.integrations },
+    };
+
+    localStorage.setItem(settingsKey, JSON.stringify(updated));
+    return updated;
+  }
+
+  // ==========================================================================
+  // ACTIVITY FEED
+  // ==========================================================================
+
+  static async getActivityFeed(userId: string, limit = 20): Promise<any[]> {
+    await this.delay();
+
+    const activities = [];
+    const now = Date.now();
+
+    // Generate mock activities
+    const activityTypes = [
+      { type: "like", message: "liked your post", time: now - 2 * 60 * 60 * 1000 },
+      { type: "comment", message: "commented on your post", time: now - 5 * 60 * 60 * 1000 },
+      { type: "connection", message: "accepted your connection request", time: now - 8 * 60 * 60 * 1000 },
+      { type: "mention", message: "mentioned you in a post", time: now - 12 * 60 * 60 * 1000 },
+      { type: "follow", message: "started following you", time: now - 24 * 60 * 60 * 1000 },
+    ];
+
+    for (let i = 0; i < Math.min(limit, activityTypes.length); i++) {
+      const activity = activityTypes[i];
+      const actor = this.data.users[Math.floor(Math.random() * this.data.users.length)];
+
+      activities.push({
+        id: generateId(),
+        type: activity.type,
+        actorId: actor.id,
+        actor: {
+          id: actor.id,
+          username: actor.username,
+          fullName: actor.fullName,
+          avatar: actor.avatar,
+          businessName: actor.businessName,
+        },
+        message: activity.message,
+        createdAt: new Date(activity.time),
+      });
+    }
+
+    return activities;
+  }
+
+  // ==========================================================================
   // UTILITY METHODS
   // ==========================================================================
 

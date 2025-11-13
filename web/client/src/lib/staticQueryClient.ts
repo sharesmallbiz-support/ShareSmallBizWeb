@@ -10,6 +10,7 @@ export const apiRequest = async (
     // Handle static mode API calls
     const url = new URL(endpoint, "http://localhost");
     const pathname = url.pathname;
+    const searchParams = url.searchParams;
 
     if (pathname === "/api/posts") {
       return StaticApiService.getPosts();
@@ -35,12 +36,48 @@ export const apiRequest = async (
       return StaticApiService.getBusinessMetrics(userId);
     }
 
+    if (pathname.startsWith("/api/users/") && pathname.endsWith("/posts")) {
+      const userId = pathname.split("/")[3];
+      return StaticApiService.getUserPosts(userId);
+    }
+
+    if (pathname.startsWith("/api/users/") && pathname.endsWith("/activities")) {
+      const userId = pathname.split("/")[3];
+      const limit = parseInt(searchParams.get("limit") || "20");
+      return StaticApiService.getActivityFeed(userId, limit);
+    }
+
+    if (pathname.startsWith("/api/users/") && pathname.endsWith("/settings")) {
+      const userId = pathname.split("/")[3];
+      if (options.method === "PUT") {
+        const body = JSON.parse(options.body as string);
+        return StaticApiService.updateBusinessSettings(userId, body);
+      }
+      return StaticApiService.getBusinessSettings(userId);
+    }
+
+    if (pathname.startsWith("/api/users/") && pathname.endsWith("/analytics")) {
+      const userId = pathname.split("/")[3];
+      const period = (searchParams.get("period") as "week" | "month" | "year") || "month";
+      return StaticApiService.getAnalytics(userId, period);
+    }
+
+    if (pathname.match(/^\/api\/users\/[^/]+$/)) {
+      const userId = pathname.split("/")[3];
+      if (options.method === "PUT") {
+        const body = JSON.parse(options.body as string);
+        return StaticApiService.updateUser(userId, body);
+      }
+      return StaticApiService.getUser(userId);
+    }
+
     if (pathname === "/api/ai/chat") {
       const body = JSON.parse(options.body as string);
       return StaticApiService.getAIResponse(body.message);
     }
 
     // Default empty response for unhandled endpoints
+    console.warn(`Unhandled static API endpoint: ${pathname}`);
     return {};
   }
 
