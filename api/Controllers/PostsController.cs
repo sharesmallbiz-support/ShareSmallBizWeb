@@ -136,6 +136,50 @@ public class PostsController : ControllerBase
         return CreatedAtAction(nameof(GetComments), new { id }, MapToCommentDto(createdComment!));
     }
 
+    [HttpPut("{id}")]
+    public async Task<ActionResult<PostDto>> UpdatePost(string id, [FromBody] UpdatePostRequest request)
+    {
+        var post = await _storage.GetPostAsync(id);
+        if (post == null)
+        {
+            return NotFound(new { message = "Post not found" });
+        }
+
+        // Update fields
+        if (request.Content != null) post.Content = request.Content;
+        if (request.Title != null) post.Title = request.Title;
+        if (request.ImageUrl != null) post.ImageUrl = request.ImageUrl;
+        if (request.Tags != null) post.Tags = request.Tags;
+
+        var updated = await _storage.UpdatePostAsync(post);
+        var refreshed = await _storage.GetPostAsync(updated.Id);
+        return Ok(MapToPostDto(refreshed!));
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<ActionResult> DeletePost(string id)
+    {
+        var success = await _storage.DeletePostAsync(id);
+        if (!success)
+        {
+            return NotFound(new { message = "Post not found" });
+        }
+
+        return NoContent();
+    }
+
+    [HttpDelete("comments/{commentId}")]
+    public async Task<ActionResult> DeleteComment(string commentId)
+    {
+        var success = await _storage.DeleteCommentAsync(commentId);
+        if (!success)
+        {
+            return NotFound(new { message = "Comment not found" });
+        }
+
+        return NoContent();
+    }
+
     private static PostDto MapToPostDto(Post post)
     {
         return new PostDto
@@ -196,4 +240,12 @@ public class PostsController : ControllerBase
 public class LikeRequest
 {
     public string UserId { get; set; } = string.Empty;
+}
+
+public class UpdatePostRequest
+{
+    public string? Content { get; set; }
+    public string? Title { get; set; }
+    public string? ImageUrl { get; set; }
+    public string[]? Tags { get; set; }
 }

@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using ShareSmallBiz.Api.Models;
 using ShareSmallBiz.Api.Services;
 
@@ -32,19 +35,28 @@ builder.Services.AddCors(options =>
     });
 });
 
-// Configure Database
+// Configure Database - SQLite
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-if (!string.IsNullOrEmpty(connectionString))
-{
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseNpgsql(connectionString));
-}
-else
-{
-    // Use in-memory database for development/demo
-    builder.Services.AddDbContext<ApplicationDbContext>(options =>
-        options.UseInMemoryDatabase("ShareSmallBizDb"));
-}
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(connectionString ?? "Data Source=sharesmallbiz.db"));
+
+// Configure JWT Authentication
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+var secretKey = jwtSettings["SecretKey"] ?? "default-secret-key-for-development-min-32-chars";
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidAudience = jwtSettings["Audience"],
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
+        };
+    });
 
 // Register services
 builder.Services.AddScoped<IStorageService, StorageService>();
@@ -77,12 +89,17 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-// Seed database in development
-if (app.Environment.IsDevelopment())
+// Ensure database is created and migrate
+using (var scope = app.Services.CreateScope())
 {
-    using var scope = app.Services.CreateScope();
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    await DbSeeder.SeedAsync(context);
+    await context.Database.MigrateAsync();
+
+    // Seed database in development
+    if (app.Environment.IsDevelopment())
+    {
+        await DbSeeder.SeedAsync(context);
+    }
 }
 
 app.Run();

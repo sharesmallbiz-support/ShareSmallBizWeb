@@ -100,17 +100,173 @@ public static class DbSeeder
         await context.Posts.AddRangeAsync(posts);
         await context.SaveChangesAsync();
 
-        // Seed Business Metrics
-        var metrics = new BusinessMetric
+        // Seed Comments
+        var comments = new[]
         {
-            UserId = "user1",
-            ProfileViews = 127,
-            NetworkGrowth = 23,
-            Opportunities = 5,
-            EngagementScore = 84
+            new Comment
+            {
+                PostId = "post1",
+                UserId = "user1",
+                Content = "Great initiative! Excited to be part of this community."
+            },
+            new Comment
+            {
+                PostId = "post1",
+                UserId = "user3",
+                Content = "Looking forward to connecting with fellow business owners!"
+            }
         };
 
-        await context.BusinessMetrics.AddAsync(metrics);
+        await context.Comments.AddRangeAsync(comments);
+        await context.SaveChangesAsync();
+
+        // Seed Business Metrics
+        var metrics = new[]
+        {
+            new BusinessMetric
+            {
+                UserId = "user1",
+                ProfileViews = 127,
+                NetworkGrowth = 23,
+                Opportunities = 5,
+                EngagementScore = 84
+            },
+            new BusinessMetric
+            {
+                UserId = "user2",
+                ProfileViews = 2547,
+                NetworkGrowth = 156,
+                Opportunities = 42,
+                EngagementScore = 95
+            },
+            new BusinessMetric
+            {
+                UserId = "user3",
+                ProfileViews = 89,
+                NetworkGrowth = 12,
+                Opportunities = 3,
+                EngagementScore = 78
+            }
+        };
+
+        await context.BusinessMetrics.AddRangeAsync(metrics);
+        await context.SaveChangesAsync();
+
+        // Seed Connections
+        var connections = new[]
+        {
+            new Connection
+            {
+                RequesterId = "user1",
+                ReceiverId = "user2",
+                Status = "accepted",
+                CreatedAt = DateTime.UtcNow.AddDays(-10)
+            },
+            new Connection
+            {
+                RequesterId = "user1",
+                ReceiverId = "user3",
+                Status = "accepted",
+                CreatedAt = DateTime.UtcNow.AddDays(-7)
+            },
+            new Connection
+            {
+                RequesterId = "user2",
+                ReceiverId = "user3",
+                Status = "accepted",
+                CreatedAt = DateTime.UtcNow.AddDays(-5)
+            }
+        };
+
+        await context.Connections.AddRangeAsync(connections);
+        await context.SaveChangesAsync();
+
+        // Seed User Settings
+        var settings = new[]
+        {
+            new UserSettings
+            {
+                UserId = "user1",
+                Notifications = "{\"emailNotifications\":true,\"pushNotifications\":true,\"commentNotifications\":true,\"likeNotifications\":true,\"connectionRequests\":true,\"weeklySummary\":true}",
+                Privacy = "{\"profileVisibility\":\"public\",\"showEmail\":false,\"showLocation\":true,\"searchable\":true,\"showMetrics\":true}",
+                Business = "{\"businessHours\":\"9:00 AM - 6:00 PM\",\"timezone\":\"America/Los_Angeles\",\"responseTime\":\"within 24 hours\"}",
+                Integrations = "{\"facebook\":{\"connected\":false},\"instagram\":{\"connected\":false},\"linkedin\":{\"connected\":false}}"
+            }
+        };
+
+        await context.UserSettings.AddRangeAsync(settings);
+        await context.SaveChangesAsync();
+
+        // Seed Trending Topics
+        var trendingTopics = new[]
+        {
+            new TrendingTopic { Tag = "#SmallBusinessTips", Count = 142, GrowthRate = 15.5 },
+            new TrendingTopic { Tag = "#LocalPartnership", Count = 89, GrowthRate = 12.3 },
+            new TrendingTopic { Tag = "#DigitalMarketing", Count = 76, GrowthRate = 8.7 },
+            new TrendingTopic { Tag = "#Networking", Count = 54, GrowthRate = 5.2 },
+            new TrendingTopic { Tag = "#AI4Business", Count = 41, GrowthRate = 22.1 }
+        };
+
+        await context.TrendingTopics.AddRangeAsync(trendingTopics);
+        await context.SaveChangesAsync();
+
+        // Seed Notifications
+        var notifications = new[]
+        {
+            new Notification
+            {
+                UserId = "user1",
+                ActorId = "user2",
+                Type = "connection",
+                Message = "accepted your connection request",
+                TargetId = "user2",
+                TargetType = "user",
+                Read = false,
+                CreatedAt = DateTime.UtcNow.AddDays(-10)
+            },
+            new Notification
+            {
+                UserId = "user1",
+                ActorId = "user3",
+                Type = "comment",
+                Message = "commented on your post",
+                TargetId = "post1",
+                TargetType = "post",
+                Read = false,
+                CreatedAt = DateTime.UtcNow.AddHours(-2)
+            }
+        };
+
+        await context.Notifications.AddRangeAsync(notifications);
+        await context.SaveChangesAsync();
+
+        // Seed Analytics Events
+        var analyticsEvents = new[]
+        {
+            new AnalyticsEvent
+            {
+                UserId = "user1",
+                EventType = "profile_view",
+                EventData = "{\"viewerId\":\"user2\"}",
+                CreatedAt = DateTime.UtcNow.AddDays(-1)
+            },
+            new AnalyticsEvent
+            {
+                UserId = "user1",
+                EventType = "connection_made",
+                EventData = "{\"connectedUserId\":\"user3\"}",
+                CreatedAt = DateTime.UtcNow.AddDays(-7)
+            },
+            new AnalyticsEvent
+            {
+                UserId = "user2",
+                EventType = "post_engagement",
+                EventData = "{\"postId\":\"post1\",\"type\":\"like\"}",
+                CreatedAt = DateTime.UtcNow.AddHours(-3)
+            }
+        };
+
+        await context.AnalyticsEvents.AddRangeAsync(analyticsEvents);
         await context.SaveChangesAsync();
     }
 }

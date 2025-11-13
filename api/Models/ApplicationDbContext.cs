@@ -14,6 +14,12 @@ public class ApplicationDbContext : DbContext
     public DbSet<Comment> Comments { get; set; } = null!;
     public DbSet<Like> Likes { get; set; } = null!;
     public DbSet<BusinessMetric> BusinessMetrics { get; set; } = null!;
+    public DbSet<Connection> Connections { get; set; } = null!;
+    public DbSet<UserSettings> UserSettings { get; set; } = null!;
+    public DbSet<Notification> Notifications { get; set; } = null!;
+    public DbSet<AnalyticsEvent> AnalyticsEvents { get; set; } = null!;
+    public DbSet<AIConversation> AIConversations { get; set; } = null!;
+    public DbSet<TrendingTopic> TrendingTopics { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -80,6 +86,86 @@ public class ApplicationDbContext : DbContext
                 .WithOne()
                 .HasForeignKey<BusinessMetric>(bm => bm.UserId)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Connection configuration
+        modelBuilder.Entity<Connection>(entity =>
+        {
+            entity.HasIndex(e => e.RequesterId);
+            entity.HasIndex(e => e.ReceiverId);
+            entity.HasIndex(e => new { e.RequesterId, e.ReceiverId }).IsUnique();
+
+            entity.HasOne(c => c.Requester)
+                .WithMany()
+                .HasForeignKey(c => c.RequesterId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(c => c.Receiver)
+                .WithMany()
+                .HasForeignKey(c => c.ReceiverId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete issues
+        });
+
+        // UserSettings configuration
+        modelBuilder.Entity<UserSettings>(entity =>
+        {
+            entity.HasIndex(e => e.UserId).IsUnique();
+
+            entity.HasOne(us => us.User)
+                .WithOne()
+                .HasForeignKey<UserSettings>(us => us.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // Notification configuration
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => new { e.UserId, e.Read });
+            entity.HasIndex(e => e.CreatedAt);
+
+            entity.HasOne(n => n.User)
+                .WithMany()
+                .HasForeignKey(n => n.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(n => n.Actor)
+                .WithMany()
+                .HasForeignKey(n => n.ActorId)
+                .OnDelete(DeleteBehavior.Restrict); // Prevent cascade delete issues
+        });
+
+        // AnalyticsEvent configuration
+        modelBuilder.Entity<AnalyticsEvent>(entity =>
+        {
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.EventType);
+            entity.HasIndex(e => e.CreatedAt);
+
+            entity.HasOne(ae => ae.User)
+                .WithMany()
+                .HasForeignKey(ae => ae.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // AIConversation configuration
+        modelBuilder.Entity<AIConversation>(entity =>
+        {
+            entity.HasIndex(e => e.UserId);
+            entity.HasIndex(e => e.CreatedAt);
+
+            entity.HasOne(ai => ai.User)
+                .WithMany()
+                .HasForeignKey(ai => ai.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        // TrendingTopic configuration
+        modelBuilder.Entity<TrendingTopic>(entity =>
+        {
+            entity.HasIndex(e => e.Tag).IsUnique();
+            entity.HasIndex(e => e.Count);
+            entity.HasIndex(e => e.GrowthRate);
         });
     }
 }

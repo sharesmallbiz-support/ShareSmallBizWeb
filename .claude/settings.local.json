@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(dotnet add:*)",
+      "Bash(dotnet ef migrations:*)",
+      "Bash(dotnet build:*)",
+      "Bash(timeout 10 dotnet run:*)",
+      "Bash(exit 0)",
+      "Bash(dotnet run)",
+      "Bash(curl:*)",
+      "Bash(taskkill:*)",
+      "Bash(sqlite3:*)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}
