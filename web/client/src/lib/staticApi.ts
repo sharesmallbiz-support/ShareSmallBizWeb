@@ -350,6 +350,14 @@ export class StaticApiService {
     };
   }
 
+  static async authenticateUser(
+    username: string,
+    password: string
+  ): Promise<User | null> {
+    const result = await this.login(username, password);
+    return result?.user ?? null;
+  }
+
   static async logout(): Promise<void> {
     await this.delay();
     this.data.currentUserId = null;
@@ -376,7 +384,7 @@ export class StaticApiService {
 
   static async getCurrentUser(): Promise<User | null> {
     if (!this.data.currentUserId) return null;
-    return this.getUser(this.data.currentUserId);
+    return (await this.getUser(this.data.currentUserId)) ?? null;
   }
 
   static async updateUser(

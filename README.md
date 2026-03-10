@@ -8,7 +8,7 @@ This is a monorepo containing:
 
 ```
 ShareSmallBizWeb/
-├── api/                  # .NET 8 Web API
+├── api/                  # .NET 10 Web API
 │   ├── Controllers/      # API controllers
 │   ├── Models/          # Entity models
 │   ├── Services/        # Business logic
@@ -31,15 +31,15 @@ ShareSmallBizWeb/
 - **AI Assistant**: Get intelligent business recommendations
 - **Post Creation**: Create and share content with rich media
 - **Social Media Integration**: Cross-post to various platforms
-- **.NET 8 API**: Modern, performant backend with EF Core
+- **.NET 10 API**: Modern, performant backend with EF Core
 - **React 18**: Modern frontend with TypeScript
 
 ## 🚀 Tech Stack
 
 ### Backend (.NET API)
-- **Framework**: ASP.NET Core 8
+- **Framework**: ASP.NET Core 10
 - **ORM**: Entity Framework Core
-- **Database**: PostgreSQL (with in-memory fallback)
+- **Database**: SQLite
 - **Authentication**: JWT with BCrypt password hashing
 - **API Docs**: Swagger/OpenAPI
 
@@ -51,9 +51,9 @@ ShareSmallBizWeb/
 
 ## 📋 Prerequisites
 
-- **.NET 8 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/8.0)
+- **.NET 10 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/10.0)
 - **Node.js 18+** - [Download](https://nodejs.org/)
-- **PostgreSQL** (optional - uses in-memory by default)
+- **SQLite** (default local database file)
 
 ## 🛠️ Quick Start
 
@@ -131,7 +131,7 @@ dotnet build
 # Publish for production
 dotnet publish -c Release -o ./publish
 
-# Database migrations (if using PostgreSQL)
+# Database migrations
 dotnet ef migrations add InitialCreate
 dotnet ef database update
 ```
@@ -166,7 +166,7 @@ Edit `api/appsettings.json`:
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=sharesmallbiz;Username=postgres;Password=yourpassword"
+      "DefaultConnection": "Data Source=sharesmallbiz.db"
   },
   "JwtSettings": {
     "SecretKey": "your-secret-key-min-32-characters-long",

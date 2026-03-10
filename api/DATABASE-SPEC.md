@@ -42,7 +42,7 @@ This document defines the complete database schema for the ShareSmallBiz platfor
 
 ### Migration Path
 
-For production scale (> 100K users), the schema is designed to be easily migrated to PostgreSQL with minimal changes.
+For larger production scale (> 100K users), the schema can be refactored to another relational database with minimal application-level changes.
 
 ---
 
@@ -788,7 +788,7 @@ ORDER BY event_date DESC;
    VACUUM; -- Reclaim space, rebuild indexes
    ```
 
-### When to Migrate to PostgreSQL
+### When to Revisit the Storage Engine
 
 Consider migration when:
 - Active users > 100,000
@@ -853,6 +853,6 @@ This SQLite schema provides a solid foundation for the ShareSmallBiz platform wi
 - ✅ Performance optimization through strategic indexing
 - ✅ Data integrity via constraints and foreign keys
 - ✅ Scalability considerations for future growth
-- ✅ Clear migration path to PostgreSQL when needed
+- ✅ Clear path to evolve the storage layer when needed
 
 For implementation, use Entity Framework Core migrations to generate and maintain the schema.

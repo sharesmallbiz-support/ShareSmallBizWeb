@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "ShareSmallBiz.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:12596;http://localhost:12597"
+    }
+  }
+}

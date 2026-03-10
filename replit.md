@@ -47,11 +47,10 @@ The server-side uses Express.js with TypeScript in an ESM configuration:
 The backend implements a RESTful API structure with routes for authentication, posts, comments, and AI interactions. It includes error handling middleware and request logging for debugging and monitoring.
 
 ## Data Storage Solutions
-PostgreSQL database with Drizzle ORM providing:
+In-memory demo storage providing:
 
 - **Schema Definition**: Type-safe schema definitions in TypeScript with automatic type generation
 - **Migration System**: Version-controlled database migrations for schema changes
-- **Connection Management**: Neon Database serverless PostgreSQL for cloud hosting
 - **Data Models**: Users, posts, comments, likes, AI interactions, and business metrics
 
 The database schema supports social features like user profiles, business information, posts with different types (discussions, opportunities, marketing), engagement metrics, and AI interaction history.
@@ -88,7 +87,6 @@ The AI service layer abstracts OpenAI API calls and provides structured response
 
 ## Backend Dependencies
 - **Server Framework**: Express.js for HTTP server and API routes
-- **Database**: Drizzle ORM with PostgreSQL dialect and Neon serverless driver
 - **Validation**: Zod for runtime type checking and schema validation
 - **AI Services**: OpenAI SDK for GPT-4 integration and business intelligence
 - **Development**: tsx for TypeScript execution and hot reloading
@@ -97,12 +95,10 @@ The AI service layer abstracts OpenAI API calls and provides structured response
 ## Development and Build Tools
 - **TypeScript**: Full TypeScript support across frontend and backend
 - **Vite**: Modern build tool with HMR, development server, and optimized production builds
-- **Drizzle Kit**: Database migration tool and schema management
 - **Replit Integration**: Vite plugins for Replit-specific development features including error overlay and cartographer
 
 ## Database and Cloud Services
-- **Neon Database**: Serverless PostgreSQL hosting with connection pooling
 - **OpenAI API**: GPT-4 model access for AI-powered business insights and recommendations
-- **Environment Configuration**: Environment variables for database connections and API keys
+- **Environment Configuration**: Environment variables for API keys and runtime settings
 
-The application is designed for deployment on platforms like Replit, Vercel, or similar cloud platforms with support for Node.js and PostgreSQL databases.
+The application is designed for deployment on platforms like Replit, Vercel, or similar cloud platforms with support for Node.js workloads.

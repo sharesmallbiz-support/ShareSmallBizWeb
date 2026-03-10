@@ -2,13 +2,12 @@
 
 ## Overview
 
-ShareSmallBiz is a modern, full-stack social platform for small business owners built with React, TypeScript, Express.js, and PostgreSQL. This guide covers how to build, test, and deploy the application.
+ShareSmallBiz is a modern, full-stack social platform for small business owners built with React, TypeScript, Express.js, and local in-memory or SQLite-backed services. This guide covers how to build, test, and deploy the application.
 
 ## Prerequisites
 
 - **Node.js** 18+
 - **npm** or **yarn**
-- **PostgreSQL** database (optional - uses in-memory storage by default)
 - **OpenAI API key** (optional - for AI features)
 
 ## Quick Start
@@ -24,9 +23,6 @@ npm install
 Create a `.env` file in the root directory:
 
 ```env
-# Database Configuration (optional - uses in-memory storage by default)
-DATABASE_URL="postgresql://username:password@localhost:5432/sharesmallbiz"
-
 # OpenAI API Configuration (optional - for AI features)
 OPENAI_API_KEY="your_openai_api_key_here"
 
@@ -67,7 +63,6 @@ npm start
 | `npm run build` | Build for production (client + server) |
 | `npm start` | Start production server |
 | `npm run check` | Run TypeScript type checking |
-| `npm run db:push` | Push database schema changes (requires DATABASE_URL) |
 
 ## Architecture Overview
 
@@ -83,7 +78,7 @@ npm start
 ### Backend
 
 - **Framework**: Express.js + TypeScript (ESM mode)
-- **Database**: PostgreSQL with Drizzle ORM
+- **Database**: In-memory demo storage
 - **AI Integration**: OpenAI GPT-4 for business insights
 - **Development**: Hot reloading with tsx
 
@@ -118,11 +113,7 @@ ShareSmallBizWeb/
 
 ### Database Setup (Optional)
 
-The application uses in-memory storage by default for demo purposes. To use PostgreSQL:
-
-1. Set up a PostgreSQL database
-2. Set `DATABASE_URL` in your `.env` file
-3. Run migrations: `npm run db:push`
+The application uses in-memory storage by default for demo purposes. The .NET API in the `api` folder uses SQLite for persistence.
 
 ### AI Features (Optional)
 
@@ -173,7 +164,6 @@ npm start
 ```env
 NODE_ENV=production
 PORT=5000
-DATABASE_URL="your_production_database_url"
 OPENAI_API_KEY="your_openai_api_key"
 ```
 
@@ -197,14 +187,14 @@ The application is designed for deployment on:
 
 **Build Warnings**: Large chunk size warnings are expected due to comprehensive UI library. Consider code splitting for optimization.
 
-**Database Connection**: If using PostgreSQL, ensure your `DATABASE_URL` is correct and the database is running.
+**Database Connection**: For the .NET API, ensure the SQLite database file is writable and the application can access its folder.
 
 ## Performance Notes
 
 - **Development**: Uses Vite's HMR for fast development experience
 - **Production**: Optimized build with tree shaking and minification
 - **Bundle Size**: ~500KB (consider code splitting for larger applications)
-- **Database**: In-memory storage for demo; PostgreSQL recommended for production
+- **Database**: In-memory storage for the demo web server; SQLite in the .NET API
 
 ## Contributing
 

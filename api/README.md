@@ -1,12 +1,12 @@
-# ShareSmallBiz API (.NET 8)
+# ShareSmallBiz API (.NET 10)
 
-Modern .NET 8 Web API for the ShareSmallBiz platform.
+Modern .NET 10 Web API for the ShareSmallBiz platform.
 
 ## Features
 
-- ✅ **ASP.NET Core 8** - Latest .NET framework
-- ✅ **Entity Framework Core** - ORM with PostgreSQL support
-- ✅ **In-Memory Database** - For development/demo mode
+- ✅ **ASP.NET Core 10** - Latest LTS framework
+- ✅ **Entity Framework Core** - ORM with SQLite support
+- ✅ **SQLite Database** - Default local database for development and deployment
 - ✅ **JWT Authentication** - Secure token-based auth
 - ✅ **BCrypt Password Hashing** - Secure password storage
 - ✅ **Swagger/OpenAPI** - Interactive API documentation
@@ -14,8 +14,8 @@ Modern .NET 8 Web API for the ShareSmallBiz platform.
 
 ## Prerequisites
 
-- .NET 8 SDK
-- PostgreSQL (optional - uses in-memory by default)
+- .NET 10 SDK
+- SQLite support is included via the bundled EF Core provider
 
 ## Getting Started
 
@@ -43,7 +43,7 @@ Edit `appsettings.json` or `appsettings.Development.json`:
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=sharesmallbiz;Username=postgres;Password=postgres"
+    "DefaultConnection": "Data Source=sharesmallbiz.db"
   },
   "JwtSettings": {
     "SecretKey": "your-secret-key-here-min-32-chars",
@@ -85,7 +85,7 @@ dotnet publish -c Release -o ./publish
 
 ## Database Migrations
 
-If using PostgreSQL:
+For the SQLite database:
 
 ```bash
 # Create migration
@@ -109,7 +109,7 @@ api/
 
 ## Development Notes
 
-- The API uses in-memory database by default for easy development
+- The API uses a local SQLite database by default
 - Sample data is seeded automatically in development mode
 - Swagger UI is available at the root URL in development
 - CORS is configured to allow the web app

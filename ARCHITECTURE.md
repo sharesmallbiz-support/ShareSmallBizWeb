@@ -8,7 +8,7 @@ ShareSmallBiz is a full-stack application with a modern .NET backend and React f
 
 ```
 ShareSmallBizWeb/
-├── api/                    # .NET 8 Web API
+├── api/                    # .NET 10 Web API
 │   ├── Controllers/        # RESTful API controllers
 │   ├── Models/            # Entity models & DbContext
 │   ├── Services/          # Business logic & interfaces
@@ -46,13 +46,12 @@ ShareSmallBizWeb/
 ### Backend (.NET API)
 
 **Framework & Runtime:**
-- ASP.NET Core 8 (latest LTS)
-- .NET 8 SDK
+- ASP.NET Core 10 (latest LTS)
+- .NET 10 SDK
 
 **Data Access:**
-- Entity Framework Core 8
-- PostgreSQL (production)
-- In-Memory Database (development)
+- Entity Framework Core 10
+- SQLite
 - Code-First migrations
 
 **Security:**
@@ -66,12 +65,10 @@ ShareSmallBizWeb/
 
 **Dependencies:**
 ```xml
-- Microsoft.AspNetCore.OpenApi
 - Swashbuckle.AspNetCore
-- Npgsql.EntityFrameworkCore.PostgreSQL
-- Microsoft.EntityFrameworkCore.InMemory
+- Microsoft.EntityFrameworkCore.Sqlite
+- Microsoft.EntityFrameworkCore.Design
 - Microsoft.AspNetCore.Authentication.JwtBearer
-- System.IdentityModel.Tokens.Jwt
 - BCrypt.Net-Next
 ```
 
@@ -111,7 +108,7 @@ React App (Port 5173 dev)
     ↓
 Entity Framework Core
     ↓
-PostgreSQL / In-Memory DB
+SQLite
 ```
 
 ## API Architecture
@@ -261,7 +258,7 @@ cd web && npm run build:static
 ```json
 {
   "ConnectionStrings": {
-    "DefaultConnection": "PostgreSQL connection string"
+        "DefaultConnection": "Data Source=sharesmallbiz.db"
   },
   "JwtSettings": {
     "SecretKey": "32+ character secret",
@@ -303,7 +300,7 @@ OPENAI_API_KEY=sk-...
 
 - EF Core query optimization
 - Async/await throughout
-- Connection pooling (PostgreSQL)
+- SQLite file-based storage
 - Response caching (future)
 
 ### Frontend

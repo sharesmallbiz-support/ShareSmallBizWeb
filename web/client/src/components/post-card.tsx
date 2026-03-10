@@ -6,15 +6,15 @@ import { Badge } from "@/components/ui/badge";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { apiRequest } from "../lib/queryClient";
 import { formatDistanceToNow } from "date-fns";
-import { 
-  Heart, 
-  MessageCircle, 
-  Share, 
-  Bookmark, 
+import {
+  Heart,
+  MessageCircle,
+  Share,
+  Bookmark,
   MoreHorizontal,
   Bot,
   Handshake,
-  TrendingUp
+  TrendingUp,
 } from "lucide-react";
 import type { PostWithUser } from "@shared/schema";
 
@@ -26,17 +26,23 @@ export default function PostCard({ post }: PostCardProps) {
   const [isLiked, setIsLiked] = useState(post.liked || false);
   const [showAIInsight, setShowAIInsight] = useState(false);
   const queryClient = useQueryClient();
-
-  // Mock current user ID - replace with real auth
   const currentUserId = "user1";
+  const userName = post.user?.fullName ?? "Unknown User";
+  const businessName = post.user?.businessName ?? "Unknown Business";
+  const avatarUrl = typeof post.user?.avatar === "string" ? post.user.avatar : "";
+  const postImageUrl = typeof post.imageUrl === "string" ? post.imageUrl : null;
 
   const likeMutation = useMutation({
     mutationFn: async () => {
       if (isLiked) {
-        return apiRequest("DELETE", `/api/posts/${post.id}/like`, { userId: currentUserId });
-      } else {
-        return apiRequest("POST", `/api/posts/${post.id}/like`, { userId: currentUserId });
+        return apiRequest("DELETE", `/api/posts/${post.id}/like`, {
+          userId: currentUserId,
+        });
       }
+
+      return apiRequest("POST", `/api/posts/${post.id}/like`, {
+        userId: currentUserId,
+      });
     },
     onSuccess: () => {
       setIsLiked(!isLiked);
@@ -53,7 +59,6 @@ export default function PostCard({ post }: PostCardProps) {
       case "marketing":
         return "bg-secondary/20 text-secondary";
       case "opportunity":
-        return "bg-success/20 text-success";
       case "collaboration":
         return "bg-success/20 text-success";
       default:
@@ -78,7 +83,6 @@ export default function PostCard({ post }: PostCardProps) {
       case "marketing":
         return "Marketing Tips";
       case "opportunity":
-        return "Collaboration";
       case "collaboration":
         return "Collaboration";
       default:
@@ -88,19 +92,18 @@ export default function PostCard({ post }: PostCardProps) {
 
   return (
     <Card className="post-card" data-testid={`post-${post.id}`}>
-      {/* Post Header */}
       <CardContent className="p-6">
         <div className="flex items-center mb-4">
           <Avatar className="w-12 h-12 mr-3">
-            <AvatarImage src={post.user.avatar || ""} alt={post.user.fullName} />
-            <AvatarFallback>{post.user.fullName.charAt(0)}</AvatarFallback>
+            <AvatarImage src={avatarUrl} alt={userName} />
+            <AvatarFallback>{userName.charAt(0)}</AvatarFallback>
           </Avatar>
           <div className="flex-1">
             <h3 className="font-semibold" data-testid={`post-author-${post.id}`}>
-              {post.user.fullName}
+              {userName}
             </h3>
             <p className="text-sm text-gray-600">
-              {post.user.businessName} • {formatDistanceToNow(new Date(post.createdAt!), { addSuffix: true })}
+              {businessName} • {formatDistanceToNow(new Date(post.createdAt), { addSuffix: true })}
             </p>
           </div>
           <div className="flex items-center space-x-2">
@@ -116,7 +119,6 @@ export default function PostCard({ post }: PostCardProps) {
           </div>
         </div>
 
-        {/* Post Content */}
         {post.title && (
           <h2 className="text-xl font-semibold mb-3" data-testid={`post-title-${post.id}`}>
             {post.title}
@@ -127,32 +129,29 @@ export default function PostCard({ post }: PostCardProps) {
         </p>
       </CardContent>
 
-      {post.imageUrl && (
-        <img 
-          src={post.imageUrl} 
-          alt={post.title || "Post image"} 
+      {postImageUrl && (
+        <img
+          src={postImageUrl}
+          alt={post.title || "Post image"}
           className="w-full h-64 object-cover"
           data-testid={`post-image-${post.id}`}
         />
       )}
 
-      {/* Collaboration Details */}
-      {post.isCollaboration && post.collaborationDetails && (
+      {post.isCollaboration && Boolean(post.collaborationDetails) && (
         <CardContent className="p-6 pt-0">
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <h4 className="font-semibold text-success mb-2">What we offer:</h4>
             <ul className="text-sm text-gray-700 space-y-1">
-              {Array.isArray((post.collaborationDetails as any)?.offers) && 
+              {Array.isArray((post.collaborationDetails as any)?.offers) &&
                 (post.collaborationDetails as any).offers.map((offer: string, index: number) => (
                   <li key={index}>• {offer}</li>
-                ))
-              }
+                ))}
             </ul>
           </div>
         </CardContent>
       )}
 
-      {/* Post Actions */}
       <CardContent className="p-6 pt-0">
         <div className="flex items-center justify-between">
           <div className="flex space-x-6">
@@ -160,10 +159,10 @@ export default function PostCard({ post }: PostCardProps) {
               variant="ghost"
               size="sm"
               onClick={handleLike}
-              className={`flex items-center ${isLiked ? 'text-red-500' : 'text-gray-600 hover:text-primary'}`}
+              className={`flex items-center ${isLiked ? "text-red-500" : "text-gray-600 hover:text-primary"}`}
               data-testid={`button-like-${post.id}`}
             >
-              <Heart className={`mr-2 h-4 w-4 ${isLiked ? 'fill-current' : ''}`} />
+              <Heart className={`mr-2 h-4 w-4 ${isLiked ? "fill-current" : ""}`} />
               <span>{post.likesCount}</span>
             </Button>
             <Button
@@ -184,7 +183,7 @@ export default function PostCard({ post }: PostCardProps) {
               <Share className="mr-2 h-4 w-4" />
               <span>{post.sharesCount}</span>
             </Button>
-            
+
             {post.isCollaboration && (
               <Button
                 size="sm"
@@ -195,7 +194,7 @@ export default function PostCard({ post }: PostCardProps) {
               </Button>
             )}
           </div>
-          
+
           <Button
             variant="ghost"
             size="sm"
@@ -206,7 +205,6 @@ export default function PostCard({ post }: PostCardProps) {
           </Button>
         </div>
 
-        {/* AI Insights */}
         {(post.likesCount || 0) > 50 && (
           <div className="mt-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
             <div className="flex items-center mb-2">
@@ -214,8 +212,8 @@ export default function PostCard({ post }: PostCardProps) {
               <span className="text-sm font-semibold text-ai-purple">AI Insight</span>
             </div>
             <p className="text-sm text-gray-700">
-              This post has {Math.round(((post.likesCount || 0) / 50 - 1) * 100)}% higher engagement than average. 
-              Consider similar content about {post.tags?.[0] || 'this topic'}.
+              This post has {Math.round(((post.likesCount || 0) / 50 - 1) * 100)}% higher engagement than average.
+              Consider similar content about {post.tags?.[0] || "this topic"}.
             </p>
           </div>
         )}

@@ -140,7 +140,7 @@ Current optimization splits code into:
 | Feature | Development Mode | Static Mode |
 |---------|------------------|-------------|
 | **Backend** | Express.js server | Mock API service |
-| **Database** | PostgreSQL/Memory | Static JSON data |
+| **Database** | Memory/SQLite-backed APIs | Static JSON data |
 | **Authentication** | Server sessions | LocalStorage simulation |
 | **API Calls** | HTTP requests | Promise-based mock responses |
 | **Real-time** | WebSocket possible | Simulated with timeouts |

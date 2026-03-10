@@ -1130,7 +1130,7 @@ The following endpoints are **fully implemented** in the static/mock API for off
 - [ ] Posts CRUD with user relationships
 - [ ] Comments system with nested replies
 - [ ] Likes/reactions system
-- [ ] Database schema with PostgreSQL
+- [ ] Database schema with SQLite
 - [ ] Entity Framework Core migrations
 - [ ] Input validation and error handling
 - [ ] CORS configuration for web client

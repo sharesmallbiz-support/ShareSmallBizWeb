@@ -357,7 +357,7 @@ export default function Analytics() {
                             <div
                               className="bg-primary h-2 rounded-full"
                               style={{
-                                width: `${(count / Math.max(...Object.values(demographics.locations || {}))) * 100}%`,
+                                width: `${(Number(count) / Math.max(...(Object.values(demographics.locations || {}) as number[]))) * 100}%`,
                               }}
                             ></div>
                           </div>

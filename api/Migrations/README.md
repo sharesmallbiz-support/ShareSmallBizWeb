@@ -4,8 +4,8 @@ This directory contains database migration scripts for the ShareSmallBiz API.
 
 ## Overview
 
-- **ORM:** Entity Framework Core 8.x
-- **Database:** SQLite 3.x (Development) / PostgreSQL (Production)
+- **ORM:** Entity Framework Core 10.x
+- **Database:** SQLite 3.x
 - **Migration Strategy:** Code-first with EF Core Migrations
 
 ## Manual SQL Script
@@ -114,16 +114,6 @@ Migrations/
 }
 ```
 
-### Production (PostgreSQL)
-
-```json
-{
-  "ConnectionStrings": {
-    "DefaultConnection": "Host=localhost;Database=sharesmallbiz;Username=postgres;Password=yourpassword"
-  }
-}
-```
-
 ## Best Practices
 
 1. **Always test migrations** on a copy of production data before applying to production
@@ -161,8 +151,6 @@ sqlite3 sharesmallbiz.db < seed_data.sql
 # SQLite backup
 sqlite3 sharesmallbiz.db ".backup backup_$(date +%Y%m%d).db"
 
-# PostgreSQL backup
-pg_dump -U postgres sharesmallbiz > backup_$(date +%Y%m%d).sql
 ```
 
 ## Troubleshooting

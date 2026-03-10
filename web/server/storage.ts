@@ -291,7 +291,7 @@ export class MemStorage implements IStorage {
       imageUrl: insertPost.imageUrl || null,
       postType: insertPost.postType || "discussion",
       tags: insertPost.tags || null,
-      isCollaboration: insertPost.isCollaboration || null,
+      isCollaboration: insertPost.isCollaboration || false,
       collaborationDetails: insertPost.collaborationDetails || null,
       likesCount: 0,
       commentsCount: 0,

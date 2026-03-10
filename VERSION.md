@@ -30,7 +30,7 @@
 ### Architecture:
 - Frontend: React + TypeScript + Tailwind CSS + Shadcn/UI
 - Backend: Express.js + TypeScript
-- Database: PostgreSQL with Drizzle ORM
+- Database: In-memory demo storage and SQLite-backed .NET API
 - AI: OpenAI GPT-4 integration
 - Deployment: Replit platform
 
