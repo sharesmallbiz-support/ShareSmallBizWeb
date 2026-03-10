@@ -2,12 +2,12 @@ import { useState } from "react";
 import CreatePost from "./create-post";
 import PostCard from "./post-card";
 import { Button } from "@/components/ui/button";
-import { usePosts } from "../hooks/use-posts";
+import { useDiscussions } from "../hooks/use-discussions";
 import { Skeleton } from "@/components/ui/skeleton";
 
 export default function MainFeed() {
   const [showCreatePost, setShowCreatePost] = useState(false);
-  const { data: posts, isLoading, hasNextPage, fetchNextPage } = usePosts();
+  const { data, isLoading, hasNextPage, fetchNextPage } = useDiscussions();
 
   if (isLoading) {
     return (
@@ -33,20 +33,17 @@ export default function MainFeed() {
 
   return (
     <div className="space-y-6">
-      {/* Create Post Section */}
-      <CreatePost 
+      <CreatePost
         isExpanded={showCreatePost}
         onToggleExpand={() => setShowCreatePost(!showCreatePost)}
       />
 
-      {/* Feed Posts */}
       <div className="space-y-6" data-testid="feed-posts">
-        {posts?.pages.flatMap(page => page).map((post) => (
+        {data?.discussions.map((post) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>
 
-      {/* Load More Button */}
       {hasNextPage && (
         <div className="text-center py-8">
           <Button

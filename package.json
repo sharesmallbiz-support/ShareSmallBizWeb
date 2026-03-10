@@ -1,24 +1,18 @@
 {
-  "name": "sharesmallbiz-monorepo",
+  "name": "sharesmallbiz-web",
   "version": "2.0.0",
-  "description": "ShareSmallBiz - Full-stack platform with .NET API and React web app",
+  "description": "ShareSmallBiz React web app — connects to api.sharesmallbiz.com",
   "private": true,
   "scripts": {
-    "build": "npm run build:all",
-    "build:all": "npm run build:api && npm run build:web",
-    "build:api": "cd api && dotnet publish -c Release -o ../publish/api",
-    "build:web": "cd web && npm run build",
-    "build:web-static": "cd web && npm run build:static",
+    "dev": "cd web && npm run dev",
+    "build": "cd web && npm run build",
     "install:web": "cd web && npm install",
-    "dev:web": "cd web && npm run dev",
-    "dev:api": "cd api && dotnet run",
     "clean": "rm -rf publish",
     "test": "echo \"No tests specified yet\""
   },
   "keywords": [
     "small-business",
     "social-network",
-    "dotnet",
     "react",
     "typescript"
   ],

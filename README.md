@@ -1,307 +1,143 @@
 # ShareSmallBizWeb
 
-A modern social media platform designed specifically for small businesses to connect, share insights, and grow together.
+A React single-page application for the ShareSmallBiz platform — a social network designed for small businesses to connect, share insights, and grow together.
 
-## 🏗️ Project Structure
-
-This is a monorepo containing:
-
-```
-ShareSmallBizWeb/
-├── api/                  # .NET 10 Web API
-│   ├── Controllers/      # API controllers
-│   ├── Models/          # Entity models
-│   ├── Services/        # Business logic
-│   └── DTOs/            # Data transfer objects
-├── web/                 # React + TypeScript frontend
-│   ├── client/          # React application
-│   ├── server/          # Legacy Express server (deprecated)
-│   └── shared/          # Shared types
-├── publish/             # Build output (auto-generated)
-│   ├── api/            # Published .NET API
-│   ├── web/            # Built web app
-│   └── web-static/     # Static site build
-└── build scripts        # Unified build process
-```
-
-## ✨ Features
-
-- **Business Dashboard**: Comprehensive analytics and insights
-- **Social Feed**: Share updates and connect with other businesses
-- **AI Assistant**: Get intelligent business recommendations
-- **Post Creation**: Create and share content with rich media
-- **Social Media Integration**: Cross-post to various platforms
-- **.NET 10 API**: Modern, performant backend with EF Core
-- **React 18**: Modern frontend with TypeScript
-
-## 🚀 Tech Stack
-
-### Backend (.NET API)
-- **Framework**: ASP.NET Core 10
-- **ORM**: Entity Framework Core
-- **Database**: SQLite
-- **Authentication**: JWT with BCrypt password hashing
-- **API Docs**: Swagger/OpenAPI
-
-### Frontend (Web)
-- **Framework**: React 18 + TypeScript + Vite
-- **UI**: Tailwind CSS + Shadcn/UI components
-- **State Management**: TanStack Query
-- **Routing**: Wouter
-
-## 📋 Prerequisites
-
-- **.NET 10 SDK** - [Download](https://dotnet.microsoft.com/download/dotnet/10.0)
-- **Node.js 18+** - [Download](https://nodejs.org/)
-- **SQLite** (default local database file)
-
-## 🛠️ Quick Start
-
-### Option 1: Build Everything
-
-```bash
-# Using bash (Linux/Mac)
-./build.sh
-
-# Using PowerShell (Windows)
-./build.ps1
-
-# Or using npm
-npm install
-npm run build:all
-```
-
-### Option 2: Development Mode
-
-**Terminal 1 - Run API:**
-```bash
-cd api
-dotnet restore
-dotnet run
-# API runs at http://localhost:5000
-```
-
-**Terminal 2 - Run Web:**
-```bash
-cd web
-npm install
-npm run dev
-# Web runs at http://localhost:5173
-```
-
-## 📦 Build Commands
-
-### Unified Build (Root Level)
-
-```bash
-# Build everything
-npm run build:all
-
-# Build only API
-npm run build:api
-
-# Build only web
-npm run build:web
-
-# Build static web (for GitHub Pages)
-npm run build:web-static
-
-# Development
-npm run dev:api      # Start .NET API
-npm run dev:web      # Start React dev server
-
-# Clean
-npm run clean        # Remove publish folder
-```
-
-### API-Specific Commands
-
-```bash
-cd api
-
-# Restore packages
-dotnet restore
-
-# Run in development
-dotnet run
-
-# Build
-dotnet build
-
-# Publish for production
-dotnet publish -c Release -o ./publish
-
-# Database migrations
-dotnet ef migrations add InitialCreate
-dotnet ef database update
-```
-
-### Web-Specific Commands
-
-```bash
-cd web
-
-# Install dependencies
-npm install
-
-# Development server
-npm run dev
-
-# Build for production
-npm run build
-
-# Build static site
-npm run build:static
-
-# Type checking
-npm run check
-```
-
-## 🔧 Configuration
-
-### API Configuration
-
-Edit `api/appsettings.json`:
-
-```json
-{
-  "ConnectionStrings": {
-      "DefaultConnection": "Data Source=sharesmallbiz.db"
-  },
-  "JwtSettings": {
-    "SecretKey": "your-secret-key-min-32-characters-long",
-    "Issuer": "ShareSmallBiz.Api",
-    "Audience": "ShareSmallBiz.Web",
-    "ExpirationMinutes": 1440
-  }
-}
-```
-
-### Web Configuration
-
-Create `web/.env`:
-
-```env
-VITE_API_URL=http://localhost:5000
-OPENAI_API_KEY=your_openai_api_key
-```
-
-## 🌐 Deployment
-
-### Production Deployment (Full Stack)
-
-1. **Build everything:**
-   ```bash
-   npm run build:all
-   ```
-
-2. **Deploy API:**
-   - The .NET API is in `publish/api/`
-   - Deploy to Azure App Service, AWS, Railway, etc.
-   - Set environment variables via hosting platform
-
-3. **Deploy Web:**
-   - Built files are in `publish/web/`
-   - Deploy to any Node.js hosting or static host
-   - Configure API URL environment variable
-
-### Static Site Deployment (GitHub Pages)
-
-1. **Build static version:**
-   ```bash
-   npm run build:web-static
-   ```
-
-2. **Deploy:**
-   - Files are in `publish/web-static/`
-   - Automatic deployment via GitHub Actions
-   - Or manually upload to any static host
-
-## 📖 API Documentation
-
-When running the API in development mode, Swagger UI is available at:
-- **Swagger UI**: http://localhost:5000
-
-### Main Endpoints
-
-**Authentication:**
-- `POST /api/auth/login` - Login
-- `POST /api/auth/register` - Register
-
-**Posts:**
-- `GET /api/posts` - Get posts
-- `POST /api/posts` - Create post
-- `POST /api/posts/{id}/like` - Like/unlike
-
-**Users:**
-- `GET /api/users/{id}` - Get user
-- `GET /api/users/{id}/metrics` - Business metrics
-
-See `api/README.md` for complete API documentation.
-
-## 🧪 Testing
-
-### Test User Accounts
-
-- **Username**: `johnsmith` | **Password**: `password123`
-- **Username**: `sharesmallbiz` | **Password**: `password123`
-- **Username**: `sarahmartinez` | **Password**: `password123`
-
-## 📁 Output Structure
-
-After building, the `publish/` folder contains:
-
-```
-publish/
-├── api/              # .NET API ready to deploy
-│   ├── ShareSmallBiz.Api.dll
-│   ├── appsettings.json
-│   └── ...
-├── web/              # Built web app
-│   └── assets/
-└── web-static/       # Static site (no backend needed)
-    └── assets/
-```
-
-## 🔄 Migration from Old Structure
-
-The repository has been reorganized:
-- **Old**: Everything in root
-- **New**: `api/` for .NET API, `web/` for frontend
-- **Legacy**: Express.js server in `web/server/` (deprecated, kept for reference)
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test using `npm run build:all`
-5. Submit a pull request
-
-## 📄 License
-
-This project is licensed under the MIT License.
-
-## 🆘 Troubleshooting
-
-### .NET SDK not found
-```bash
-dotnet --version
-# If not found, install from https://dotnet.microsoft.com/download
-```
-
-### Build fails
-```bash
-# Clean and rebuild
-npm run clean
-npm run build:all
-```
-
-### Port already in use
-- API default: 5000 (change in `api/appsettings.json`)
-- Web dev: 5173 (Vite assigns automatically)
+All data is served by the hosted REST API at **`https://api.sharesmallbiz.com`**. This repository contains only the frontend; there is no local backend to run or deploy.
 
 ---
 
-**Version**: 2.0.0
-**Last Updated**: November 2025
+## Project Structure
+
+```
+ShareSmallBizWeb/
+├── web/
+│   ├── client/              # React application source
+│   │   └── src/
+│   │       ├── components/  # UI components (Radix UI / Shadcn)
+│   │       ├── contexts/    # AuthContext (JWT)
+│   │       ├── hooks/       # Custom React hooks
+│   │       ├── lib/         # api.ts — API client, queryClient
+│   │       └── pages/       # Route-level pages
+│   ├── shared/
+│   │   └── schema.ts        # TypeScript types matching API models
+│   ├── vite.config.ts
+│   └── package.json
+├── publish/                 # Build output (auto-generated)
+│   └── web/                 # Production-ready static files
+├── build.sh                 # Linux / macOS build script
+├── build.ps1                # Windows build script
+└── package.json             # Root convenience scripts
+```
+
+---
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | React 18 + TypeScript |
+| Build tool | Vite 5 |
+| UI components | Radix UI / Shadcn, Tailwind CSS |
+| Data fetching | TanStack Query v5 |
+| Routing | Wouter |
+| Authentication | JWT (stored in `localStorage`, sent as `Authorization: Bearer`) |
+| Charts | Recharts |
+| Animation | Framer Motion |
+
+---
+
+## API
+
+All data is provided by `https://api.sharesmallbiz.com`.
+
+| Resource | Description |
+|---|---|
+| `POST /api/auth/login` | Obtain a JWT |
+| `POST /api/auth/register` | Create an account |
+| `GET /api/discussion/paged` | Paginated discussions (public feed) |
+| `POST /api/discussion` | Create a discussion (authenticated) |
+| `POST /api/discussion/{id}/like` | Toggle like (authenticated) |
+| `GET /api/profiles/{slug}` | Public profile + analytics |
+| `GET /api/users/{userId}` | User record (authenticated) |
+| `PUT /api/users/{userId}` | Update profile (authenticated) |
+| `GET /api/comments?postId=` | Comments for a discussion |
+| `GET /api/keywords` | Tags / keywords |
+| `GET /api/media` | User media library (authenticated) |
+
+Full API reference: [`.specify/api-developer-guide.md`](.specify/api-developer-guide.md)
+Interactive docs (non-production): `https://api.sharesmallbiz.com/scalar/v1`
+
+---
+
+## Prerequisites
+
+- **Node.js 18+** — [nodejs.org](https://nodejs.org/)
+
+No .NET SDK, no database, no Docker required.
+
+---
+
+## Quick Start
+
+```bash
+cd web
+npm install
+npm run dev
+# App available at http://localhost:5173
+```
+
+---
+
+## Build
+
+```bash
+# From repo root
+./build.sh          # Linux / macOS
+./build.ps1         # Windows PowerShell
+
+# Or directly
+cd web
+npm run build       # Output → publish/web/
+```
+
+---
+
+## Environment
+
+Create `web/.env` (optional — defaults to the production API):
+
+```env
+VITE_API_BASE_URL=https://api.sharesmallbiz.com
+```
+
+Override `VITE_API_BASE_URL` to point at a local or staging instance during development.
+
+---
+
+## Authentication
+
+The app uses **JWT Bearer tokens**.
+
+1. User submits credentials via the Sign In dialog.
+2. A `POST /api/auth/login` request returns `{ token, userId, displayName }`.
+3. The token is stored in `localStorage` under the key `ssb_token`.
+4. Every authenticated API call includes `Authorization: Bearer <token>`.
+5. On page load, `AuthContext` decodes the stored token to restore the session.
+
+Tokens expire after the time configured in the API (default: 1 hour). Sign in again to obtain a new token.
+
+---
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/my-change`)
+3. Make your changes
+4. Build and verify (`cd web && npm run build`)
+5. Submit a pull request
+
+---
+
+## License
+
+MIT

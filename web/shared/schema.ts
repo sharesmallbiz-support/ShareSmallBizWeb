@@ -1,202 +1,125 @@
-import { z } from "zod";
+// ShareSmallBiz API data models — mirrors the types defined at api.sharesmallbiz.com
 
-const nullableString = z.string().nullable().optional();
-const postTypeSchema = z.enum([
-  "discussion",
-  "opportunity",
-  "marketing",
-  "success_story",
-  "collaboration",
-]);
-
-export interface User {
+export interface UserModel {
   id: string;
-  username: string;
   email: string;
-  password?: string;
-  fullName: string;
-  businessName?: string | null;
-  businessType?: string | null;
-  location?: string | null;
-  avatar?: string | null;
-  bio?: string | null;
-  website?: string | null;
-  connections: number;
-  businessScore: number;
-  createdAt: Date;
+  userName: string;
+  displayName: string;
+  firstName: string;
+  lastName: string;
+  bio: string;
+  websiteUrl: string;
+  profilePictureUrl: string;
+  profileViewCount: number;
+  likeCount: number;
+  postCount: number;
+  isEmailConfirmed: boolean;
+  isLockedOut: boolean;
+  roles: string[];
+  lastLogin: string | null;
+  loginCount: number;
+  posts: DiscussionModel[];
 }
 
-export interface InsertUser {
-  username: string;
-  email: string;
-  password: string;
-  fullName: string;
-  businessName?: string | null;
-  businessType?: string | null;
-  location?: string | null;
-  avatar?: string | null;
-  bio?: string | null;
-  website?: string | null;
+export interface ProfileAnalytics {
+  totalViews: number;
+  recentViews: Record<string, number>;
+  geoDistribution: Record<string, number>;
+  engagement: {
+    followerCount: number;
+    newFollowers: number;
+    totalLikes: number;
+    recentLikes: number;
+  };
 }
 
-export interface Post {
-  id: string;
-  userId: string;
+export interface ProfileModel extends UserModel {
+  analytics: ProfileAnalytics | null;
+  publicUsers: UserModel[];
+}
+
+export interface DiscussionModel {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
   content: string;
-  title?: string | null;
-  imageUrl?: string | null;
-  postType: z.infer<typeof postTypeSchema>;
-  tags?: string[] | null;
-  likesCount: number;
-  commentsCount: number;
-  sharesCount: number;
-  isCollaboration: boolean;
-  collaborationDetails?: unknown | null;
-  createdAt: Date;
+  cover: string;
+  isPublic: boolean;
+  isFeatured: boolean;
+  postType: number;
+  postViews: number;
+  rating: number;
+  published: string;
+  createdDate: string;
+  modifiedDate: string | null;
+  tags: string[];
+  creator: UserModel | null;
+  comments: PostCommentModel[];
+  likes: LikeModel[];
+  media: MediaModel[];
 }
 
-export interface InsertPost {
+export interface LikeModel {
   userId: string;
+  postId: number;
+}
+
+export interface PostCommentModel {
+  id: number;
+  postId: number;
   content: string;
-  title?: string | null;
-  imageUrl?: string | null;
-  postType?: z.infer<typeof postTypeSchema>;
-  tags?: string[] | null;
-  isCollaboration?: boolean;
-  collaborationDetails?: unknown | null;
+  likeCount: number;
+  createdDate: string;
+  modifiedDate: string | null;
+  author: {
+    id: string;
+    userName: string;
+    displayName: string;
+    profilePictureUrl: string;
+  } | null;
+  likes: LikeModel[];
 }
 
-export interface Comment {
-  id: string;
-  postId: string;
-  userId: string;
-  content: string;
-  createdAt: Date;
+export interface KeywordModel {
+  id: number;
+  name: string;
+  description: string;
+  postCount: number;
 }
 
-export interface InsertComment {
-  postId: string;
+export interface MediaModel {
+  id: number;
+  fileName: string;
+  description: string;
+  attribution: string;
+  url: string;
+  contentType: string;
+  fileSize: number;
+  mediaType: number; // 0=Image, 1=Video, 2=Audio, 3=Document
+  storageProvider: number; // 0=LocalStorage, 1=External, 2=YouTube, 3=Unsplash
+  storageMetadata: string;
   userId: string;
-  content: string;
+  postId: number | null;
+  commentId: number | null;
+  createdDate: string;
+  modifiedDate: string;
 }
 
-export interface AIInteraction {
-  id: string;
+export interface PagedResult<T> {
+  items: T[];
+  totalCount: number;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+}
+
+export interface LoginResponse {
+  token: string;
   userId: string;
+  displayName: string;
+}
+
+export interface ApiError {
   message: string;
-  response: string;
-  context?: unknown | null;
-  createdAt: Date;
 }
-
-export interface InsertAIInteraction {
-  userId: string;
-  message: string;
-  response: string;
-  context?: unknown | null;
-}
-
-export interface BusinessMetric {
-  id: string;
-  userId: string;
-  profileViews: number;
-  networkGrowth: number;
-  opportunities: number;
-  engagementScore: number;
-  lastUpdated: Date;
-}
-
-export const userSchema = z.object({
-  id: z.string(),
-  username: z.string().min(1),
-  email: z.string().email(),
-  password: z.string().min(1).optional(),
-  fullName: z.string().min(1),
-  businessName: nullableString,
-  businessType: nullableString,
-  location: nullableString,
-  avatar: nullableString,
-  bio: nullableString,
-  website: nullableString,
-  connections: z.number().int().default(0),
-  businessScore: z.number().int().default(50),
-  createdAt: z.coerce.date(),
-});
-
-export const postSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  content: z.string().min(1),
-  title: nullableString,
-  imageUrl: nullableString,
-  postType: postTypeSchema.default("discussion"),
-  tags: z.array(z.string()).nullable().optional(),
-  likesCount: z.number().int().default(0),
-  commentsCount: z.number().int().default(0),
-  sharesCount: z.number().int().default(0),
-  isCollaboration: z.boolean().default(false),
-  collaborationDetails: z.unknown().nullable().optional(),
-  createdAt: z.coerce.date(),
-});
-
-export const commentSchema = z.object({
-  id: z.string(),
-  postId: z.string(),
-  userId: z.string(),
-  content: z.string().min(1),
-  createdAt: z.coerce.date(),
-});
-
-export const aiInteractionSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  message: z.string().min(1),
-  response: z.string().min(1),
-  context: z.unknown().nullable().optional(),
-  createdAt: z.coerce.date(),
-});
-
-export const businessMetricSchema = z.object({
-  id: z.string(),
-  userId: z.string(),
-  profileViews: z.number().int().default(0),
-  networkGrowth: z.number().int().default(0),
-  opportunities: z.number().int().default(0),
-  engagementScore: z.number().int().default(0),
-  lastUpdated: z.coerce.date(),
-});
-
-export const insertUserSchema = userSchema.omit({
-  id: true,
-  createdAt: true,
-  connections: true,
-  businessScore: true,
-});
-
-export const insertPostSchema = postSchema.omit({
-  id: true,
-  createdAt: true,
-  likesCount: true,
-  commentsCount: true,
-  sharesCount: true,
-});
-
-export const insertCommentSchema = commentSchema.omit({
-  id: true,
-  createdAt: true,
-});
-
-export const insertAIInteractionSchema = aiInteractionSchema.omit({
-  id: true,
-  createdAt: true,
-});
-
-// Extended types for API responses
-export type PostWithUser = Post & {
-  user?: User;
-  liked?: boolean;
-};
-
-export type CommentWithUser = Comment & {
-  user?: User;
-};
