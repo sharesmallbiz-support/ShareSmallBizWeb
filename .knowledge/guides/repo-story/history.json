@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-19T04:40:01.2260889+00:00",
+  "generated_at": "2026-10-19T05:08:18.7211566+00:00",
   "audit_parameters": {
     "months": 12,
     "scope": "full",
     "compare_baseline": "2025-10",
-    "since_date": "2025-10-18",
+    "since_date": "2025-10-19",
     "start_month": "2025-10",
     "end_month": "2026-10"
   },
@@ -15,8 +15,8 @@
     "default_branch": "main"
   },
   "summary": {
-    "total_commits": 81,
-    "total_commits_in_window": 16,
+    "total_commits": 82,
+    "total_commits_in_window": 17,
     "total_contributors": 4,
     "total_tags": 0,
     "history_span_days": 438
@@ -29,20 +29,20 @@
       "subject": "Initial commit"
     },
     "latest_commit": {
-      "sha": "0d7e322e2c2ed6149287654121fd136bf8faa499",
-      "date": "2026-10-18T23:37:10-05:00",
+      "sha": "dbd5da9d35c3028d58ec4fb2775e8494b1cd6a6d",
+      "date": "2026-10-18T23:58:36-05:00",
       "role": "Developer A",
-      "subject": "Add initial HTML files and asset testing for GitHub Pages deployment"
+      "subject": "chore: finish BSW.DevSpark 9.3.0 setup and add first repo story"
     },
     "commits_by_year": {
-      "2026": 3,
+      "2026": 4,
       "2025": 13
     },
     "commits_by_month": {
+      "2026-10": 2,
       "2025-11": 11,
-      "2026-03": 2,
       "2025-10": 2,
-      "2026-10": 1
+      "2026-03": 2
     }
   },
   "contributors": {
@@ -53,7 +53,7 @@
       },
       {
         "role": "Developer A",
-        "commits": 5
+        "commits": 6
       },
       {
         "role": "Developer B",
@@ -66,20 +66,20 @@
     ],
     "all_count": 4,
     "monthly_by_role": {
+      "2026-10": {
+        "Developer A": 2
+      },
       "2025-11": {
-        "Developer B": 3,
+        "Developer A": 1,
         "Lead Architect": 7,
-        "Developer A": 1
+        "Developer B": 3
+      },
+      "2025-10": {
+        "Developer A": 1,
+        "Developer C": 1
       },
       "2026-03": {
         "Developer A": 2
-      },
-      "2025-10": {
-        "Developer C": 1,
-        "Developer A": 1
-      },
-      "2026-10": {
-        "Developer A": 1
       }
     }
   },
@@ -91,7 +91,7 @@
       },
       {
         "role": "Developer A",
-        "commits": 5
+        "commits": 6
       },
       {
         "role": "Developer B",
@@ -104,18 +104,18 @@
     ]
   },
   "volume_metrics": {
-    "total_commits": 16,
+    "total_commits": 17,
     "monthly_commit_distribution": {
+      "2026-10": 2,
       "2025-11": 11,
-      "2026-03": 2,
       "2025-10": 2,
-      "2026-10": 1
+      "2026-03": 2
     },
     "merged_pr_count": 3,
     "file_types_top": [
       {
         "extension": "md",
-        "touched_files": 126
+        "touched_files": 168
       },
       {
         "extension": "tsx",
@@ -134,12 +134,12 @@
         "touched_files": 38
       },
       {
-        "extension": "sh",
+        "extension": "json",
         "touched_files": 33
       },
       {
-        "extension": "json",
-        "touched_files": 32
+        "extension": "sh",
+        "touched_files": 33
       },
       {
         "extension": "py",
@@ -150,7 +150,7 @@
         "touched_files": 6
       },
       {
-        "extension": "csproj",
+        "extension": "gitignore",
         "touched_files": 4
       },
       {
@@ -158,15 +158,11 @@
         "touched_files": 4
       },
       {
-        "extension": "txt",
-        "touched_files": 3
+        "extension": "csproj",
+        "touched_files": 4
       },
       {
         "extension": "example",
-        "touched_files": 3
-      },
-      {
-        "extension": "gitignore",
         "touched_files": 3
       },
       {
@@ -174,19 +170,23 @@
         "touched_files": 3
       },
       {
+        "extension": "txt",
+        "touched_files": 3
+      },
+      {
         "extension": "db-shm",
         "touched_files": 3
       },
       {
-        "extension": "sql",
-        "touched_files": 2
-      },
-      {
-        "extension": "css",
+        "extension": "db",
         "touched_files": 2
       },
       {
         "extension": "yml",
+        "touched_files": 2
+      },
+      {
+        "extension": "css",
         "touched_files": 2
       },
       {
@@ -230,7 +230,7 @@
     ]
   },
   "commit_message_metrics": {
-    "conventional_commit_count": 9,
+    "conventional_commit_count": 10,
     "informal_commit_count": 0,
     "spec_reference_commit_count": 0
   },
@@ -247,8 +247,14 @@
   "milestones": {
     "tags": [],
     "readme_evolution": {
-      "total_readme_commits": 3,
+      "total_readme_commits": 4,
       "commits": [
+        {
+          "sha": "dbd5da9d35c3028d58ec4fb2775e8494b1cd6a6d",
+          "date": "2026-10-18T23:58:36-05:00",
+          "role": "Developer A",
+          "subject": "chore: finish BSW.DevSpark 9.3.0 setup and add first repo story"
+        },
         {
           "sha": "77e5d3e681d30067f6993c0706d0f57b725b28fd",
           "date": "2026-03-10T15:22:32-05:00",
@@ -272,19 +278,23 @@
   },
   "change_patterns": {
     "subject_type_estimates": {
-      "features": 8,
-      "other": 5,
-      "docs": 1,
       "ci_build": 0,
+      "features": 8,
       "fixes": 1,
+      "docs": 1,
+      "chore": 1,
       "tests": 0,
-      "refactor": 1,
-      "chore": 0
+      "other": 5,
+      "refactor": 1
     },
     "hotspots": [
       {
         "path": "web/client/src/lib/staticApi.ts",
         "changes": 5
+      },
+      {
+        "path": "README.md",
+        "changes": 4
       },
       {
         "path": "api/API-SPEC.md",
@@ -295,79 +305,7 @@
         "changes": 4
       },
       {
-        "path": "api/Services/StorageService.cs",
-        "changes": 3
-      },
-      {
         "path": "api/sharesmallbiz.db-shm",
-        "changes": 3
-      },
-      {
-        "path": "web/server/storage.ts",
-        "changes": 3
-      },
-      {
-        "path": "web/client/src/lib/staticQueryClient.ts",
-        "changes": 3
-      },
-      {
-        "path": "web/client/src/components/post-card.tsx",
-        "changes": 3
-      },
-      {
-        "path": "web/package.json",
-        "changes": 3
-      },
-      {
-        "path": "ARCHITECTURE.md",
-        "changes": 3
-      },
-      {
-        "path": "web/client/src/components/navigation-header.tsx",
-        "changes": 3
-      },
-      {
-        "path": "README.md",
-        "changes": 3
-      },
-      {
-        "path": "api/Services/IStorageService.cs",
-        "changes": 3
-      },
-      {
-        "path": "api/DATABASE-SPEC.md",
-        "changes": 3
-      },
-      {
-        "path": "api/Models/DbSeeder.cs",
-        "changes": 3
-      },
-      {
-        "path": "api/Models/ApplicationDbContext.cs",
-        "changes": 3
-      },
-      {
-        "path": "web/.env.example",
-        "changes": 3
-      },
-      {
-        "path": "web/package-lock.json",
-        "changes": 3
-      },
-      {
-        "path": "web/shared/schema.ts",
-        "changes": 3
-      },
-      {
-        "path": "api/Migrations/README.md",
-        "changes": 3
-      },
-      {
-        "path": "api/appsettings.json",
-        "changes": 3
-      },
-      {
-        "path": "api/Controllers/PostsController.cs",
         "changes": 3
       },
       {
@@ -375,7 +313,15 @@
         "changes": 3
       },
       {
-        "path": "api/appsettings.Development.json",
+        "path": "api/appsettings.json",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/components/post-card.tsx",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/lib/staticQueryClient.ts",
         "changes": 3
       },
       {
@@ -383,11 +329,31 @@
         "changes": 3
       },
       {
-        "path": "api/Controllers/UsersController.cs",
+        "path": "api/Migrations/README.md",
         "changes": 3
       },
       {
-        "path": "api/Program.cs",
+        "path": "web/.env.example",
+        "changes": 3
+      },
+      {
+        "path": "api/Services/StorageService.cs",
+        "changes": 3
+      },
+      {
+        "path": "web/shared/schema.ts",
+        "changes": 3
+      },
+      {
+        "path": "web/package-lock.json",
+        "changes": 3
+      },
+      {
+        "path": "api/Models/ApplicationDbContext.cs",
+        "changes": 3
+      },
+      {
+        "path": "ARCHITECTURE.md",
         "changes": 3
       },
       {
@@ -399,19 +365,47 @@
         "changes": 3
       },
       {
-        "path": "api/Models/UserSettings.cs",
-        "changes": 2
+        "path": "api/appsettings.Development.json",
+        "changes": 3
       },
       {
-        "path": "web/server/index.ts",
-        "changes": 2
+        "path": "api/Services/IStorageService.cs",
+        "changes": 3
       },
       {
-        "path": "web/client/src/components/main-feed.tsx",
-        "changes": 2
+        "path": "web/server/storage.ts",
+        "changes": 3
       },
       {
-        "path": "web/server/services/openai.ts",
+        "path": "api/Models/DbSeeder.cs",
+        "changes": 3
+      },
+      {
+        "path": "web/package.json",
+        "changes": 3
+      },
+      {
+        "path": "api/DATABASE-SPEC.md",
+        "changes": 3
+      },
+      {
+        "path": "api/Controllers/PostsController.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/Controllers/UsersController.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/Program.cs",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/components/navigation-header.tsx",
+        "changes": 3
+      },
+      {
+        "path": "web/server/routes.ts",
         "changes": 2
       },
       {
@@ -419,39 +413,31 @@
         "changes": 2
       },
       {
-        "path": "build.ps1",
+        "path": "api/Models/BusinessMetric.cs",
         "changes": 2
       },
       {
-        "path": "api/Controllers/AuthController.cs",
+        "path": "api/Services/AuthService.cs",
         "changes": 2
       },
       {
-        "path": "ShareSmallBiz.sln",
+        "path": "api/Models/Notification.cs",
         "changes": 2
       },
       {
-        "path": "web/server/vite.ts",
+        "path": "api/Controllers/SettingsController.cs",
         "changes": 2
       },
       {
-        "path": "STATIC_DEPLOYMENT.md",
+        "path": "web/server/index.ts",
         "changes": 2
       },
       {
-        "path": "api/Models/AnalyticsEvent.cs",
+        "path": "web/client/src/components/create-post.tsx",
         "changes": 2
       },
       {
-        "path": "api/sharesmallbiz.db",
-        "changes": 2
-      },
-      {
-        "path": ".specify/templates/plan-template.md",
-        "changes": 2
-      },
-      {
-        "path": "api/Models/Comment.cs",
+        "path": "api/Models/User.cs",
         "changes": 2
       },
       {
@@ -459,15 +445,31 @@
         "changes": 2
       },
       {
-        "path": "api/DTOs/CommentDto.cs",
+        "path": "web/vite.static.config.ts",
         "changes": 2
       },
       {
-        "path": "web/client/src/hooks/use-posts.ts",
+        "path": "api/sharesmallbiz.db",
         "changes": 2
       },
       {
-        "path": "web/client/src/pages/profile.tsx",
+        "path": "web/client/src/components/social-media-integration.tsx",
+        "changes": 2
+      },
+      {
+        "path": ".specify/templates/plan-template.md",
+        "changes": 2
+      },
+      {
+        "path": "api/Models/Like.cs",
+        "changes": 2
+      },
+      {
+        "path": "api/Controllers/CommunityController.cs",
+        "changes": 2
+      },
+      {
+        "path": "web/client/src/components/business-dashboard.tsx",
         "changes": 2
       },
       {
@@ -475,11 +477,15 @@
         "changes": 2
       },
       {
-        "path": "web/vite.config.ts",
+        "path": "build.ps1",
         "changes": 2
       },
       {
-        "path": "web/client/src/components/social-media-integration.tsx",
+        "path": "web/scripts/fix-github-paths.js",
+        "changes": 2
+      },
+      {
+        "path": "api/Properties/launchSettings.json",
         "changes": 2
       }
     ]
@@ -500,6 +506,12 @@
   },
   "recent": {
     "commits": [
+      {
+        "sha": "dbd5da9d35c3028d58ec4fb2775e8494b1cd6a6d",
+        "date": "2026-10-18T23:58:36-05:00",
+        "role": "Developer A",
+        "subject": "chore: finish BSW.DevSpark 9.3.0 setup and add first repo story"
+      },
       {
         "sha": "0d7e322e2c2ed6149287654121fd136bf8faa499",
         "date": "2026-10-18T23:37:10-05:00",
