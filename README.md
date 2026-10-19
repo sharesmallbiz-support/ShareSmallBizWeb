@@ -128,6 +128,13 @@ Tokens expire after the time configured in the API (default: 1 hour). Sign in ag
 
 ---
 
+## Repo Story
+
+An evidence-based narrative of this repository's development history, contributor patterns, and architecture:
+[Repo Story (2026-10-18)](.knowledge/guides/repo-story/repo-story-2026-10-18.md)
+
+---
+
 ## Contributing
 
 1. Fork the repository

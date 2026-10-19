@@ -1,0 +1,601 @@
+{
+  "generated_at": "2026-10-19T04:40:01.2260889+00:00",
+  "audit_parameters": {
+    "months": 12,
+    "scope": "full",
+    "compare_baseline": "2025-10",
+    "since_date": "2025-10-18",
+    "start_month": "2025-10",
+    "end_month": "2026-10"
+  },
+  "repo": {
+    "name": "ShareSmallBizWeb",
+    "root": "C:/GitHub/ShareSmallBiz-support/ShareSmallBizWeb",
+    "remote_origin": "https://github.com/sharesmallbiz-support/ShareSmallBizWeb",
+    "default_branch": "main"
+  },
+  "summary": {
+    "total_commits": 81,
+    "total_commits_in_window": 16,
+    "total_contributors": 4,
+    "total_tags": 0,
+    "history_span_days": 438
+  },
+  "timeline": {
+    "first_commit": {
+      "sha": "072c2e278b674b5dc51b189fe90477ce81662bce",
+      "date": "2025-08-06T13:51:33Z",
+      "role": "Developer C",
+      "subject": "Initial commit"
+    },
+    "latest_commit": {
+      "sha": "0d7e322e2c2ed6149287654121fd136bf8faa499",
+      "date": "2026-10-18T23:37:10-05:00",
+      "role": "Developer A",
+      "subject": "Add initial HTML files and asset testing for GitHub Pages deployment"
+    },
+    "commits_by_year": {
+      "2026": 3,
+      "2025": 13
+    },
+    "commits_by_month": {
+      "2025-11": 11,
+      "2026-03": 2,
+      "2025-10": 2,
+      "2026-10": 1
+    }
+  },
+  "contributors": {
+    "top": [
+      {
+        "role": "Lead Architect",
+        "commits": 7
+      },
+      {
+        "role": "Developer A",
+        "commits": 5
+      },
+      {
+        "role": "Developer B",
+        "commits": 3
+      },
+      {
+        "role": "Developer C",
+        "commits": 1
+      }
+    ],
+    "all_count": 4,
+    "monthly_by_role": {
+      "2025-11": {
+        "Developer B": 3,
+        "Lead Architect": 7,
+        "Developer A": 1
+      },
+      "2026-03": {
+        "Developer A": 2
+      },
+      "2025-10": {
+        "Developer C": 1,
+        "Developer A": 1
+      },
+      "2026-10": {
+        "Developer A": 1
+      }
+    }
+  },
+  "contributor_census": {
+    "role_assignments": [
+      {
+        "role": "Lead Architect",
+        "commits": 7
+      },
+      {
+        "role": "Developer A",
+        "commits": 5
+      },
+      {
+        "role": "Developer B",
+        "commits": 3
+      },
+      {
+        "role": "Developer C",
+        "commits": 1
+      }
+    ]
+  },
+  "volume_metrics": {
+    "total_commits": 16,
+    "monthly_commit_distribution": {
+      "2025-11": 11,
+      "2026-03": 2,
+      "2025-10": 2,
+      "2026-10": 1
+    },
+    "merged_pr_count": 3,
+    "file_types_top": [
+      {
+        "extension": "md",
+        "touched_files": 126
+      },
+      {
+        "extension": "tsx",
+        "touched_files": 84
+      },
+      {
+        "extension": "cs",
+        "touched_files": 71
+      },
+      {
+        "extension": "ts",
+        "touched_files": 41
+      },
+      {
+        "extension": "ps1",
+        "touched_files": 38
+      },
+      {
+        "extension": "sh",
+        "touched_files": 33
+      },
+      {
+        "extension": "json",
+        "touched_files": 32
+      },
+      {
+        "extension": "py",
+        "touched_files": 19
+      },
+      {
+        "extension": "html",
+        "touched_files": 6
+      },
+      {
+        "extension": "csproj",
+        "touched_files": 4
+      },
+      {
+        "extension": "js",
+        "touched_files": 4
+      },
+      {
+        "extension": "txt",
+        "touched_files": 3
+      },
+      {
+        "extension": "example",
+        "touched_files": 3
+      },
+      {
+        "extension": "gitignore",
+        "touched_files": 3
+      },
+      {
+        "extension": "baseline",
+        "touched_files": 3
+      },
+      {
+        "extension": "db-shm",
+        "touched_files": 3
+      },
+      {
+        "extension": "sql",
+        "touched_files": 2
+      },
+      {
+        "extension": "css",
+        "touched_files": 2
+      },
+      {
+        "extension": "yml",
+        "touched_files": 2
+      },
+      {
+        "extension": "sln",
+        "touched_files": 2
+      }
+    ],
+    "largest_merges": [
+      {
+        "sha": "bc71e7ff074a0ada49ac59979a0e6a17e60e8219",
+        "subject": "Merge pull request #3 from sharesmallbiz-support/claude/review-implementation-011CV4nkShwb8BJStRM7PsxE",
+        "files_changed": 13,
+        "additions": 3378,
+        "deletions": 51,
+        "total_lines": 3429
+      },
+      {
+        "sha": "db0f78ef99513b9f35ff67ccd2d5622273e38b3b",
+        "subject": "Merge pull request #1 from sharesmallbiz-support/claude/review-implementation-011CV4nkShwb8BJStRM7PsxE",
+        "files_changed": 121,
+        "additions": 2346,
+        "deletions": 192,
+        "total_lines": 2538
+      },
+      {
+        "sha": "3303ee79f6a4561d36218ef4b4ec3822e72515c0",
+        "subject": "Merge pull request #2 from sharesmallbiz-support/claude/review-implementation-011CV4nkShwb8BJStRM7PsxE",
+        "files_changed": 4,
+        "additions": 1845,
+        "deletions": 84,
+        "total_lines": 1929
+      },
+      {
+        "sha": "1a4e00a048bad97687e5a3ae805ac0966ebfb92a",
+        "subject": "chore: Merge main branch into feature branch",
+        "files_changed": 0,
+        "additions": 0,
+        "deletions": 0,
+        "total_lines": 0
+      }
+    ]
+  },
+  "commit_message_metrics": {
+    "conventional_commit_count": 9,
+    "informal_commit_count": 0,
+    "spec_reference_commit_count": 0
+  },
+  "test_metrics": {
+    "test_file_count": 433,
+    "test_related_commit_count": 5
+  },
+  "governance_maturity": {
+    "constitution_path": "C:\\GitHub\\ShareSmallBiz-support\\ShareSmallBizWeb\\.knowledge\\governance\\constitution.md",
+    "constitution_exists": true,
+    "constitution_version": "** A new framework version MAY",
+    "constitution_amendment_count": 0
+  },
+  "milestones": {
+    "tags": [],
+    "readme_evolution": {
+      "total_readme_commits": 3,
+      "commits": [
+        {
+          "sha": "77e5d3e681d30067f6993c0706d0f57b725b28fd",
+          "date": "2026-03-10T15:22:32-05:00",
+          "role": "Developer A",
+          "subject": "feat: add login and registration dialog with authentication context"
+        },
+        {
+          "sha": "f8644027d5281bac4340b0de3daf8757ee4b2a7c",
+          "date": "2026-03-10T14:00:47-05:00",
+          "role": "Developer A",
+          "subject": "Migrate API to .NET 10 and remove Drizzle/Postgres scaffolding"
+        },
+        {
+          "sha": "54ef7a575ef4b593650ed690500f15e4de06f647",
+          "date": "2025-11-12T22:54:28Z",
+          "role": "Lead Architect",
+          "subject": "feat: Reorganize repository with .NET API and unified build system"
+        }
+      ]
+    }
+  },
+  "change_patterns": {
+    "subject_type_estimates": {
+      "features": 8,
+      "other": 5,
+      "docs": 1,
+      "ci_build": 0,
+      "fixes": 1,
+      "tests": 0,
+      "refactor": 1,
+      "chore": 0
+    },
+    "hotspots": [
+      {
+        "path": "web/client/src/lib/staticApi.ts",
+        "changes": 5
+      },
+      {
+        "path": "api/API-SPEC.md",
+        "changes": 4
+      },
+      {
+        "path": "api/ShareSmallBiz.Api.csproj",
+        "changes": 4
+      },
+      {
+        "path": "api/Services/StorageService.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/sharesmallbiz.db-shm",
+        "changes": 3
+      },
+      {
+        "path": "web/server/storage.ts",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/lib/staticQueryClient.ts",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/components/post-card.tsx",
+        "changes": 3
+      },
+      {
+        "path": "web/package.json",
+        "changes": 3
+      },
+      {
+        "path": "ARCHITECTURE.md",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/components/navigation-header.tsx",
+        "changes": 3
+      },
+      {
+        "path": "README.md",
+        "changes": 3
+      },
+      {
+        "path": "api/Services/IStorageService.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/DATABASE-SPEC.md",
+        "changes": 3
+      },
+      {
+        "path": "api/Models/DbSeeder.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/Models/ApplicationDbContext.cs",
+        "changes": 3
+      },
+      {
+        "path": "web/.env.example",
+        "changes": 3
+      },
+      {
+        "path": "web/package-lock.json",
+        "changes": 3
+      },
+      {
+        "path": "web/shared/schema.ts",
+        "changes": 3
+      },
+      {
+        "path": "api/Migrations/README.md",
+        "changes": 3
+      },
+      {
+        "path": "api/appsettings.json",
+        "changes": 3
+      },
+      {
+        "path": "api/Controllers/PostsController.cs",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/main.tsx",
+        "changes": 3
+      },
+      {
+        "path": "api/appsettings.Development.json",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/App.tsx",
+        "changes": 3
+      },
+      {
+        "path": "api/Controllers/UsersController.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/Program.cs",
+        "changes": 3
+      },
+      {
+        "path": "api/README.md",
+        "changes": 3
+      },
+      {
+        "path": "web/client/src/pages/analytics.tsx",
+        "changes": 3
+      },
+      {
+        "path": "api/Models/UserSettings.cs",
+        "changes": 2
+      },
+      {
+        "path": "web/server/index.ts",
+        "changes": 2
+      },
+      {
+        "path": "web/client/src/components/main-feed.tsx",
+        "changes": 2
+      },
+      {
+        "path": "web/server/services/openai.ts",
+        "changes": 2
+      },
+      {
+        "path": "api/Services/IAuthService.cs",
+        "changes": 2
+      },
+      {
+        "path": "build.ps1",
+        "changes": 2
+      },
+      {
+        "path": "api/Controllers/AuthController.cs",
+        "changes": 2
+      },
+      {
+        "path": "ShareSmallBiz.sln",
+        "changes": 2
+      },
+      {
+        "path": "web/server/vite.ts",
+        "changes": 2
+      },
+      {
+        "path": "STATIC_DEPLOYMENT.md",
+        "changes": 2
+      },
+      {
+        "path": "api/Models/AnalyticsEvent.cs",
+        "changes": 2
+      },
+      {
+        "path": "api/sharesmallbiz.db",
+        "changes": 2
+      },
+      {
+        "path": ".specify/templates/plan-template.md",
+        "changes": 2
+      },
+      {
+        "path": "api/Models/Comment.cs",
+        "changes": 2
+      },
+      {
+        "path": "api/Models/TrendingTopic.cs",
+        "changes": 2
+      },
+      {
+        "path": "api/DTOs/CommentDto.cs",
+        "changes": 2
+      },
+      {
+        "path": "web/client/src/hooks/use-posts.ts",
+        "changes": 2
+      },
+      {
+        "path": "web/client/src/pages/profile.tsx",
+        "changes": 2
+      },
+      {
+        "path": "api/Models/Connection.cs",
+        "changes": 2
+      },
+      {
+        "path": "web/vite.config.ts",
+        "changes": 2
+      },
+      {
+        "path": "web/client/src/components/social-media-integration.tsx",
+        "changes": 2
+      }
+    ]
+  },
+  "technical_signals": {
+    "language_presence": {
+      "python": true,
+      "javascript": true,
+      "typescript": true,
+      "powershell": true,
+      "shell": true,
+      "markdown": true
+    },
+    "has_pyproject_toml": false,
+    "has_package_json": true,
+    "has_dockerfile": false,
+    "has_github_actions": true
+  },
+  "recent": {
+    "commits": [
+      {
+        "sha": "0d7e322e2c2ed6149287654121fd136bf8faa499",
+        "date": "2026-10-18T23:37:10-05:00",
+        "role": "Developer A",
+        "subject": "Add initial HTML files and asset testing for GitHub Pages deployment"
+      },
+      {
+        "sha": "77e5d3e681d30067f6993c0706d0f57b725b28fd",
+        "date": "2026-03-10T15:22:32-05:00",
+        "role": "Developer A",
+        "subject": "feat: add login and registration dialog with authentication context"
+      },
+      {
+        "sha": "f8644027d5281bac4340b0de3daf8757ee4b2a7c",
+        "date": "2026-03-10T14:00:47-05:00",
+        "role": "Developer A",
+        "subject": "Migrate API to .NET 10 and remove Drizzle/Postgres scaffolding"
+      },
+      {
+        "sha": "0896d59d4b4e38ba49925c1600a24f9198b00bbb",
+        "date": "2025-11-13T07:35:23-06:00",
+        "role": "Developer A",
+        "subject": "Refactor code structure and remove redundant code blocks for improved readability and maintainability"
+      },
+      {
+        "sha": "bc71e7ff074a0ada49ac59979a0e6a17e60e8219",
+        "date": "2025-11-12T22:11:17-06:00",
+        "role": "Developer B",
+        "subject": "Merge pull request #3 from sharesmallbiz-support/claude/review-implementation-011CV4nkShwb8BJStRM7PsxE"
+      },
+      {
+        "sha": "1bb168a5750742f7061659031e6a150e9e70d258",
+        "date": "2025-11-13T04:02:14Z",
+        "role": "Lead Architect",
+        "subject": "feat: Add comprehensive SQLite database specification and migration scripts"
+      },
+      {
+        "sha": "584d7a97ec45f5dd8cd077ad5a0860a1c2141bb9",
+        "date": "2025-11-13T03:49:47Z",
+        "role": "Lead Architect",
+        "subject": "docs: Update API specification with user settings, analytics, and activity endpoints"
+      },
+      {
+        "sha": "6981a653199aa1fc27405ba47383b4c874c034cf",
+        "date": "2025-11-13T03:42:19Z",
+        "role": "Lead Architect",
+        "subject": "feat: Add user profile, settings, and analytics pages with static API support"
+      },
+      {
+        "sha": "3303ee79f6a4561d36218ef4b4ec3822e72515c0",
+        "date": "2025-11-12T21:25:32-06:00",
+        "role": "Developer B",
+        "subject": "Merge pull request #2 from sharesmallbiz-support/claude/review-implementation-011CV4nkShwb8BJStRM7PsxE"
+      },
+      {
+        "sha": "1a4e00a048bad97687e5a3ae805ac0966ebfb92a",
+        "date": "2025-11-13T03:24:48Z",
+        "role": "Lead Architect",
+        "subject": "chore: Merge main branch into feature branch"
+      },
+      {
+        "sha": "8683344b8164590b7d978e565acfa73d91ea057c",
+        "date": "2025-11-13T01:16:05Z",
+        "role": "Lead Architect",
+        "subject": "feat: Add comprehensive API specification and complete static API mock"
+      },
+      {
+        "sha": "2db3b9dd9ff61ff702f4c1c1d5a1680813b0a2cf",
+        "date": "2025-11-12T23:22:48Z",
+        "role": "Lead Architect",
+        "subject": "fix: Update GitHub Pages workflow for new repository structure"
+      },
+      {
+        "sha": "db0f78ef99513b9f35ff67ccd2d5622273e38b3b",
+        "date": "2025-11-12T17:14:41-06:00",
+        "role": "Developer B",
+        "subject": "Merge pull request #1 from sharesmallbiz-support/claude/review-implementation-011CV4nkShwb8BJStRM7PsxE"
+      },
+      {
+        "sha": "54ef7a575ef4b593650ed690500f15e4de06f647",
+        "date": "2025-11-12T22:54:28Z",
+        "role": "Lead Architect",
+        "subject": "feat: Reorganize repository with .NET API and unified build system"
+      },
+      {
+        "sha": "d921187a722fe2f25bc7e1b5985e2af0482ea080",
+        "date": "2025-10-26T19:53:18-05:00",
+        "role": "Developer A",
+        "subject": "feat: Add speckit spec-driven workflow scaffolding (prompts, templates, scripts)"
+      },
+      {
+        "sha": "4afa74963963172b1e951f45f87070b93e7e0bd4",
+        "date": "2025-10-23T01:41:14Z",
+        "role": "Developer C",
+        "subject": "Update navigation links to use updated React Router syntax"
+      }
+    ]
+  }
+}

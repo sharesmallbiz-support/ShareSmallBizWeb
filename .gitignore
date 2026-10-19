@@ -154,3 +154,6 @@ server/public
 
 # Build outputs
 publish/
+
+# BSW.DevSpark — personal overrides (never commit)
+.documentation/*/commands/
